@@ -13,6 +13,21 @@ export default new Router({
       component: Home
     },
     {
+      path: '/login',
+      name:'登录界面',
+      component: () => import(/* webpackChunkName: "about" */ './views/Login.vue')
+    },
+    {
+      path: '/user',
+      name:'用户个人中心界面',
+      component: () => import(/* webpackChunkName: "about" */ './views/User.vue')
+    },
+    {
+      path: '/about',
+      name:'关于平台',
+      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+    },
+    {
       path: '/design',
       name:'设计界面',
       component: () => import(/* webpackChunkName: "about" */ './views/Design.vue')

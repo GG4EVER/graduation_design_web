@@ -4,7 +4,7 @@ import store from './store'
 import router from './router'
 import 'element-ui/lib/theme-chalk/index.css'
 
-import {Container, Header, Aside, Main, Footer,Row,Col} from 'element-ui';
+import {Container, Header, Aside, Main, Footer,Row,Col,Message} from 'element-ui';
 Vue.use(Container);
 Vue.use(Header);
 Vue.use(Aside);
@@ -13,10 +13,8 @@ Vue.use(Footer);
 Vue.use(Row);
 Vue.use(Col);
 
-
+Vue.prototype.$message = Message;
 Vue.config.productionTip = false;
-
-
 
 
 new Vue({

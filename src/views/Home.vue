@@ -23,7 +23,7 @@
             </el-dropdown>
             <!--            否则没有登录，显示登录按钮-->
             <el-dropdown v-else class="egg-home-dropdown" trigger="click">
-                <el-button class="egg-home-button" type="primary" round plain>
+                <el-button class="egg-home-button" type="primary" round plain @click="toLogin">
                     登录
                 </el-button>
             </el-dropdown>
@@ -107,11 +107,14 @@
                     if(this.userInfo){
                         this.showPlatformInformation = false;
                     }else{
-                        this.$router.push('/login');
+                        this.toLogin();
                     }
                 }else{
                     this.$message.error("暂时不支持在移动端上创作，请前往PC端。");
                 }
+            },
+            toLogin(){
+                this.$router.push('/login');
             },
             cancelBegin() {//返回，不玩了
                 this.showPlatformInformation = true;

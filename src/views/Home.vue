@@ -1,5 +1,5 @@
 <template>
-    <el-container>
+    <el-container class="animated fadeIn">
         <el-main class="home-main egg-not-copy">
             <!--            左上角的三角形-->
             <div class="egg-home-triangle egg-home-top-left"></div>

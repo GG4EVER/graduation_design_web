@@ -13,7 +13,7 @@
 
             <!--            如果有用户信息，表示已经登录过了，则直接显示-->
             <el-dropdown v-if="userInfo" class="egg-home-dropdown" trigger="click" @command="handleCommand">
-                <el-button class="egg-home-button" type="primary" round plain>
+                <el-button class="egg-home-button animated fadeIn" type="primary" round plain>
                     荷包蛋<i class="el-icon-arrow-down el-icon--right"></i>
                 </el-button>
                 <el-dropdown-menu slot="dropdown">
@@ -23,7 +23,7 @@
             </el-dropdown>
             <!--            否则没有登录，显示登录按钮-->
             <el-dropdown v-else class="egg-home-dropdown" trigger="click">
-                <el-button class="egg-home-button" type="primary" round plain @click="toLogin">
+                <el-button class="egg-home-button animated fadeIn" type="primary" round plain @click="toLogin">
                     登录
                 </el-button>
             </el-dropdown>
@@ -31,19 +31,19 @@
             <!--            平台的基本信息-->
             <div v-if="showPlatformInformation">
                 <!--            平台logo和名称-->
-                <div class="egg-home-box">
+                <div class="egg-home-box animated fadeIn">
                     <img class="egg-home-logo" src="../assets/logo.png" draggable="false">
                     <div class="egg-home-name">Egg Paint</div>
                 </div>
                 <!--            平台logo和名称-->
 
                 <!--            一句话的简介-->
-                <div class="egg-home-box">
+                <div class="egg-home-box animated fadeIn">
                     <span class="egg-home-title">一个在线的可视化开发平台</span>
                 </div>
                 <!--            一句话的简介-->
 
-                <div class="egg-home-box">
+                <div class="egg-home-box animated fadeIn">
                     <el-button class="egg-begin-btn" type="primary" @click="beginNow">开始使用</el-button>
                 </div>
             </div>
@@ -76,7 +76,7 @@
             <div class="egg-home-triangle egg-home-bottom-right"></div>
             <!--            右下角的三角形-->
 
-            <div class="egg-about-box" @click="toAboutEggPaint">
+            <div class="egg-about-box animated fadeIn" @click="toAboutEggPaint">
                 关于Egg Paint<i class="el-icon-arrow-right"></i>
             </div>
         </el-main>

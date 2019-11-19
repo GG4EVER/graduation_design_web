@@ -5,7 +5,7 @@ import Home from './views/Home.vue'
 Vue.use(Router);
 
 export default new Router({
-    mode: 'history',
+    //mode: 'history',
     routes: [
         {
             path: '/',
@@ -38,7 +38,7 @@ export default new Router({
             component: () => import(/* webpackChunkName: "about" */ './views/Error.vue')
         },
         {
-            path: '*',
+            path: '/*',
             name: '以上都没匹配成功，重定向到错误页面',
             redirect:'/error'
         }

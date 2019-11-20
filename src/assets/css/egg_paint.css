@@ -22,3 +22,23 @@
     -o-user-select: none; /* Opera私有属性 */
     user-select: none; /* CSS3属性 */
 }
+
+.egg-flex{
+    display: flex;
+}
+
+.egg-flex-justify-center{
+    justify-content: center;
+}
+
+.egg-flex-justify-around{
+    justify-content: space-around;
+}
+
+.egg-flex-justify-between{
+    justify-content: space-between;
+}
+
+.egg-flex-align-center{
+    align-items: center;
+}

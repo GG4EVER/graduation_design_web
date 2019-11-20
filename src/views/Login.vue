@@ -210,7 +210,11 @@
             submitLogin(formName) {//提交表单，登录
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        this.$message.success('submit!!');
+                        if(this.loginData.userName == "admin" && this.loginData.userPassword == "admin"){
+                            this.$router.push("/admin");
+                        }else{
+                            this.$message.success('submit!!');
+                        }
                     } else {
                         this.$message.error('error submit!!');
                         return false;

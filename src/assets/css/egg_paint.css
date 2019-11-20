@@ -1,0 +1,24 @@
+.egg-full-screen{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.egg-no-padding{
+    padding: 0 !important;
+}
+
+.egg-full-height{
+    height: 100% !important;
+}
+
+.egg-not-copy {
+    -moz-user-select: none; /* Firefox私有属性 */
+    -webkit-user-select: none; /* WebKit内核私有属性 */
+    -ms-user-select: none; /* IE私有属性(IE10及以后) */
+    -khtml-user-select: none; /* KHTML内核私有属性 */
+    -o-user-select: none; /* Opera私有属性 */
+    user-select: none; /* CSS3属性 */
+}

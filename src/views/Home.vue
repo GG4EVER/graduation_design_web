@@ -1,6 +1,6 @@
 <template>
     <el-container class="animated fadeIn">
-        <el-main class="home-main egg-not-copy">
+        <el-main class="egg-full-screen egg-no-padding home-main egg-not-copy">
             <!--            左上角的三角形-->
             <div class="egg-home-triangle egg-home-top-left"></div>
             <!--            左上角的三角形-->
@@ -135,29 +135,12 @@
 
 <style scoped>
     .home-main {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        height: 100vh;
-        width: 100vw;
         z-index: -1;
-        padding: 0;
         background-color: #F8FAFF;
         display: flex;
         justify-content: center;
         flex-direction: column;
         overflow: hidden;
-    }
-
-    .egg-not-copy {
-        -moz-user-select: none; /* Firefox私有属性 */
-        -webkit-user-select: none; /* WebKit内核私有属性 */
-        -ms-user-select: none; /* IE私有属性(IE10及以后) */
-        -khtml-user-select: none; /* KHTML内核私有属性 */
-        -o-user-select: none; /* Opera私有属性 */
-        user-select: none; /* CSS3属性 */
     }
 
     .egg-back-box {

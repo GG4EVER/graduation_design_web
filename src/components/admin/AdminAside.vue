@@ -18,8 +18,8 @@
                 <span slot="title">项目管理</span>
             </template>
             <el-menu-item-group>
-                <el-menu-item class="egg-menu-item" index="3-1">检索项目</el-menu-item>
-                <el-menu-item class="egg-menu-item" index="3-2">查看项目</el-menu-item>
+                <el-menu-item class="egg-menu-item" index="3-1" route="/admin/projectSearch">检索项目</el-menu-item>
+                <el-menu-item class="egg-menu-item" index="3-2" route="/admin/projectList">查看项目</el-menu-item>
             </el-menu-item-group>
         </el-submenu>
         <el-submenu index="4">
@@ -28,7 +28,7 @@
                 <span slot="title">审核管理</span>
             </template>
             <el-menu-item-group>
-                <el-menu-item class="egg-menu-item" index="4-1">实名认证</el-menu-item>
+                <el-menu-item class="egg-menu-item" index="4-1" route="/admin/realNameAuthentication">实名认证</el-menu-item>
             </el-menu-item-group>
         </el-submenu>
         <el-submenu index="5">
@@ -37,8 +37,8 @@
                 <span slot="title">站内消息</span>
             </template>
             <el-menu-item-group>
-                <el-menu-item class="egg-menu-item" index="5-1">收件箱</el-menu-item>
-                <el-menu-item class="egg-menu-item" index="5-2">发件箱</el-menu-item>
+                <el-menu-item class="egg-menu-item" index="5-1" route="/admin/inBox">收件箱</el-menu-item>
+                <el-menu-item class="egg-menu-item" index="5-2" route="/admin/outBox">发件箱</el-menu-item>
             </el-menu-item-group>
         </el-submenu>
     </el-menu>

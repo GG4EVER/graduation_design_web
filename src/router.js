@@ -46,6 +46,31 @@ export default new Router({
                     name: '用户黑名单列表',
                     component: () => import(/* webpackChunkName: "about" */ './views/admin/UserBlackList.vue')
                 },
+                {
+                    path: 'projectSearch',
+                    name: '检索项目',
+                    component: () => import(/* webpackChunkName: "about" */ './views/admin/ProjectSearch.vue')
+                },
+                {
+                    path: 'projectList',
+                    name: '项目列表',
+                    component: () => import(/* webpackChunkName: "about" */ './views/admin/ProjectList.vue')
+                },
+                {
+                    path: 'realNameAuthentication',
+                    name: '实名认证',
+                    component: () => import(/* webpackChunkName: "about" */ './views/admin/RealNameAuthentication.vue')
+                },
+                {
+                    path: 'inBox',
+                    name: '收件箱',
+                    component: () => import(/* webpackChunkName: "about" */ './views/admin/InBox.vue')
+                },
+                {
+                    path: 'outBox',
+                    name: '发件箱',
+                    component: () => import(/* webpackChunkName: "about" */ './views/admin/OutBox.vue')
+                },
             ]
         },
         {
@@ -63,10 +88,10 @@ export default new Router({
             name: '错误页面',
             component: () => import(/* webpackChunkName: "about" */ './views/Error.vue')
         },
-        // {
-        //     path: '/*',
-        //     name: '以上都没匹配成功，重定向到错误页面',
-        //     redirect:'/error'
-        // }
+        {
+            path: '/*',
+            name: '以上都没匹配成功，重定向到错误页面',
+            redirect:'/error'
+        }
     ]
 })

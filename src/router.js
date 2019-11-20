@@ -23,6 +23,32 @@ export default new Router({
             component: () => import(/* webpackChunkName: "about" */ './views/User.vue')
         },
         {
+            path: '/admin',
+            component: () => import(/* webpackChunkName: "about" */ './views/Admin.vue'),
+            children:[
+                {
+                    path: '/',
+                    name: '管理员主页',
+                    component: () => import(/* webpackChunkName: "about" */ './views/admin/Home.vue')
+                },
+                {
+                    path: 'userList',
+                    name: '用户列表',
+                    component: () => import(/* webpackChunkName: "about" */ './views/admin/UserList.vue')
+                },
+                {
+                    path: 'userSearch',
+                    name: '检索用户界面',
+                    component: () => import(/* webpackChunkName: "about" */ './views/admin/UserSearch.vue')
+                },
+                {
+                    path: 'userBlackList',
+                    name: '用户黑名单列表',
+                    component: () => import(/* webpackChunkName: "about" */ './views/admin/UserBlackList.vue')
+                },
+            ]
+        },
+        {
             path: '/about',
             name: '关于平台',
             component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
@@ -37,10 +63,10 @@ export default new Router({
             name: '错误页面',
             component: () => import(/* webpackChunkName: "about" */ './views/Error.vue')
         },
-        {
-            path: '/*',
-            name: '以上都没匹配成功，重定向到错误页面',
-            redirect:'/error'
-        }
+        // {
+        //     path: '/*',
+        //     name: '以上都没匹配成功，重定向到错误页面',
+        //     redirect:'/error'
+        // }
     ]
 })

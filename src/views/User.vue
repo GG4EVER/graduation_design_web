@@ -1,5 +1,8 @@
 <template>
-    <div>个人中心</div>
+    <el-container>
+        <el-header class="egg-no-padding">Header</el-header>
+        <el-main class="egg-no-padding">Main</el-main>
+    </el-container>
 </template>
 
 <script>
@@ -9,5 +12,7 @@
 </script>
 
 <style scoped>
-
+    .egg-no-padding{
+        padding: 0;
+    }
 </style>

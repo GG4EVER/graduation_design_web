@@ -17,8 +17,11 @@
                     荷包蛋<i class="el-icon-arrow-down el-icon--right"></i>
                 </el-button>
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item command="/user"><i class="el-icon-user"></i>个人中心</el-dropdown-item>
-                    <el-dropdown-item command="-1"><i class="el-icon-unlock"></i>退出登录</el-dropdown-item>
+                    <el-dropdown-item command="/user"><i class="el-icon-s-home"></i>个人中心</el-dropdown-item>
+                    <el-dropdown-item command="/user/userUpdate"><i class="el-icon-user-solid"></i>修改资料</el-dropdown-item>
+                    <el-dropdown-item command="/user/userProject"><i class="el-icon-s-opportunity"></i>我的项目</el-dropdown-item>
+                    <el-dropdown-item command="/user/inBox"><i class="el-icon-s-comment"></i>我的消息</el-dropdown-item>
+                    <el-dropdown-item command="/logout" divided><i class="el-icon-unlock"></i>退出登录</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
             <!--            否则没有登录，显示登录按钮-->
@@ -97,7 +100,7 @@
         data() {
             return {
                 showPlatformInformation: true,
-                userInfo: null,
+                userInfo: {name:"荷包蛋"},
             }
         },
         methods: {
@@ -123,11 +126,7 @@
                 this.$router.push('/about');
             },
             handleCommand(command){//点击下拉菜单，跳转
-                if(command == "-1"){//如果选择的是退出登录
-                    this.userInfo = null;
-                }else{//否则直接跳转链接
-                    this.$router.push(command);
-                }
+                this.$router.push(command);
             },
         }
     }

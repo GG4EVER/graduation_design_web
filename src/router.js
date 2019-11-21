@@ -18,9 +18,40 @@ export default new Router({
             component: () => import(/* webpackChunkName: "about" */ './views/Login.vue')
         },
         {
+            path: '/logout',
+            name: '退出登录界面',
+            component: () => import(/* webpackChunkName: "about" */ './views/Logout.vue')
+        },
+        {
             path: '/user',
-            name: '用户个人中心界面',
-            component: () => import(/* webpackChunkName: "about" */ './views/User.vue')
+            component: () => import(/* webpackChunkName: "about" */ './views/User.vue'),
+            children:[
+                {
+                    path: '/',
+                    name: '用户个人中心界面',
+                    component: () => import(/* webpackChunkName: "about" */ './views/user/Home.vue')
+                },
+                {
+                    path: 'userUpdate',
+                    name: '用户修改资料界面',
+                    component: () => import(/* webpackChunkName: "about" */ './views/user/UserUpdate.vue')
+                },
+                {
+                    path: 'userAuthentication',
+                    name: '用户实名认证页面',
+                    component: () => import(/* webpackChunkName: "about" */ './views/user/UserAuthentication.vue')
+                },
+                {
+                    path: 'userProject',
+                    name: '用户项目页面',
+                    component: () => import(/* webpackChunkName: "about" */ './views/user/UserProject.vue')
+                },
+                {
+                    path: 'inBox',
+                    name: '用户收件箱',
+                    component: () => import(/* webpackChunkName: "about" */ './views/user/InBox.vue')
+                }
+            ]
         },
         {
             path: '/admin',

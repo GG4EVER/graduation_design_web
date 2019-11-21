@@ -6,7 +6,7 @@
             <!--            右上角的三角形-->
 
             <!--            logo-->
-            <div class="egg-login-logo-box">
+            <div class="egg-login-logo-box" @click="backHome">
                 <img class="egg-login-logo" src="../assets/logo.png" draggable="false"/>
                 <span class="egg-login-logo-name">Egg Paint</span>
             </div>
@@ -184,6 +184,9 @@
             }
         },
         methods: {
+            backHome(){//回到主页
+                this.$router.push("/");
+            },
             validateRobot(){//检测是否是机器人
                 if(this.robotNum != 100){
                     this.$message.info("请滑至最右端");
@@ -260,6 +263,7 @@
         top: 0;
         left: 0;
         display: flex;
+        cursor: pointer;
         align-items: center;
     }
 

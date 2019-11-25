@@ -66,7 +66,7 @@
         position: absolute;
         top: 0;
         border-radius: 30px;
-        background-color: #bfcbd9;
+        background-color: #f0f0f0;
         color: #3e5470;
         display: flex;
         flex-direction: column;

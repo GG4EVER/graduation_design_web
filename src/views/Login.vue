@@ -95,9 +95,10 @@
 
 <script>
     import {Button, Card, Form, FormItem, Input, Drawer,Slider} from "element-ui"
-
+    import store from '../store'
     export default {
         name: "Login",
+        store,
         components: {
             [Button.name]: Button,
             [Card.name]: Card,
@@ -117,7 +118,9 @@
             let validateRegisterUserName = (rule, value, callback) => {//检查注册的用户名
                 if (!value) {
                     return callback(new Error('用户名不能为空'));
-                } else {//请求服务器是否重复
+                } else if(value.indexOf("_") != -1 || value.indexOf("/") != -1 || value.indexOf("-") != -1 && value.indexOf(".") != -1) {
+                    return callback(new Error('用户名出现非法字符'));
+                }else{//请求服务器是否重复
                     callback();
                 }
             };
@@ -211,17 +214,35 @@
                 this.$refs['registerDrawer'].closeDrawer();
             },
             submitLogin(formName) {//提交表单，登录
+                let name = this.loginData.userName;
+                let password = this.loginData.userPassword;
+                let that = this;
                 this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        if(this.loginData.userName == "admin" && this.loginData.userPassword == "admin"){
-                            this.$router.push("/admin");
-                        }else{
-                            this.$message.success('submit!!');
-                        }
-                    } else {
-                        this.$message.error('error submit!!');
-                        return false;
+                    window.console.log(valid)
+                    if(this.loginData.userName.indexOf("_") != -1){//如果用户名中出现 _ ，则是管理员
+                        this.$API.adminLogin(name,password).then(function (data) {
+                            if(data != -1){//登录成功
+                                //保存token
+                                store.commit("setToken",data);
+                                that.$router.push("/admin");
+                            }else{
+                                that.$message.error("用户名或密码错误");
+                            }
+                        });
+                    }else{//否则是普通用户
+
                     }
+
+                    // if (valid) {
+                    //     if(this.loginData.userName == "admin" && this.loginData.userPassword == "admin"){
+                    //         this.$router.push("/admin");
+                    //     }else{
+                    //         this.$message.success('submit!!');
+                    //     }
+                    // } else {
+                    //     this.$message.error('error submit!!');
+                    //     return false;
+                    // }
                 });
             },
             submitRegister(formName) {//提交注册

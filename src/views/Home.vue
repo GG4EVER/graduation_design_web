@@ -100,7 +100,7 @@
         data() {
             return {
                 showPlatformInformation: true,
-                userInfo: {name:"荷包蛋"},
+                userInfo:null,
             }
         },
         methods: {

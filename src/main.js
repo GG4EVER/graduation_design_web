@@ -2,12 +2,20 @@ import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
 import router from './router'
+
+import axios from 'axios';
+Vue.prototype.$axios = axios;
+
 import 'element-ui/lib/theme-chalk/index.css'
 // eslint-disable-next-line no-unused-vars
 import animate from 'animate.css'
 
-import VueRouter from "vue-router";
+import API from './config/api'
+Vue.prototype.$API = API;
+
+
 // 解决两次访问相同路由地址报错
+import VueRouter from "vue-router";
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err)

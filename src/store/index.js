@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    token:"",//登录凭证
     currPageId:"index",
     pages:[
         {
@@ -17,6 +18,9 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    setToken(state,token){//设置token
+      state.token = token;
+    },
     setPageComponents(state,component){//添加component
       state.pageComponents[state.currPageId].push(component);
     }

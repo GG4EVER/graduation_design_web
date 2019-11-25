@@ -1,5 +1,5 @@
 <template>
-    
+    <text>文字</text>
 </template>
 
 <script>

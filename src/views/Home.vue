@@ -5,11 +5,9 @@
             <div class="egg-home-triangle egg-home-top-left"></div>
             <!--            左上角的三角形-->
 
-            <transition name="el-fade-in">
-                <div v-show="!showPlatformInformation" class="egg-back-box" @click="cancelBegin"><i
-                        class="el-icon-arrow-left"></i>返回
-                </div>
-            </transition>
+            <div v-show="!showPlatformInformation" class="egg-back-box animated fadeIn" @click="cancelBegin"><i
+                    class="el-icon-arrow-left"></i>返回
+            </div>
 
             <!--            如果有用户信息，表示已经登录过了，则直接显示-->
             <el-dropdown v-if="userInfo" class="egg-home-dropdown" trigger="click" @command="handleCommand">
@@ -18,8 +16,10 @@
                 </el-button>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item command="/user"><i class="el-icon-s-home"></i>个人中心</el-dropdown-item>
-                    <el-dropdown-item command="/user/userUpdate"><i class="el-icon-user-solid"></i>修改资料</el-dropdown-item>
-                    <el-dropdown-item command="/user/userProject"><i class="el-icon-s-opportunity"></i>我的项目</el-dropdown-item>
+                    <el-dropdown-item command="/user/userUpdate"><i class="el-icon-user-solid"></i>修改资料
+                    </el-dropdown-item>
+                    <el-dropdown-item command="/user/userProject"><i class="el-icon-s-opportunity"></i>我的项目
+                    </el-dropdown-item>
                     <el-dropdown-item command="/user/inBox"><i class="el-icon-s-comment"></i>我的消息</el-dropdown-item>
                     <el-dropdown-item command="/logout" divided><i class="el-icon-unlock"></i>退出登录</el-dropdown-item>
                 </el-dropdown-menu>
@@ -89,6 +89,7 @@
 <script>
     import {Button, Dropdown, DropdownMenu, DropdownItem} from "element-ui"
     import {isPC} from "../utils/function";
+
     export default {
         name: "Home",
         components: {
@@ -100,32 +101,32 @@
         data() {
             return {
                 showPlatformInformation: true,
-                userInfo:null,
+                userInfo: null,
             }
         },
         methods: {
             beginNow() {//点击开始使用
-                if(isPC()){
+                if (isPC()) {
                     //判断是否登录，没登录跳转登录注册,登录了则显示创建新项目或者继续以前的项目
-                    if(this.userInfo){
+                    if (this.userInfo) {
                         this.showPlatformInformation = false;
-                    }else{
+                    } else {
                         this.toLogin();
                     }
-                }else{
+                } else {
                     this.$message.error("暂时不支持在移动端上创作，请前往PC端。");
                 }
             },
-            toLogin(){
+            toLogin() {
                 this.$router.push('/login');
             },
             cancelBegin() {//返回，不玩了
                 this.showPlatformInformation = true;
             },
-            toAboutEggPaint(){//跳转到关于平台的介绍
+            toAboutEggPaint() {//跳转到关于平台的介绍
                 this.$router.push('/about');
             },
-            handleCommand(command){//点击下拉菜单，跳转
+            handleCommand(command) {//点击下拉菜单，跳转
                 this.$router.push(command);
             },
         }
@@ -151,7 +152,7 @@
         cursor: pointer;
     }
 
-    .egg-about-box{
+    .egg-about-box {
         position: absolute;
         bottom: 60px;
         right: 20px;

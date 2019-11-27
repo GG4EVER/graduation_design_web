@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-let BaseUrl = "http://localhost:8080";
+let BaseUrl = "http://localhost:8080/api";
 
 // 创建axios实例
 const Request = axios.create({
@@ -11,7 +11,7 @@ const Request = axios.create({
 Request.interceptors.request.use(config => {
     return config
 }, error => {
-    Promise.reject(error);
+    return Promise.reject(error);
 });
 
 // 添加response拦截器
@@ -36,7 +36,7 @@ let request = function (url,method,data) {
 
 export default{
     BaseUrl,
-    adminLogin(adminName,adminPassword){
+    adminLogin:(adminName,adminPassword)=>{
         return request(BaseUrl + "/admin/login","POST",{
             adminName:adminName,
             adminPassword:adminPassword

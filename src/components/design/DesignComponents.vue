@@ -32,6 +32,11 @@
             <template slot="title">
                 媒体组件
             </template>
+            <el-row>
+                <el-col :span="8" class="design-component-box">
+                    <div class="design-component-item" data-component-name="uni-image" @click="selectComponent">图片</div>
+                </el-col>
+            </el-row>
         </el-collapse-item>
         <el-collapse-item>
             <template slot="title">
@@ -42,7 +47,7 @@
 </template>
 
 <script>
-    import store from "../store";
+    import store from "../../store";
     import {Collapse,CollapseItem} from "element-ui"
     export default {
         store,
@@ -55,10 +60,15 @@
             selectComponent(e){
                 let newComponent = {
                     name:e.target.dataset.componentName,
-                    style:"right:20px;"
+                    style:""
                 };
+                if(e.target.dataset.componentName == "uni-image"){
+                    newComponent.ComponentAttribute = {
+                        src:"../../assets/logo.png"
+                    }
+                }
+                window.console.log(newComponent);
                 store.commit("setPageComponents",newComponent);
-                window.console.log(e.target.dataset);
             }
         }
     }

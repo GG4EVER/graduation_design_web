@@ -17,9 +17,9 @@
 
 <script>
     import {Tabs,TabPane} from 'element-ui';
-    import DesignAttribute from "@/components/DesignAttribute";
-    import DesignAnimation from "@/components/DesignAnimation";
-    import DesignDataSource from "@/components/DesignDataSource";
+    import DesignAttribute from "@/components/design/DesignAttribute";
+    import DesignAnimation from "@/components/design/DesignAnimation";
+    import DesignDataSource from "@/components/design/DesignDataSource";
     export default {
         name: "EggConfig",
         components:{

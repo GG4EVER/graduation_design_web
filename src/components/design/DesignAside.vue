@@ -21,10 +21,10 @@
 
 <script>
     import {Tabs,TabPane} from 'element-ui';
-    import DesignPages from "@/components/DesignPages";
-    import DesignMaterials from "@/components/DesignMaterials";
-    import DesignComponents from "@/components/DesignComponents";
-    import DesignSetting from "@/components/DesignSetting";
+    import DesignPages from "@/components/design/DesignPages";
+    import DesignMaterials from "@/components/design/DesignMaterials";
+    import DesignComponents from "@/components/design/DesignComponents";
+    import DesignSetting from "@/components/design/DesignSetting";
     export default {
         name: "EggAside",
         components:{

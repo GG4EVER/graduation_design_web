@@ -1,14 +1,17 @@
 <template>
     <el-row class="design-show-box">
-        <el-col :span="11">
+        <el-col :lg="11" :md="15" :sm="18" :xs="20">
             <div class="design-phone">
                 <el-col :span="22" :offset="1" class="design-phone-header">
                     <div class="design-phone-camera"></div>
                     <div class="design-phone-receiver"></div>
                 </el-col>
                 <el-col :span="22">
-                    <div class="design-phone-screen">
-                        <component v-for="(component,index) in currPageComponents" :key="index" :is="component.name" :component-attribute="component.attribute" :component-style="component.style"></component>
+                    <div class="design-phone-screen" :class="currPageComponents.length != 0 ? 'design-phone-screen-has' : ''">
+                        <template v-if="currPageComponents.length != 0">
+                            <component v-for="(component,index) in currPageComponents" :key="index" :is="component.name" :component-attribute="component.attribute" :component-style="component.style"></component>
+                        </template>
+
                     </div>
                 </el-col>
             </div>
@@ -17,27 +20,36 @@
 </template>
 
 <script>
-    import UniButton from "@/uni_components/components/UniButton";
-    import store from "../store";
+    import UniButton from "../../uni_components/components/UniButton";
+    import store from "../../store";
+    import UniImage from "../../uni_components/components/UniImage";
     export default {
         store,
         name: "DesignMain",
         components:{
-            UniButton,
+            UniButton,UniImage
         },
         data(){
             return{
-                currPageComponents:[],
+                currPageComponents:[],//当前页面的组件
             }
         },
         computed: {
+            /**
+             * 计算当前页面组件的数组
+             * @returns {*}
+             */
             listenPageComponents() {
                 return this.$store.state.pageComponents[this.$store.state.currPageId];
             }
         },
         watch:{
+            /**
+             * 监听页面组件数组的变化
+             * @param newValue
+             */
             listenPageComponents:function(newValue){
-                window.console.log(this.$store.state.pageComponents)
+                window.console.log(this.$store.state.pageComponents);
                 this.currPageComponents = newValue;
             }
         }
@@ -54,7 +66,7 @@
         width: 100%;
         height: 0;
         padding-top: 20px;
-        padding-bottom: 170%;
+        padding-bottom: 175%;
         box-shadow: 0 0 10px #e0e0e0;
         border-radius: 20px;
         position: relative;
@@ -91,10 +103,15 @@
         bottom: 25px;
         right: 0;
         left: 0;
+        overflow-x: hidden;
         overflow-y: scroll;
         border-top:solid 1px #cdcdcd;
         border-bottom:solid 1px #cdcdcd;
         background-color: #fbfbfb;
+    }
+
+    .design-phone-screen-has{
+        background-color: #ffffff;
     }
 
     .design-phone-screen::-webkit-scrollbar-track

@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    token:"",//登录凭证
+    token: localStorage.getItem("token") ? localStorage.getItem("token") : "",//登录凭证
     currPageId:"index",
     pages:[
         {

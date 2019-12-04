@@ -3,25 +3,37 @@
         <div class="egg-admin-collapse" @click="clickCollapseButton">
             <i :class="IsCollapse?'el-icon-s-unfold':'el-icon-s-fold'"></i>
         </div>
-        <el-dropdown :show-timeout="100" @command="returnCommand">
+        <el-dropdown v-if="userInfo" :show-timeout="100" @command="returnCommand">
             <div class="egg-admin-info egg-not-copy">
-                <img class="egg-admin-avatar" src="../../assets/images/boy.svg" draggable="false"/>
-                <span class="egg-admin-name">荷包蛋</span>
+                <div class="egg-avatar-box">
+                    <img class="egg-admin-avatar" src="../../assets/images/boy.svg" draggable="false"/>
+                    <i v-if="userInfo.isCertified != 0" class="el-icon-success egg-icon-success"></i>
+                </div>
+                <div class="egg-avatar-box">
+                    <span class="egg-admin-name">{{userInfo.userNickName}}</span>
+                </div>
             </div>
-            <el-dropdown-menu slot="dropdown">
+            <el-dropdown-menu class="egg-avatar-box" slot="dropdown">
+<!--                如果没有实名认证则优先显示实名认证-->
+                <el-dropdown-item v-if="userInfo.isCertified == 0" command="/user/userAuthentication"><i class="el-icon-picture"></i>实名认证</el-dropdown-item>
                 <el-dropdown-item command="/user"><i class="el-icon-s-home"></i>个人中心</el-dropdown-item>
                 <el-dropdown-item command="/user/userUpdate"><i class="el-icon-user-solid"></i>修改资料</el-dropdown-item>
                 <el-dropdown-item command="/user/userProject"><i class="el-icon-s-opportunity"></i>我的项目</el-dropdown-item>
                 <el-dropdown-item command="/user/inBox"><i class="el-icon-s-comment"></i>我的消息</el-dropdown-item>
-                <el-dropdown-item command="/logout" divided >退出登录</el-dropdown-item>
+                <el-dropdown-item command="/logout" divided ><i class="el-icon-switch-button"></i>退出登录</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
+        <el-button v-else class="egg-home-button animated fadeIn" type="primary" round plain @click="toLogin">
+            登录
+        </el-button>
     </div>
 </template>
 
 <script>
-    import {Dropdown,DropdownMenu,DropdownItem} from "element-ui";
+    import {Dropdown,DropdownMenu,DropdownItem,Button} from "element-ui";
+    import store from '../../store'
     export default {
+        store,
         name: "UserHeader",
         props: {
             IsCollapse: {//目录是否关闭
@@ -29,23 +41,57 @@
                 default: false
             },
         },
+        data(){
+          return{
+              userInfo:null
+          }
+        },
         components:{
             [Dropdown.name]:Dropdown,
             [DropdownMenu.name]:DropdownMenu,
-            [DropdownItem.name]:DropdownItem
+            [DropdownItem.name]:DropdownItem,
+            [Button.name]:Button
         },
         methods: {
+            toLogin() {
+                this.$router.push('/login');
+            },
             clickCollapseButton() {//点击了展开/关闭 侧边目录的按钮
                 this.$emit("listenCollapseButton");
             },
             returnCommand(command){//获取点击下拉菜单对应路由跳转
+                if(command.indexOf("logout") != -1){//如果选择了退出登录
+                    command = "/login";
+                    this.$message.success("退出登录~");
+                    store.commit("setToken","");//清除token
+                    localStorage.removeItem("token");//清除token
+                }
                 this.$router.push(command)
             },
+        },
+        mounted() {
+            if(!store.state.token){
+                this.$message.error("请重新登录~");
+            }else{
+                this.$API.getUserInfo().then(res=>{
+                    window.console.log(res.data);
+                    if(res.data.error != "0"){
+                        this.$message.error(res.data.error_message);
+                    }else{
+                        this.userInfo = res.data.userInfo;
+                    }
+                });
+            }
         }
     }
 </script>
 
 <style scoped>
+    .egg-home-button {
+        background-color: #ffffff !important;
+        color: #00AEFF !important;
+    }
+
     .egg-admin-header {
         height: 100%;
         padding-left: 15px;
@@ -83,6 +129,10 @@
         cursor: pointer;
     }
 
+    .egg-avatar-box{
+        position: relative;
+    }
+
     .egg-admin-avatar {
         height: 36px;
         width: 36px;
@@ -91,21 +141,27 @@
         border: solid 5px transparent;
     }
 
+    .egg-icon-success{
+        position: absolute;
+        bottom: 6px;
+        right: 6px;
+        color: #67C23A;
+    }
+
     .egg-admin-name {
         font-size: 18px;
         color: #5B5B5B;
         border-bottom: solid 2px transparent;
     }
 
-    .egg-admin-info:hover > .egg-admin-avatar {
+    .egg-admin-info:hover > .egg-avatar-box > .egg-admin-avatar {
         transition: 0.6s;
         border: solid 5px #f0f0f0;
     }
 
-    .egg-admin-info:hover > .egg-admin-name {
+    .egg-admin-info:hover > .egg-avatar-box > .egg-admin-name {
         transition: 0.6s;
         color: #00AEFF;
         border-bottom: solid 2px #bee1f1;
     }
-
 </style>

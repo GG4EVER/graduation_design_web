@@ -121,7 +121,12 @@
                 } else if(value.indexOf("_") != -1 || value.indexOf("/") != -1 || value.indexOf("-") != -1 && value.indexOf(".") != -1) {
                     return callback(new Error('用户名出现非法字符'));
                 }else{//请求服务器是否重复
-                    callback();
+                    this.$API.userCheckUserName(value).then(res => {
+                        if(res.data.error != "0"){//注册有错误
+                            return callback(new Error(res.data.error_message));
+                        }
+                        callback();
+                    });
                 }
             };
             let validateUserPassword = (rule, value, callback) => {//检查登录密码
@@ -218,31 +223,34 @@
                 let password = this.loginData.userPassword;
                 let that = this;
                 this.$refs[formName].validate((valid) => {
-                    window.console.log(valid)
-                    if(this.loginData.userName.indexOf("_") != -1){//如果用户名中出现 _ ，则是管理员
-                        this.$API.adminLogin(name,password).then(function (data) {
-                            if(data != -1){//登录成功
-                                //保存token
-                                store.commit("setToken",data);
-                                that.$router.push("/admin");
-                            }else{
-                                that.$message.error("用户名或密码错误");
-                            }
-                        });
-                    }else{//否则是普通用户
-
+                    if (valid) {//检查通过
+                        if (this.loginData.userName.indexOf("_") != -1) {//如果用户名中出现 _ ，则是管理员
+                            this.$API.adminLogin(name, password).then(function (data) {
+                                if (data.error == "0") {//登录成功
+                                    //保存token
+                                    store.commit("setToken", data.token);
+                                    localStorage.setItem("token",data.token);
+                                    that.$router.push("/admin");
+                                } else {
+                                    that.$message.error("用户名或密码错误");
+                                }
+                            });
+                        } else {//否则是普通用户
+                            this.$API.userLogin(name, password).then(function (res) {
+                                window.console.log(res.data)
+                                if (res.data.error == "0") {//登录成功
+                                    //保存token
+                                    store.commit("setToken", res.data.token);
+                                    localStorage.setItem("token",res.data.token);
+                                    that.$router.push("/user");
+                                } else {
+                                    that.$message.error("用户名或密码错误");
+                                }
+                            });
+                        }
+                    }else{//检查不通过
+                        return false;
                     }
-
-                    // if (valid) {
-                    //     if(this.loginData.userName == "admin" && this.loginData.userPassword == "admin"){
-                    //         this.$router.push("/admin");
-                    //     }else{
-                    //         this.$message.success('submit!!');
-                    //     }
-                    // } else {
-                    //     this.$message.error('error submit!!');
-                    //     return false;
-                    // }
                 });
             },
             submitRegister(formName) {//提交注册

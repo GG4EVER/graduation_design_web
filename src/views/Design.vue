@@ -28,10 +28,10 @@
 </template>
 
 <script>
-    import DesignAside from "@/components/DesignAside";
-    import DesignConfig from "@/components/DesignConfig";
-    import DesignMain from "@/components/DesignMain";
-    import DesignHeader from "@/components/DesignHeader";
+    import DesignAside from "@/components/design/DesignAside";
+    import DesignConfig from "@/components/design/DesignConfig";
+    import DesignMain from "@/components/design/DesignMain";
+    import DesignHeader from "@/components/design/DesignHeader";
 
     export default {
         name: "Design",

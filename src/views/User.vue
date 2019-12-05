@@ -5,7 +5,7 @@
         </el-aside>
         <el-container class="egg-no-padding">
             <el-header class="egg-no-padding">
-                <user-header :is-collapse="isCollapse" @listenCollapseButton="changeCollapse"></user-header>
+                <user-header :is-collapse="isCollapse" :user-info="userInfo" @listenCollapseButton="changeCollapse" @listenClickHeaderMenu="clickHeaderMenu"></user-header>
             </el-header>
             <el-main>
                 <router-view/>
@@ -17,6 +17,7 @@
 <script>
     import UserHeader from "../components/user/UserHeader";
     import UserAside from "../components/user/UserAside";
+    import store from "../store";
     export default {
         name: "User",
         components:{
@@ -25,13 +26,43 @@
         },
         data() {
             return {
+                userInfo:null,//用户信息
                 isCollapse: false,//侧边栏的菜单是否关闭
             };
         },
         methods:{
             changeCollapse(){//切换菜单栏打开和关闭的状态
                 this.isCollapse = !this.isCollapse;
+            },
+            clickHeaderMenu(command){//监听点击头部的菜单
+                if(command.indexOf("logout") != -1){//如果选择了退出登录
+                    command = "/login";
+                    this.$message.success("退出登录~");
+                    store.commit("setToken","");//清除token
+                    localStorage.removeItem("token");//清除token
+                }
+                this.$router.push(command)
             }
+        },
+        created() {
+            if(store.state.userInfo){//如果本地有用户信息
+                this.userInfo = store.state.userInfo;
+            }else{
+                if(!store.state.token){//如果没有token,跳转登录
+                    this.$message.error("请重新登录~");
+                    this.$router.push("/login");
+                }else{//否则通过token获取用户信息
+                    this.$API.getUserInfo().then(res=>{
+                        window.console.log(res.data);
+                        if(res.data.error != "0"){//发生错误，比如token过期之类的
+                            this.$message.error(res.data.error_message);
+                        }else{
+                            this.userInfo = res.data.userInfo;
+                        }
+                    });
+                }
+            }
+
         }
     }
 </script>

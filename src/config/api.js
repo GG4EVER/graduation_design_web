@@ -100,5 +100,17 @@ export default {
             userName: userName,
             userPassword: userPassword
         });
+    },
+
+    /**
+     * 修改用户资料
+     * @param userInfo
+     */
+    updateUserInfo:(userInfo) =>{
+        let data = {
+            userNickName : userInfo.userNickName,
+            userPhone:userInfo.userPhone,
+        };
+        return request(BaseUrl + "/user", "PATCH",data);
     }
 }

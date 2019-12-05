@@ -1,4 +1,4 @@
-.egg-full-screen{
+.egg-full-screen {
     position: fixed;
     top: 0;
     left: 0;
@@ -6,11 +6,11 @@
     right: 0;
 }
 
-.egg-no-padding{
+.egg-no-padding {
     padding: 0 !important;
 }
 
-.egg-full-height{
+.egg-full-height {
     height: 100% !important;
 }
 
@@ -23,22 +23,31 @@
     user-select: none; /* CSS3属性 */
 }
 
-.egg-flex{
+.egg-flex {
     display: flex;
 }
 
-.egg-flex-justify-center{
+.egg-flex-justify-center {
     justify-content: center;
 }
 
-.egg-flex-justify-around{
+.egg-flex-justify-around {
     justify-content: space-around;
 }
 
-.egg-flex-justify-between{
+.egg-flex-justify-right {
+    justify-content: right;
+}
+
+.egg-flex-justify-end {
+    justify-content: end;
+}
+
+.egg-flex-justify-between {
     justify-content: space-between;
 }
 
-.egg-flex-align-center{
+.egg-flex-align-center {
     align-items: center;
 }
+

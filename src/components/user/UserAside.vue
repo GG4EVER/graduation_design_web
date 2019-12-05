@@ -7,7 +7,7 @@
                 <span slot="title">账户管理</span>
             </template>
             <el-menu-item-group>
-                <el-menu-item class="egg-menu-item" index="/user/userInfo" route="/user/userUpdate">个人资料</el-menu-item>
+                <el-menu-item class="egg-menu-item" index="/user/userInfo" route="/user/userInfo">个人资料</el-menu-item>
                 <el-menu-item class="egg-menu-item" index="/user/userAuthentication" route="/user/userAuthentication">实名认证</el-menu-item>
             </el-menu-item-group>
         </el-submenu>

@@ -129,13 +129,15 @@
                 this.$router.push('/about');
             },
             handleCommand(command) {//点击下拉菜单，跳转
-                if(command.indexOf("logout") != -1){//如果选择了退出登录
+                if(command == "/logout"){//如果选择了退出登录
                     store.commit("setToken","");//清除token
                     localStorage.removeItem("token");//清除token
                     this.$message.success("退出登录~");
+                    //刷新页面
+                    this.$router.go(0);
+                }else{
+                    this.$router.push(command);
                 }
-                //刷新页面
-                this.$router.go(0);
             },
         },
         created() {

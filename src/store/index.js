@@ -6,6 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     token: localStorage.getItem("token") ? localStorage.getItem("token") : "",//登录凭证
+    userInfo:null,
     currPageId:"index",
     pages:[
         {
@@ -20,6 +21,9 @@ export default new Vuex.Store({
   mutations: {
     setToken(state,token){//设置token
       state.token = token;
+    },
+    setUserInfo(state,userInfo){//设置userInfo
+      state.userInfo = userInfo;
     },
     setPageComponents(state,component){//添加component
       state.pageComponents[state.currPageId].push(component);

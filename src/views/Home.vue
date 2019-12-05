@@ -12,11 +12,11 @@
             <!--            如果有用户信息，表示已经登录过了，则直接显示-->
             <el-dropdown v-if="userInfo" class="egg-home-dropdown" trigger="click" @command="handleCommand">
                 <el-button class="egg-home-button animated fadeIn" type="primary" round plain>
-                    荷包蛋<i class="el-icon-arrow-down el-icon--right"></i>
+                    {{userInfo.userNickName}}<i class="el-icon-arrow-down el-icon--right"></i>
                 </el-button>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item command="/user"><i class="el-icon-s-home"></i>个人中心</el-dropdown-item>
-                    <el-dropdown-item command="/user/userUpdate"><i class="el-icon-user-solid"></i>修改资料
+                    <el-dropdown-item command="/user/userInfo"><i class="el-icon-user-solid"></i>个人资料
                     </el-dropdown-item>
                     <el-dropdown-item command="/user/userProject"><i class="el-icon-s-opportunity"></i>我的项目
                     </el-dropdown-item>
@@ -89,9 +89,11 @@
 <script>
     import {Button, Dropdown, DropdownMenu, DropdownItem} from "element-ui"
     import {isPC} from "../utils/function";
+    import store from "../store"
 
     export default {
         name: "Home",
+        store,
         components: {
             [Button.name]: Button,
             [Dropdown.name]: Dropdown,
@@ -127,8 +129,29 @@
                 this.$router.push('/about');
             },
             handleCommand(command) {//点击下拉菜单，跳转
-                this.$router.push(command);
+                if(command.indexOf("logout") != -1){//如果选择了退出登录
+                    store.commit("setToken","");//清除token
+                    localStorage.removeItem("token");//清除token
+                    this.$message.success("退出登录~");
+                }
+                //刷新页面
+                this.$router.go(0);
             },
+        },
+        created() {
+            if(store.state.userInfo){//如果本地有用户信息，则直接读取
+                this.userInfo = store.state.userInfo;
+            }else if (store.state.token) {//否则读取是否有token
+                this.$API.getUserInfo().then(res => {
+                    if (res.data.error != "0") {//如果token已经过期或者失效等，则清除掉本地存储的token
+                        store.commit("setToken","");
+                        localStorage.removeItem("token");//清除token
+                    } else {//否则获取用户信息
+                        this.userInfo = res.data.userInfo;
+                        store.commit("setUserInfo",res.data.userInfo);
+                    }
+                });
+            }
         }
     }
 </script>

@@ -32,9 +32,9 @@ export default new Router({
                     component: () => import(/* webpackChunkName: "about" */ './views/user/Home.vue')
                 },
                 {
-                    path: 'userUpdate',
-                    name: '用户修改资料界面',
-                    component: () => import(/* webpackChunkName: "about" */ './views/user/UserUpdate.vue')
+                    path: 'userInfo',
+                    name: '用户资料界面',
+                    component: () => import(/* webpackChunkName: "about" */ './views/user/UserInfo.vue')
                 },
                 {
                     path: 'userAuthentication',

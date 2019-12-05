@@ -237,7 +237,7 @@
                             });
                         } else {//否则是普通用户
                             this.$API.userLogin(name, password).then(function (res) {
-                                window.console.log(res.data)
+                                window.console.log(res.data);
                                 if (res.data.error == "0") {//登录成功
                                     //保存token
                                     store.commit("setToken", res.data.token);

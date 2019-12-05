@@ -1,5 +1,5 @@
 <template>
-    <el-menu :default-active="activeMenu" :collapse="IsCollapse" router unique-opened background-color="#304156" text-color="#bfcbd9" active-text-color="#409eff" class="egg-full-height egg-not-copy">
+    <el-menu ref="elMenu" :default-active="activeMenu" :collapse="IsCollapse" router unique-opened background-color="#304156" text-color="#bfcbd9" active-text-color="#409eff" class="egg-full-height egg-not-copy">
         <el-menu-item class="egg-menu-item" index="/user" route="/user"><i class="el-icon-s-home"></i><span slot="title">首页</span></el-menu-item>
         <el-submenu index="2">
             <template slot="title">
@@ -7,7 +7,7 @@
                 <span slot="title">账户管理</span>
             </template>
             <el-menu-item-group>
-                <el-menu-item class="egg-menu-item" index="/user/userUpdate" route="/user/userUpdate">修改资料</el-menu-item>
+                <el-menu-item class="egg-menu-item" index="/user/userInfo" route="/user/userUpdate">个人资料</el-menu-item>
                 <el-menu-item class="egg-menu-item" index="/user/userAuthentication" route="/user/userAuthentication">实名认证</el-menu-item>
             </el-menu-item-group>
         </el-submenu>
@@ -50,10 +50,12 @@
         watch:{
             $route(to){
                 let path = to.path;//监听路由,展开对应的目录
-                if(path == "/user/userUpdate" || path == "/user/userProject"){//如果是修改资料或我的项目的路由
-                    this.activeMenu = path;
+                if(path == "/user"){//如果是个人中心，就关闭其他所有
+                    this.$refs["elMenu"].close("2");
+                    this.$refs["elMenu"].close("3");
+                    this.$refs["elMenu"].close("4");
                 }
-                this.$message(to.path);
+                this.activeMenu = path;
             }
         },
         components:{

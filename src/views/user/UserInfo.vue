@@ -2,7 +2,7 @@
     <el-row>
         <el-col class="egg-user-info-box" :xl="{span:12,offset:6}" :lg="{span:12,offset:6}" :md="{span:16,offset:4}"
                 :sm="{span:20,offset:2}" :xs="{span:22,offset:1}">
-            <el-form v-if="UserInfo" label-position="right" label-width="80px" :model="UserInfo">
+            <el-form v-if="UserInfo" :model="UserInfo" label-position="right" label-width="80px">
                 <el-form-item label="用户名" class="egg-not-copy">
                     <el-input :value="UserInfo.userName" disabled></el-input>
                 </el-form-item>
@@ -11,7 +11,7 @@
                     <el-input v-model="UserInfo.userNickName" disabled></el-input>
                 </el-form-item>
                 <el-form-item v-else label="昵称" class="egg-not-copy">
-                    <el-input v-model="userInfoTemp.userNickName"></el-input>
+                    <el-input v-model="userInfoTemp.userNickName" autocomplete="off" placeholder="请输入新的昵称"></el-input>
                 </el-form-item>
                 <!--                显示和修改时不是操作同一个对象-->
                 <el-form-item v-if="!canModify" label="手机号" class="egg-not-copy">
@@ -79,9 +79,11 @@
                 if(this.userInfoTemp.userNickName == this.UserInfo.userNickName && this.userInfoTemp.userPhone == this.UserInfo.userPhone){
                 }else{//改变了值
                     this.$API.updateUserInfo(this.userInfoTemp).then(res=>{
+                        window.console.log(res)
                         if(res.data.error != "0"){//修改失败,直接输出错误信息
                             this.$message.error(res.data.error_message);
                         }else{
+                            this.$message.success("修改成功~");
                             //获得到新的用户信息，并保存到store
                             store.commit("setUserInfo",res.data.userInfo);
                         }

@@ -7,39 +7,164 @@
             background-color="#545c64"
             text-color="#fff"
             active-text-color="#ffd04b">
-        <el-menu-item index="1">主页</el-menu-item>
-        <el-submenu index="2">
-            <template slot="title">目录</template>
-            <el-menu-item index="2-1">目录1</el-menu-item>
-            <el-menu-item index="2-2">目录2</el-menu-item>
-            <el-menu-item index="2-3">目录3</el-menu-item>
-        </el-submenu>
+        <el-menu-item>
+            <div class="egg-login-logo-box" @click="backHome">
+                <img class="egg-login-logo" src="../../assets/logo.png" draggable="false"/>
+                <span class="egg-login-logo-name">Egg Paint</span>
+            </div>
+        </el-menu-item>
+        <el-menu-item class="design-header-utils">
+            <el-button plain round size="mini" :disabled="!canPreview" :title="!canPreview ? '当前暂时不可预览' : ''">预览</el-button>
+            <el-button type="success" round size="mini" :loading="isSaving">{{isSaving ? '正在保存' : '保存'}}</el-button>
+            <el-dropdown v-if="userInfo" class="egg-home-dropdown" trigger="click" @command="handleCommand">
+                <div class="egg-admin-info egg-not-copy">
+                    <div class="egg-avatar-box">
+                        <img class="egg-admin-avatar" src="../../assets/images/boy.svg" draggable="false"/>
+                        <i v-if="userInfo.isCertified != 0" class="el-icon-success egg-icon-success"></i>
+                    </div>
+                    <div class="egg-avatar-box">
+                        <span class="egg-admin-name">{{userInfo.userNickName}}</span>
+                    </div>
+                </div>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item command="/user"><i class="el-icon-s-home"></i>个人中心</el-dropdown-item>
+                    <el-dropdown-item command="/user/userInfo"><i class="el-icon-user-solid"></i>个人资料
+                    </el-dropdown-item>
+                    <el-dropdown-item command="/user/userProject"><i class="el-icon-s-opportunity"></i>我的项目
+                    </el-dropdown-item>
+                    <el-dropdown-item command="/user/inBox"><i class="el-icon-s-comment"></i>我的消息</el-dropdown-item>
+                    <el-dropdown-item command="/logout" divided><i class="el-icon-unlock"></i>退出登录</el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
+        </el-menu-item>
     </el-menu>
 </template>
 
 <script>
-    import {Menu,MenuItem,Submenu} from 'element-ui'
+    import {Menu,MenuItem,Submenu,Button,Dropdown,DropdownItem,DropdownMenu} from 'element-ui'
+    import store from "../../store";
     export default {
         name: "EggDesignHeader",
         components:{
             [Menu.name]:Menu,
             [MenuItem.name]:MenuItem,
-            [Submenu.name]:Submenu
+            [Submenu.name]:Submenu,
+            [Button.name]:Button,
+            [DropdownMenu.name]:DropdownMenu,
+            [DropdownItem.name]:DropdownItem,
+            [Dropdown.name]:Dropdown
         },
         data() {
             return {
+                canPreview:false,//是否可以预览
+                isSaving:false,//是否正在保存
                 activeIndex: '1',
+                userInfo:{
+                    userNickName:"荷包蛋"
+                },
             };
         },
         methods: {
             handleSelect(key, keyPath) {
                 // eslint-disable-next-line no-console
                 console.log(key, keyPath);
-            }
+            },
+            backHome(){
+                this.$confirm({
+                    title:"提示",
+                    message:"当前工作可能未保存，确认要直接离开吗",
+                    confirmButtonText: "确认",
+                    showCancelButton:true,
+                    cancelButtonText: "取消",
+                    type: 'warning'
+                }).then(() => {
+                    this.$router.push("/");
+                });
+            },
+            handleCommand(command) {//点击下拉菜单，跳转
+                if(command == "/logout"){//如果选择了退出登录
+                    store.commit("setToken","");//清除token
+                    localStorage.removeItem("token");//清除token
+                    this.$message.success("退出登录~");
+                    //刷新页面
+                    this.$router.push("/login");
+                }else{
+                    let routeUrl = this.$router.resolve({
+                        path: command,
+                    });
+                    window.open(routeUrl.href,"_blank");
+                }
+            },
         }
     }
 </script>
 
 <style scoped>
+    .egg-login-logo-box {
+        display: flex;
+        cursor: pointer;
+        align-items: center;
+    }
 
+    .egg-login-logo {
+        height: 2.5rem;
+        width: 2.5rem;
+        margin-right: 10px;
+    }
+
+    .egg-login-logo-name {
+        font-size: 1.6rem;
+        color: #f0f0f0;
+        font-weight: bold;
+    }
+
+    .design-header-utils{
+        float: right;
+        display: flex;
+        align-items: center;
+    }
+
+    .egg-admin-info {
+        height: 40px;
+        padding: 0 5px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .egg-avatar-box {
+        position: relative;
+    }
+
+    .egg-admin-avatar {
+        height: 36px;
+        width: 36px;
+        margin: 0 6px;
+        border-radius: 50px;
+        border: solid 5px transparent;
+    }
+
+    .egg-icon-success {
+        position: absolute;
+        bottom: 6px;
+        right: 6px;
+        color: #67C23A;
+    }
+
+    .egg-admin-name {
+        font-size: 18px;
+        color: #5B5B5B;
+        color: #f0f0f0;
+        border-bottom: solid 2px transparent;
+    }
+
+    .egg-admin-info:hover > .egg-avatar-box > .egg-admin-avatar {
+        transition: 0.6s;
+        border: solid 5px #f0f0f0;
+    }
+
+    .egg-admin-info:hover > .egg-avatar-box > .egg-admin-name {
+        transition: 0.6s;
+        border-bottom: solid 2px #bee1f1;
+    }
 </style>

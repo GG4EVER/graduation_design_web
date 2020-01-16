@@ -21,7 +21,7 @@ VueRouter.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err)
 }
 
-import {Container, Header, Aside, Main, Footer,Row,Col,Message} from 'element-ui';
+import {Container, Header, Aside, Main, Footer,Row,Col,Message,MessageBox} from 'element-ui';
 Vue.use(Container);
 Vue.use(Header);
 Vue.use(Aside);
@@ -31,6 +31,7 @@ Vue.use(Row);
 Vue.use(Col);
 
 Vue.prototype.$message = Message;
+Vue.prototype.$confirm = MessageBox;
 Vue.config.productionTip = false;
 
 

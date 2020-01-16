@@ -63,4 +63,15 @@
     .is-opened > .el-submenu__title i{
         color: #ffffff !important;
     }
+
+    .design-header-utils:hover{
+        background-color: initial !important;
+    }
+
+    .design-page-name-input > input{
+        border-left: none !important;
+        border-right: none !important;
+        border-top: none !important;
+        padding: 0 8px;
+    }
 </style>

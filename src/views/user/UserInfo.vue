@@ -22,12 +22,15 @@
                 </el-form-item>
 
                 <el-col class="egg-user-info-button-box">
+                    <el-button class="egg-user-info-button animated fadeIn" style="float: left;" v-show="!canModify" type="danger" round
+                               @click="isModifyingPassword = true">修改密码
+                    </el-button>
                     <el-button class="egg-user-info-button animated fadeIn" v-show="!canModify" type="primary" round
-                               @click="modifyUserInfo">修改
+                               @click="modifyUserInfo">修改资料
                     </el-button>
                 </el-col>
                 <el-col class="egg-user-info-button-box">
-                    <el-button class="egg-user-info-button animated fadeIn" v-show="canModify" type="danger" round
+                    <el-button class="egg-user-info-button animated fadeIn"  v-show="canModify" type="danger" round
                                @click="cancelModifyUserInfo">取消
                     </el-button>
                     <el-button class="egg-user-info-button animated fadeIn" v-show="canModify" type="success" round
@@ -36,12 +39,30 @@
                 </el-col>
             </el-form>
         </el-col>
+
+        <el-dialog title="修改密码" :visible.sync="isModifyingPassword" :modal-append-to-body="false">
+            <el-form>
+                <el-form-item label="请输入原密码">
+                    <el-input v-model="oldPassword" autocomplete="off" type="password" show-password></el-input>
+                </el-form-item>
+                <el-form-item label="请输入新密码">
+                    <el-input v-model="newPassword" autocomplete="off" type="password" show-password></el-input>
+                </el-form-item>
+                <el-form-item label="请再次输入新密码">
+                    <el-input v-model="newPassword2" autocomplete="off" type="password" show-password></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="submitModifyPassword(false)">取 消</el-button>
+                <el-button type="primary" @click="submitModifyPassword(true)">确 定</el-button>
+            </div>
+        </el-dialog>
     </el-row>
 </template>
 
 <script>
     import store from "../../store"
-    import {Form, FormItem, Input, Button} from "element-ui"
+    import {Form, FormItem, Input, Button, Dialog} from "element-ui"
 
     export default {
         name: "UserInfo",
@@ -56,12 +77,17 @@
             [Form.name]: Form,
             [FormItem.name]: FormItem,
             [Input.name]: Input,
-            [Button.name]: Button
+            [Button.name]: Button,
+            [Dialog.name]:Dialog
         },
         data() {
             return {
                 canModify: false,//能否修改用户信息
                 userInfoTemp: null,//临时保存用户信息
+                isModifyingPassword:false,//是否正在修改密码
+                oldPassword:"",//旧密码
+                newPassword:"",//新密码
+                newPassword2:"",//再次输入新密码
             }
         },
         methods: {
@@ -90,6 +116,33 @@
                     });
                 }
                 this.canModify = false;
+            },
+            submitModifyPassword(isModify){//修改密码
+                if(isModify){//确认修改
+                    if(this.oldPassword != this.UserInfo.userPassword){//旧密码不同
+                        this.$message.error("原密码不相同");
+                        return;
+                    }
+                    if(this.newPassword != this.newPassword2){
+                        this.$message.error("两次输入的密码不相同");
+                        return;
+                    }
+                    if(this.newPassword == this.UserInfo.userPassword){//新密码和旧密码相同
+                        this.$message.success("已修改");
+                        return;
+                    }
+                    if(this.newPassword.length < 6 || this.newPassword.length > 18){
+                        this.$message.error("密码长度应该在6-18位之间");
+                        return;
+                    }
+                    //可以修改，发送请求
+
+                }
+                window.console.log(this.UserInfo);
+                this.oldPassword = "";
+                this.newPassword = "";
+                this.newPassword2 = "";
+                this.isModifyingPassword = false;
             },
         }
     }

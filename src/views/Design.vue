@@ -10,8 +10,8 @@
                         <design-aside></design-aside>
                     </el-aside>
                 </el-col>
-                <el-col :span="12">
-                    <el-main>
+                <el-col :span="12" style="height: 100%;">
+                    <el-main style="height: 100%;display: flex;justify-content: center;flex-direction: column;">
                         <design-main></design-main>
                     </el-main>
                 </el-col>
@@ -40,6 +40,11 @@
             DesignMain,
             DesignConfig,
             DesignHeader,
+        },
+        data(){
+            return{
+
+            }
         }
     }
 </script>

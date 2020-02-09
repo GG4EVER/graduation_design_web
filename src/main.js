@@ -13,7 +13,6 @@ import animate from 'animate.css'
 import API from './config/api'
 Vue.prototype.$API = API;
 
-
 // 解决两次访问相同路由地址报错
 import VueRouter from "vue-router";
 const originalPush = VueRouter.prototype.push

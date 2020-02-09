@@ -34,6 +34,40 @@
         cursor: pointer;
     }
 
+    textarea{
+        font-family: "Microsoft YaHei UI Light";
+        font-size: 15px;
+    }
+
+    ::-webkit-scrollbar {
+        width: 5px; /*对垂直流动条有效*/
+        height: 5px; /*对水平流动条有效*/
+    }
+
+    /*定义滚动条的轨道颜色、内阴影及圆角*/
+    ::-webkit-scrollbar-track {
+        /*内阴影*/
+        /*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);*/
+        /*background-color: initial;*/
+        /*border-radius: 3px;*/
+    }
+
+    /*定义滑块颜色、内阴影及圆角*/
+    ::-webkit-scrollbar-thumb {
+        border-radius: 7px;
+        background-color: #e0e0e0;
+    }
+
+    /*定义两端按钮的样式*/
+    ::-webkit-scrollbar-button {
+        /*background-color:cyan;*/
+    }
+
+    /*定义右下角汇合处的样式*/
+    ::-webkit-scrollbar-corner {
+        /*background:khaki;*/
+    }
+
     .el-row{
         width: 100%;
     }
@@ -73,5 +107,17 @@
         border-right: none !important;
         border-top: none !important;
         padding: 0 8px;
+    }
+
+    .egg-design-setting-dialog .el-dialog__body{
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        padding: 0;
+        overflow-y: scroll;
+    }
+
+    .el-dialog__headerbtn{
+        font-size: 20px !important;
     }
 </style>

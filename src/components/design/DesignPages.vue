@@ -27,12 +27,12 @@
                         </template>
                         <template v-else>
                             <el-col :span="17">
-                                <el-input type="text" size="small" maxlength="32" v-model="page.name" show-word-limit
+                                <el-input type="text" size="small" maxlength="32" v-model="editingPageName" show-word-limit
                                           class="design-page-name-input"></el-input>
                             </el-col>
                             <el-col :span="5" class="design-page-check-box design-page-operate-box">
                                 <el-button type="success" circle class="design-page-rename-button"
-                                           @click.stop="submitEditPageName(true)"><i
+                                           @click.stop="submitEditPageName(true,index)"><i
                                         class="el-icon-check"></i></el-button>
                                 <el-button type="danger" circle class="design-page-rename-button"
                                            @click.stop="submitEditPageName(false)"><i
@@ -66,14 +66,8 @@
                 pageName: "index",
                 active: 0,
                 isEditPageIndex: -1,
-                pages: [
-                    {
-                        name: "页面1",
-                    },
-                    {
-                        name: "页面2"
-                    }
-                ]
+                pages: [],
+                editingPageName:"",//正在修改的页面的名字
             }
         },
         methods: {
@@ -102,13 +96,34 @@
                     this.$message.error("还有页面重命名未完成");
                 } else {
                     this.isEditPageIndex = index;
+                    this.editingPageName = this.pages[index].name;
                 }
             },
-            submitEditPageName(confirmSubmit) {//提交修改页面名称
-                if (confirmSubmit) {
-                    this.isEditPageIndex = -1;
-                } else {
-                    this.isEditPageIndex = -1;
+            submitEditPageName(confirmSubmit,index) {//提交修改页面名称
+                if(this.editingPageName.length == 0){//如果正在修改的页面名称长度为0
+                    this.$message.error("页面名称不能为空");
+                }else{
+                    if (confirmSubmit) {
+                        let tempPages = this.pages;
+                        let canModify  = true;
+                        for(let i = 0; i< tempPages.length; i++){
+                            if(i != index){//判断是否和其他页面的名称相同
+                                if(tempPages[i].name == this.editingPageName){//如果正在修改的页面名字重复则不能修改
+                                    canModify = false;
+                                    break;
+                                }
+                            }
+                        }
+                        if(canModify){
+                            this.pages[index].name = this.editingPageName;
+                            this.editingPageName = "";
+                            this.isEditPageIndex = -1;
+                        }else{
+                            this.$message.error("页面名称不能重复");
+                        }
+                    } else {
+                        this.isEditPageIndex = -1;
+                    }
                 }
             },
             deletePage(index) {//删除页面
@@ -120,6 +135,11 @@
                     type: 'warning'
                 }).then(() => {
                     this.$message.success("删除成功");
+                    if(index == 0){
+                        this.pages = this.pages.slice(1,this.pages.length);
+                    }else{
+                        this.pages = this.pages.slice(0,index).concat(this.pages.slice(index+1,this.pages.length));
+                    }
                 }).catch(() => {
                     this.$message.error("取消删除");
                 })
@@ -202,7 +222,7 @@
     }
 
     .design-page-rename-button {
-        padding: 2px;
+        padding: 5px;
         font-size: 10px;
     }
 </style>

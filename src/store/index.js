@@ -7,16 +7,21 @@ export default new Vuex.Store({
   state: {
     token: localStorage.getItem("token") ? localStorage.getItem("token") : "",//登录凭证
     userInfo:null,
-    currPageId:"index",
-    pages:[
+    currPageIndex:0,
+    pages:[//页面列表
         {
-          id:"index",//页面的id
-          name:"主页"//用户设定的页面名称
+          name:"index",//用户设定的页面名称
+          description:""//用户对这个页面的描述
         }
     ],
-    pageComponents:{//页面选择的所有组件
-      "index":[],
+    tabBar:{//底部切换卡列表
+      color: "#7A7E83",
+      selectedColor: "#007AFF",
+      borderStyle: "black",
+      backgroundColor: "#F8F8F8",
+      list: []
     },
+    pageComponents:[]//当前页面选择的所有组件
   },
   mutations: {
     setToken(state,token){//设置token
@@ -26,8 +31,17 @@ export default new Vuex.Store({
       state.userInfo = userInfo;
     },
     setPageComponents(state,component){//添加component
-      state.pageComponents[state.currPageId].push(component);
-    }
+      state.pageComponents[state.currPageIndex].push(component);
+    },
+    setCurrPageIndex(state,currPageIndex){//设置当前页面index
+      state.currPageIndex = currPageIndex;
+    },
+    setPages(state,pages){//设置页面列表
+      state.pages = pages;
+    },
+    setTabBar(state,tabBar){//设置底部切换卡
+      state.tabBar = tabBar;
+    },
   },
   actions: {
   },

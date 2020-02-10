@@ -169,9 +169,10 @@
             [ButtonGroup.name]: ButtonGroup
         },
         watch: {
-            "store.state.pages"(newVal) {
-                window.console.log(newVal)
-                window.console.log(this)
+            "$store.state.pages":function(newVal) {
+                if(newVal){
+                    this.currPages = newVal;
+                }
             }
         },
         data() {

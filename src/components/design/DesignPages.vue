@@ -27,7 +27,8 @@
                         </template>
                         <template v-else>
                             <el-col :span="17">
-                                <el-input type="text" size="small" maxlength="32" v-model="editingPageName" show-word-limit
+                                <el-input type="text" size="small" maxlength="32" v-model="editingPageName"
+                                          show-word-limit
                                           class="design-page-name-input"></el-input>
                             </el-col>
                             <el-col :span="5" class="design-page-check-box design-page-operate-box">
@@ -54,6 +55,7 @@
 <script>
     import {Radio, Input, Button} from "element-ui"
     import store from "../../store"
+
     export default {
         name: "DesignPages",
         store,
@@ -68,7 +70,7 @@
                 active: 0,
                 isEditPageIndex: -1,
                 pages: [],
-                editingPageName:"",//正在修改的页面的名字
+                editingPageName: "",//正在修改的页面的名字
             }
         },
         methods: {
@@ -78,8 +80,9 @@
                 } else {
                     this.pages.push({
                         name: "",
-                        description:""
+                        description: ""
                     });
+                    window.console.log(store.state.pages)
                     this.isEditPageIndex = this.pages.length - 1;
                 }
             },
@@ -91,7 +94,7 @@
                 } else {
                     window.console.log("选择页面: " + index)
                     this.active = index;
-                    store.commit("setCurrPageIndex",this.index);
+                    store.commit("setCurrPageIndex", index);
                 }
             },
             editPageName(index) {//编辑页面名称
@@ -102,27 +105,36 @@
                     this.editingPageName = this.pages[index].name;
                 }
             },
-            submitEditPageName(confirmSubmit,index) {//提交修改页面名称
-                if(this.editingPageName.length == 0){//如果正在修改的页面名称长度为0
+            submitEditPageName(confirmSubmit, index) {//提交修改页面名称
+                if (this.editingPageName.length == 0) {//如果正在修改的页面名称长度为0
                     this.$message.error("页面名称不能为空");
-                }else{
+                } else {
                     if (confirmSubmit) {
                         let tempPages = this.pages;
-                        let canModify  = true;
-                        for(let i = 0; i< tempPages.length; i++){
-                            if(i != index){//判断是否和其他页面的名称相同
-                                if(tempPages[i].name == this.editingPageName){//如果正在修改的页面名字重复则不能修改
+                        let canModify = true;
+                        for (let i = 0; i < tempPages.length; i++) {
+                            if (i != index) {//判断是否和其他页面的名称相同
+                                if (tempPages[i].name == this.editingPageName) {//如果正在修改的页面名字重复则不能修改
                                     canModify = false;
                                     break;
                                 }
                             }
                         }
-                        if(canModify){
+                        if (canModify) {//是否可以修改名称
+                            //如果已经有这个页面，且页面名称不一致，则修改
+                            if(store.state.pages[index]){
+                                store.commit("updatePages",{
+                                    index:index,
+                                    name:this.editingPageName,
+                                    description:this.pages[index].description,
+                                });
+                            }else{//否则添加页面
+                                store.commit("setPages", this.pages);
+                            }
                             this.pages[index].name = this.editingPageName;
                             this.editingPageName = "";
                             this.isEditPageIndex = -1;
-                            store.commit("setPages",this.pages);
-                        }else{
+                        } else {
                             this.$message.error("页面名称不能重复");
                         }
                     } else {
@@ -138,19 +150,19 @@
                     showCancelButton: true,
                     type: 'warning'
                 }).then(() => {
+                    this.pages = this.pages.slice(0, index).concat(this.pages.slice(index + 1, this.pages.length));
+                    store.commit("deletePages", {
+                        index:index,
+                        pages:this.pages
+                    });
                     this.$message.success("删除成功");
-                    if(index == 0){
-                        this.pages = this.pages.slice(1,this.pages.length);
-                    }else{
-                        this.pages = this.pages.slice(0,index).concat(this.pages.slice(index+1,this.pages.length));
-                    }
                 }).catch(() => {
                     this.$message.error("取消删除");
                 })
             },
         },
         created() {
-            this.pages = store.state.pages;
+            this.pages = JSON.parse(JSON.stringify(store.state.pages));
         }
     }
 </script>

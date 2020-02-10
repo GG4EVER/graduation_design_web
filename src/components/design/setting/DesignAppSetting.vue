@@ -92,7 +92,9 @@
         position: fixed;
         bottom: 0;
         width: 100%;
-        padding: 20px 15px;
+        padding: 20px 0px;
         text-align: center;
+        background-color: #ffffff;
+        z-index: 1;
     }
 </style>

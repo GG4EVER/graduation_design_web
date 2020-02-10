@@ -128,7 +128,9 @@
         position: fixed;
         bottom: 0;
         width: 100%;
-        padding: 20px 15px;
+        padding: 20px 0px;
         text-align: center;
+        z-index: 1;
+        background-color: #ffffff;
     }
 </style>

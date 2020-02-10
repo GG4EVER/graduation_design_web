@@ -40,8 +40,10 @@
 
 <script>
     import {Form,FormItem,Input,Button,Divider,ColorPicker,RadioGroup,RadioButton} from "element-ui"
+    import store from "../../../store"
     export default {
         name: "DesignNavigatorSetting",
+        store,
         components:{
             [Form.name]:Form,
             [FormItem.name]:FormItem,
@@ -86,11 +88,21 @@
             },
             submitSaving(){//提交保存
                 this.isSaving = true;
+                store.commit("setGlobalStyle",{
+                    navigationBarBackgroundColor : this.navigatorBackgroundColor,
+                    navigationBarTextStyle : this.navigatorTitleColor,
+                    navigationBarTitleText : this.navigatorTitle
+                });
                 setTimeout( ()=>{
                     this.isSaving = false;
                     this.showSavingButton(false);
                 },500);
             }
+        },
+        created() {
+            this.navigatorBackgroundColor = store.state.globalStyle.navigationBarBackgroundColor;
+            this.navigatorTitleColor = store.state.globalStyle.navigationBarTextStyle;
+            this.navigatorTitle = store.state.globalStyle.navigationBarTitleText;
         }
     }
 </script>

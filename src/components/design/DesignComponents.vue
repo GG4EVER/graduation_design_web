@@ -68,7 +68,7 @@
                     }
                 }
                 window.console.log(newComponent);
-                store.commit("setPageComponents",newComponent);
+                store.commit("setCurrPageComponents",newComponent);
             }
         }
     }

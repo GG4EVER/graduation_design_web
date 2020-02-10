@@ -53,9 +53,10 @@
 
 <script>
     import {Radio, Input, Button} from "element-ui"
-
+    import store from "../../store"
     export default {
         name: "DesignPages",
+        store,
         components: {
             [Radio.name]: Radio,
             [Input.name]: Input,
@@ -77,7 +78,8 @@
                 } else {
                     this.pages.push({
                         name: "",
-                    })
+                        description:""
+                    });
                     this.isEditPageIndex = this.pages.length - 1;
                 }
             },
@@ -89,6 +91,7 @@
                 } else {
                     window.console.log("选择页面: " + index)
                     this.active = index;
+                    store.commit("setCurrPageIndex",this.index);
                 }
             },
             editPageName(index) {//编辑页面名称
@@ -118,6 +121,7 @@
                             this.pages[index].name = this.editingPageName;
                             this.editingPageName = "";
                             this.isEditPageIndex = -1;
+                            store.commit("setPages",this.pages);
                         }else{
                             this.$message.error("页面名称不能重复");
                         }
@@ -145,6 +149,9 @@
                 })
             },
         },
+        created() {
+            this.pages = store.state.pages;
+        }
     }
 </script>
 

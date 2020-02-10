@@ -8,10 +8,12 @@
                 </el-col>
                 <el-col :span="22">
                     <div class="design-phone-screen" :class="currPageComponents.length != 0 ? 'design-phone-screen-has' : ''">
+                        <div class="design-phone-screen-navigation-bar" :style="'background-color: ' + navigationBarSetting.navigationBarBackgroundColor + ';color:' + navigationBarSetting.navigationBarTextStyle ">
+                            {{navigationBarSetting.navigationBarTitleText}}
+                        </div>
                         <template v-if="currPageComponents.length != 0">
                             <component v-for="(component,index) in currPageComponents" :key="index" :is="component.name" :component-attribute="component.attribute" :component-style="component.style"></component>
                         </template>
-
                     </div>
                 </el-col>
             </div>
@@ -32,26 +34,35 @@
         data(){
             return{
                 currPageComponents:[],//当前页面的组件
-            }
-        },
-        computed: {
-            /**
-             * 计算当前页面组件的数组
-             * @returns {*}
-             */
-            listenPageComponents() {
-                return this.$store.state.pageComponents[this.$store.state.currPageIndex];
+                navigationBarSetting:{},//导航栏设置
             }
         },
         watch:{
-            /**
-             * 监听页面组件数组的变化
-             * @param newValue
-             */
-            listenPageComponents:function(newValue){
-                window.console.log(this.$store.state.pageComponents);
-                this.currPageComponents = newValue;
+            // "$store.state.currPageIndex":function(newVal){//监听选择的页面。如果变了，组件也改变
+            //     this.currPageName = store.state.pages[newVal].name;
+            //     this.currPageComponents = store.state.pageComponents[this.currPageName];
+            //     if(!this.currPageComponents){//如果不存在,则新建
+            //         this.currPageComponents = new Array();
+            //     }
+            // },
+            "$store.state.currPageComponents":function (newVal) {//监听当前页面组件列表
+                window.console.log("改变了")
+                if(newVal){
+                    this.currPageComponents = newVal;
+                }
+            },
+            "$store.state.globalStyle":function(newVal){
+                if(newVal){
+                    this.navigationBarSetting = newVal;
+                }
             }
+        },
+        created() {
+            this.navigationBarSetting = store.state.globalStyle;
+            // this.currPageComponents = store.state.pageComponents[store.state.pages[store.state.currPageIndex].name];
+            // if(!this.currPageComponents){//如果不存在,则新建
+            //     this.currPageComponents = new Array();
+            // }
         }
     }
 </script>
@@ -134,5 +145,13 @@
         border-radius: 5px;
         -webkit-box-shadow: inset 0 0 5px rgba(255,255,255,0.3);
         background-color: #f0f0f0;
+    }
+
+    .design-phone-screen-navigation-bar{
+        height: 32px;
+        background-color: #7B7B7B;
+        text-align: center;
+        line-height: 32px;
+        box-shadow: 0px 1px 5px #e0e0e0;
     }
 </style>

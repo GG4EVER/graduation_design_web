@@ -77,6 +77,7 @@
 <style scoped>
     .design-setting-box{
         padding-top: 2rem;
+        padding-bottom: 160px;
     }
 
     .design-setting-label{

@@ -40,7 +40,7 @@
              * @returns {*}
              */
             listenPageComponents() {
-                return this.$store.state.pageComponents[this.$store.state.currPageId];
+                return this.$store.state.pageComponents[this.$store.state.currPageIndex];
             }
         },
         watch:{

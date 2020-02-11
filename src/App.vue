@@ -39,6 +39,14 @@
         font-size: 15px;
     }
 
+    .el-dialog__header{
+        background-color: rgba(200,231,252,0.1);
+    }
+
+    .el-dialog__body{
+        background-color: rgba(200,231,252,0.1);
+    }
+
     ::-webkit-scrollbar {
         width: 5px; /*对垂直流动条有效*/
         height: 5px; /*对水平流动条有效*/
@@ -122,7 +130,7 @@
     }
 
     .egg-design-header{
-        background-image: linear-gradient(90deg, #163d68  0%, #2767ab 100%) !important;
+        background-image: linear-gradient(90deg, #5187c1  0%, #64b4e2 100%) !important;
         background-color: initial !important;
         z-index: 999 !important;
         border: none !important;
@@ -203,5 +211,17 @@
         box-shadow: 0 -4px 0 #2d93bb inset;
         background-color: rgba(172,219,245,0.6) !important;
         color: #409EFF !important;
+    }
+
+    .egg-design-components .el-collapse-item__header{
+        font-size: 16px;
+        background-color: initial !important;
+    }
+
+    .egg-design-components .el-collapse-item__wrap{
+        background-color: rgba(172,219,245,0.1) !important;
+        padding-top: 10px;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
     }
 </style>

@@ -170,9 +170,10 @@
 <style scoped>
     .design-no-pages {
         text-align: center;
-        background-color: #eeeeee;
         padding: 1.5rem 4px;
         color: #5B5B5B;
+        background-color: rgba(200, 231, 252, 0.5);
+        border-radius: 14px;
     }
 
     .design-pages {

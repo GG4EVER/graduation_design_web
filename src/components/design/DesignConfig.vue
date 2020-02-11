@@ -1,5 +1,5 @@
 <template>
-    <el-tabs type="border-card" class="design-aside" @tab-click="asideTabClick">
+    <el-tabs type="border-card" class="design-aside design-aside-config" @tab-click="asideTabClick">
         <el-tab-pane>
             <span slot="label">属性</span>
             <design-attribute></design-attribute>
@@ -17,9 +17,9 @@
 
 <script>
     import {Tabs,TabPane} from 'element-ui';
-    import DesignAttribute from "@/components/design/DesignAttribute";
-    import DesignAnimation from "@/components/design/DesignAnimation";
-    import DesignDataSource from "@/components/design/DesignDataSource";
+    import DesignAttribute from "./config/DesignAttribute";
+    import DesignAnimation from "./config/DesignAnimation";
+    import DesignDataSource from "./config/DesignDataSource";
     export default {
         name: "EggConfig",
         components:{

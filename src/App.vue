@@ -120,4 +120,87 @@
     .el-dialog__headerbtn{
         font-size: 20px !important;
     }
+
+    .egg-design-header{
+        background-image: linear-gradient(90deg, #163d68  0%, #2767ab 100%) !important;
+        background-color: initial !important;
+        z-index: 999 !important;
+        border: none !important;
+    }
+
+    .egg-design-header .el-menu-item{
+        background-color: inherit !important;
+    }
+
+    .design-aside-tab-pane{
+        background-color: rgba(200,231,252,0.1) !important;
+    }
+
+    .design-aside-tab-pane .el-tabs__header{
+        border-right: none !important;
+    }
+
+    .design-aside-tab-pane .el-tabs__header .el-tabs__nav-scroll{
+        background-color: rgba(200,231,252,0.2);
+    }
+
+    .design-aside-tab-pane .el-tabs__header .el-tabs__nav{
+        background-color: rgba(172,219,245,0.3);
+    }
+
+    .design-aside-tab-pane .el-tabs__header .el-tabs__item{
+        height: 46px;
+        font-size: 16px;
+        line-height: 46px;
+        font-weight: bold;
+        color: #2d93bb !important;
+    }
+
+    .design-aside-tab-pane .el-tabs__header .el-tabs__item:hover{
+        color: #409EFF !important;
+    }
+
+    .design-aside-tab-pane .el-tabs__header .is-active{
+        box-shadow: 4px 0 0 #2d93bb inset;
+        background-color: rgba(172,219,245,0.6) !important;
+        color: #409EFF !important;
+    }
+
+    .design-aside-config{
+        background-color: rgba(200,231,252,0.1) !important;
+    }
+
+    .design-aside-config .el-tabs__header{
+        border-right: none !important;
+    }
+
+    .design-aside-config .el-tabs__header .el-tabs__nav-scroll{
+        background-color: rgba(200,231,252,0.2);
+    }
+
+    .design-aside-config .el-tabs__header .el-tabs__nav{
+        background-color: rgba(172,219,245,0.3);
+    }
+
+    .design-aside-config .el-tabs__header .el-tabs--border-card{
+        background-color: #f0f0f0 !important;
+    }
+
+    .design-aside-config .el-tabs__header .el-tabs__item{
+        height: 46px;
+        font-size: 16px;
+        line-height: 46px;
+        font-weight: bold;
+        color: #2d93bb !important;
+    }
+
+    .design-aside-config .el-tabs__header .el-tabs__item:hover{
+        color: #409EFF !important;
+    }
+
+    .design-aside-config .el-tabs__header .is-active{
+        box-shadow: 0 -4px 0 #2d93bb inset;
+        background-color: rgba(172,219,245,0.6) !important;
+        color: #409EFF !important;
+    }
 </style>

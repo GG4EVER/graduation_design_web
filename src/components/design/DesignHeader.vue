@@ -1,15 +1,12 @@
 <template>
     <el-menu
             :default-active="activeIndex"
-            class="el-menu-demo"
+            class="egg-design-header"
             mode="horizontal"
             @select="handleSelect"
-            background-color="#545c64"
-            text-color="#fff"
-            active-text-color="#ffd04b">
+            text-color="#fff">
         <el-menu-item>
             <div class="egg-login-logo-box" @click="backHome">
-                <img class="egg-login-logo" src="../../assets/logo.png" draggable="false"/>
                 <span class="egg-login-logo-name">Egg Paint</span>
             </div>
         </el-menu-item>
@@ -106,14 +103,8 @@
         align-items: center;
     }
 
-    .egg-login-logo {
-        height: 2.5rem;
-        width: 2.5rem;
-        margin-right: 10px;
-    }
-
     .egg-login-logo-name {
-        font-size: 1.6rem;
+        font-size: 26px;
         color: #f0f0f0;
         font-weight: bold;
     }

@@ -1,19 +1,27 @@
 <template>
-    <el-tabs tab-position="left" type="border-card" class="design-aside" @tab-click="asideTabClick">
+    <el-tabs tab-position="left" type="border-card" class="design-aside design-aside-tab-pane" @tab-click="asideTabClick">
         <el-tab-pane>
-            <span slot="label">页面</span>
+            <span slot="label">
+                <i class="el-icon-brush el-icon--left"></i>页面
+            </span>
             <design-pages></design-pages>
         </el-tab-pane>
         <el-tab-pane>
-            <span slot="label">素材</span>
+            <span slot="label">
+                <i class="el-icon-picture-outline-round el-icon--left"></i>素材
+            </span>
             <design-materials></design-materials>
         </el-tab-pane>
         <el-tab-pane>
-            <span slot="label">模板</span>
+            <span slot="label">
+                <i class="el-icon-magic-stick el-icon--left"></i>模板
+            </span>
             <design-components></design-components>
         </el-tab-pane>
         <el-tab-pane>
-            <span slot="label">配置</span>
+            <span slot="label">
+                <i class="el-icon-s-operation el-icon--left"></i>配置
+            </span>
             <design-setting></design-setting>
         </el-tab-pane>
     </el-tabs>
@@ -21,10 +29,10 @@
 
 <script>
     import {Tabs,TabPane} from 'element-ui';
-    import DesignPages from "@/components/design/DesignPages";
-    import DesignMaterials from "@/components/design/DesignMaterials";
-    import DesignComponents from "@/components/design/DesignComponents";
-    import DesignSetting from "@/components/design/DesignSetting";
+    import DesignPages from "./aside/DesignPages";
+    import DesignMaterials from "./aside/DesignMaterials";
+    import DesignComponents from "./aside/DesignComponents";
+    import DesignSetting from "./aside/DesignSetting";
     export default {
         name: "EggAside",
         components:{

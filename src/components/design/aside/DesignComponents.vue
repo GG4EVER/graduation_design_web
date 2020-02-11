@@ -47,7 +47,7 @@
 </template>
 
 <script>
-    import store from "../../store";
+    import store from "../../../store";
     import {Collapse,CollapseItem} from "element-ui"
     export default {
         store,

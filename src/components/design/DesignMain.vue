@@ -7,10 +7,10 @@
                     <div class="design-phone-receiver"></div>
                 </el-col>
                 <el-col :span="22">
+                    <div class="design-phone-screen-navigation-bar" :style="'background-color: ' + navigationBarSetting.navigationBarBackgroundColor + ';color:' + navigationBarSetting.navigationBarTextStyle ">
+                        {{navigationBarSetting.navigationBarTitleText}}
+                    </div>
                     <div class="design-phone-screen" :class="currPageComponents.length != 0 ? 'design-phone-screen-has' : ''">
-                        <div class="design-phone-screen-navigation-bar" :style="'background-color: ' + navigationBarSetting.navigationBarBackgroundColor + ';color:' + navigationBarSetting.navigationBarTextStyle ">
-                            {{navigationBarSetting.navigationBarTitleText}}
-                        </div>
                         <template v-if="currPageComponents.length != 0">
                             <component v-for="(component,index) in currPageComponents" :key="index" :is="component.name" :component-attribute="component.attribute" :component-style="component.style"></component>
                         </template>
@@ -81,7 +81,7 @@
         box-shadow: 0 0 10px #e0e0e0;
         border-radius: 20px;
         position: relative;
-        border: solid 1px #dfdfdf;
+        background-color: #204962;
     }
 
     .design-phone-header {
@@ -89,7 +89,8 @@
         justify-content: center;
         flex-direction: row;
         align-items: center;
-        margin-bottom: 6px;
+        position: relative;
+        top: -5px;
     }
 
     .design-phone-camera {
@@ -97,7 +98,7 @@
         height: 14px;
         margin: 0 3px;
         border-radius: 50px;
-        background-color: #e5e5e5;
+        background-color: #999999;
     }
 
     .design-phone-receiver {
@@ -105,19 +106,29 @@
         width: 64px;
         margin: 0 3px;
         border-radius: 50px;
-        background-color: #e5e5e5;
+        background-color: #999999;
+    }
+
+    .design-phone-screen-navigation-bar{
+        height: 32px;
+        position:absolute;
+        top: 40px;
+        width: 100%;
+        background-color: #7B7B7B;
+        text-align: center;
+        line-height: 32px;
+        box-shadow: 0px 1px 1px #e0e0e0;
+        z-index: 1;
     }
 
     .design-phone-screen {
         position:absolute;
-        top: 40px;
+        top: 72px;
         bottom: 25px;
         right: 0;
         left: 0;
         overflow-x: hidden;
         overflow-y: scroll;
-        border-top:solid 1px #cdcdcd;
-        border-bottom:solid 1px #cdcdcd;
         background-color: #fbfbfb;
     }
 
@@ -145,13 +156,5 @@
         border-radius: 5px;
         -webkit-box-shadow: inset 0 0 5px rgba(255,255,255,0.3);
         background-color: #f0f0f0;
-    }
-
-    .design-phone-screen-navigation-bar{
-        height: 32px;
-        background-color: #7B7B7B;
-        text-align: center;
-        line-height: 32px;
-        box-shadow: 0px 1px 5px #e0e0e0;
     }
 </style>

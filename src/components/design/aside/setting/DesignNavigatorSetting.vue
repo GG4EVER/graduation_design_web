@@ -40,7 +40,7 @@
 
 <script>
     import {Form,FormItem,Input,Button,Divider,ColorPicker,RadioGroup,RadioButton} from "element-ui"
-    import store from "../../../store"
+    import store from "../../../../store"
     export default {
         name: "DesignNavigatorSetting",
         store,

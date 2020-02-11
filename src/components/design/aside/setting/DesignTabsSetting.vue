@@ -146,7 +146,7 @@
         Link,
         ButtonGroup
     } from "element-ui"
-    import store from "../../../store"
+    import store from "../../../../store"
 
     export default {
         name: "DesignTabsSetting",

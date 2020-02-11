@@ -54,7 +54,7 @@
 
 <script>
     import {Radio, Input, Button} from "element-ui"
-    import store from "../../store"
+    import store from "../../../store";
 
     export default {
         name: "DesignPages",
@@ -171,7 +171,7 @@
     .design-no-pages {
         text-align: center;
         background-color: #eeeeee;
-        padding: 1.5rem 0;
+        padding: 1.5rem 4px;
         color: #5B5B5B;
     }
 

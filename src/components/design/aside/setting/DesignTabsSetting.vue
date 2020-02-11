@@ -404,7 +404,7 @@
         width: 100%;
         padding: 20px 0;
         text-align: center;
-        background-color: #ffffff;
-        z-index: 1;
+        background-color: #f5fbff;
+        z-index: 99;
     }
 </style>

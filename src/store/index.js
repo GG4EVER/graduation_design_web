@@ -37,7 +37,34 @@ export default new Vuex.Store({
       state.userInfo = userInfo;
     },
     setCurrPageComponents(state,component){
+      window.console.log(component)
       state.currPageComponents.push(component);
+    },
+    /**
+     * 删除当前页面组件
+     * @param state
+     * @param index 索引
+     * @param deleteAll 是否是删除全部
+     */
+    deleteCurrPageComponents(state,data){
+      let index = data.index;
+      let deleteAll = data.deleteAll;
+      let currPage = state.pages[state.currPageIndex];//获得当前页面
+      if(deleteAll){//是删除全部
+        state.pageComponents[currPage.name] = new Array();//直接重新赋值新对象
+        state.currPageComponents = new Array();//直接重新赋值新对象
+        window.console.log("已经删除")
+        return true;
+      }else if(index != -1){//否则删除对应位置的组件
+        let temp = state.currPageComponents;
+        //切割，删掉对应的组件
+        state.currPageComponents = temp.slice(0, index).concat( temp.slice(index + 1, temp.length) );
+        //重新赋值
+        state.pageComponents[currPage.name] = state.currPageComponents;
+        return true;
+      }else{
+        return false;
+      }
     },
     setCurrPageIndex(state,currPageIndex){//设置当前页面index
       //选择了其他页面，则将旧的组件保存进所有组件里，再更改页面index

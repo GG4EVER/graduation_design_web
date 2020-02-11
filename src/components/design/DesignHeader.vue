@@ -11,8 +11,14 @@
             </div>
         </el-menu-item>
         <el-menu-item class="design-header-utils">
-            <el-button plain round size="mini" :disabled="!canPreview" :title="!canPreview ? '当前暂时不可预览' : ''">预览</el-button>
-            <el-button type="success" round size="mini" :loading="isSaving">{{isSaving ? '正在保存' : '保存'}}</el-button>
+            <el-tooltip class="item" effect="dark" :value="!canPreview && showCanNotPreview" content="当前暂时不可预览" placement="bottom-end">
+                <span class="design-header-util-item" @mouseover="showCanNotPreviewToolTip" @mouseout="hideCanNotPreviewToolTip">
+                    <el-button plain round size="small" :disabled="!canPreview">预览</el-button>
+                </span>
+            </el-tooltip>
+            <span class="design-header-util-item">
+                <el-button type="primary" round size="small" :loading="isSaving">{{isSaving ? '正在保存' : '保存'}}</el-button>
+            </span>
             <el-dropdown v-if="userInfo" class="egg-home-dropdown" trigger="click" @command="handleCommand">
                 <div class="egg-admin-info egg-not-copy">
                     <div class="egg-avatar-box">
@@ -38,7 +44,7 @@
 </template>
 
 <script>
-    import {Menu,MenuItem,Submenu,Button,Dropdown,DropdownItem,DropdownMenu} from 'element-ui'
+    import {Menu,MenuItem,Submenu,Button,Dropdown,DropdownItem,DropdownMenu,Tooltip} from 'element-ui'
     import store from "../../store";
     export default {
         name: "EggDesignHeader",
@@ -49,11 +55,13 @@
             [Button.name]:Button,
             [DropdownMenu.name]:DropdownMenu,
             [DropdownItem.name]:DropdownItem,
-            [Dropdown.name]:Dropdown
+            [Dropdown.name]:Dropdown,
+            [Tooltip.name]:Tooltip
         },
         data() {
             return {
                 canPreview:false,//是否可以预览
+                showCanNotPreview:false,//是否显示不可预览的提示信息
                 isSaving:false,//是否正在保存
                 activeIndex: '1',
                 userInfo:{
@@ -65,6 +73,14 @@
             handleSelect(key, keyPath) {
                 // eslint-disable-next-line no-console
                 console.log(key, keyPath);
+            },
+            showCanNotPreviewToolTip(){//显示不可预览时的提示信息
+                window.console.log("显示");
+                this.showCanNotPreview = true;
+            },
+            hideCanNotPreviewToolTip(){//显示不可预览时的提示信息
+                window.console.log("隐藏");
+                this.showCanNotPreview = false;
             },
             backHome(){
                 this.$confirm({
@@ -113,6 +129,10 @@
         float: right;
         display: flex;
         align-items: center;
+    }
+
+    .design-header-util-item{
+        padding: 0 4px;
     }
 
     .egg-admin-info {

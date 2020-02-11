@@ -130,6 +130,7 @@
 
     .egg-design-header .el-menu-item{
         background-color: inherit !important;
+        cursor: default !important;
     }
 
     .design-aside-tab-pane{

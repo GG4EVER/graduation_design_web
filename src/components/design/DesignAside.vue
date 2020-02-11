@@ -20,7 +20,7 @@
         </el-tab-pane>
         <el-tab-pane>
             <span slot="label">
-                <i class="el-icon-s-operation el-icon--left"></i>配置
+                <i class="el-icon-set-up el-icon--left"></i>配置
             </span>
             <design-setting></design-setting>
         </el-tab-pane>

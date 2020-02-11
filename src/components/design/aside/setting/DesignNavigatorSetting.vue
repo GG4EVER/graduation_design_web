@@ -143,7 +143,7 @@
         width: 100%;
         padding: 20px 0px;
         text-align: center;
-        z-index: 1;
-        background-color: #ffffff;
+        z-index: 99;
+        background-color: #f5fbff;
     }
 </style>

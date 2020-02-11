@@ -75,11 +75,9 @@
                 console.log(key, keyPath);
             },
             showCanNotPreviewToolTip(){//显示不可预览时的提示信息
-                window.console.log("显示");
                 this.showCanNotPreview = true;
             },
             hideCanNotPreviewToolTip(){//显示不可预览时的提示信息
-                window.console.log("隐藏");
                 this.showCanNotPreview = false;
             },
             backHome(){

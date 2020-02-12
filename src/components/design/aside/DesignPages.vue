@@ -7,7 +7,7 @@
             <template v-for="(page,index) in pages">
                 <div :key="index" @click="selectPage(index)">
                     <el-col :span="22" :offset="1" class="design-page "
-                            :class="index == active ? 'design-page-active' : ''">
+                            :class="index == currPageIndex ? 'design-page-active' : ''">
 
                         <el-col :span="2" class="design-page-check-box">
                             <el-radio></el-radio>
@@ -67,7 +67,7 @@
         data() {
             return {
                 pageName: "index",
-                active: 0,
+                currPageIndex: -1,
                 isEditPageIndex: -1,
                 pages: [],
                 editingPageName: "",//正在修改的页面的名字
@@ -82,7 +82,6 @@
                         name: "",
                         description: ""
                     });
-                    window.console.log(store.state.pages)
                     this.isEditPageIndex = this.pages.length - 1;
                 }
             },
@@ -93,7 +92,7 @@
                     this.$message.error("请先完成重命名工作");
                 } else {
                     window.console.log("选择页面: " + index)
-                    this.active = index;
+                    this.currPageIndex = index;
                     store.commit("setCurrPageIndex", index);
                 }
             },
@@ -121,6 +120,7 @@
                             }
                         }
                         if (canModify) {//是否可以修改名称
+                            this.pages[index].name = this.editingPageName;
                             //如果已经有这个页面，且页面名称不一致，则修改
                             if(store.state.pages[index]){
                                 store.commit("updatePages",{
@@ -129,9 +129,14 @@
                                     description:this.pages[index].description,
                                 });
                             }else{//否则添加页面
+                                //如果添加了页面之后,长度为1,那么将currPageIndex置位0
+                                if(this.pages.length == 1){
+                                    this.currPageIndex = 0;
+                                }
                                 store.commit("setPages", this.pages);
+                                store.commit("setCurrPageIndex", 0);
                             }
-                            this.pages[index].name = this.editingPageName;
+                            window.console.log(store.state.pages)
                             this.editingPageName = "";
                             this.isEditPageIndex = -1;
                         } else {
@@ -151,10 +156,13 @@
                     type: 'warning'
                 }).then(() => {
                     this.pages = this.pages.slice(0, index).concat(this.pages.slice(index + 1, this.pages.length));
+                    //删除页面
                     store.commit("deletePages", {
                         index:index,
                         pages:this.pages
                     });
+                    //将当前选择的页面置为空
+                    store.commit("setCurrPageIndex", -1);
                     this.$message.success("删除成功");
                 }).catch(() => {
                     this.$message.error("取消删除");
@@ -162,7 +170,10 @@
             },
         },
         created() {
-            this.pages = JSON.parse(JSON.stringify(store.state.pages));
+            if(store.state.pages.length != 0){
+                this.pages = JSON.parse(JSON.stringify(store.state.pages));
+                this.currPageIndex = store.state.currPageIndex;
+            }
         }
     }
 </script>

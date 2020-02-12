@@ -13,6 +13,10 @@ import animate from 'animate.css'
 import API from './config/api'
 Vue.prototype.$API = API;
 
+import ComponentConfig from  './config/uniAppComponentsConfig'
+Vue.prototype.$ComponentConfig = ComponentConfig.Config; //将uni app所有组件的属性的配置挂载在Vue
+Vue.prototype.$AttributeComponentMap = ComponentConfig.AttributeComponentMap; //将uni app所有组件名称对应属性组件的名称的map配置挂载在Vue
+
 // 解决两次访问相同路由地址报错
 import VueRouter from "vue-router";
 const originalPush = VueRouter.prototype.push

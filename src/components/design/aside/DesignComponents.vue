@@ -57,18 +57,28 @@
             [CollapseItem.name]:CollapseItem
         },
         methods:{
+            /**
+             * 选择组件
+             * @param e
+             */
             selectComponent(e){
-                let newComponent = {
-                    name:e.target.dataset.componentName,
-                    style:""
-                };
-                if(e.target.dataset.componentName == "uni-image"){
-                    // newComponent.attribute = {
-                    //     src:"https://dwz.cn/wJ1NhyH1",
-                    //     mode:"scaleToFill",//图片裁剪、缩放的模式
-                    //     lazyLoad:false,//图片懒加载。只针对page与scroll-view下的image有效
-                    // }
+                //如果当前没有页面，则提醒需要先新建页面
+                if(store.state.pages.length == 0){
+                    this.$message.info("请先创建一个页面");
+                    return;
                 }
+                //如果当前没有选中任何页面，则提醒需要先选择页面
+                if(store.state.currPageIndex == -1){
+                    this.$message.info("请选择一个页面再选组件");
+                    return;
+                }
+                let componentName = e.target.dataset.componentName;
+                window.console.log(this.$ComponentConfig);
+                window.console.log(componentName)
+                let newComponent = {
+                    name : componentName,
+                    attribute: JSON.parse(JSON.stringify(this.$ComponentConfig[componentName]))
+                };
                 window.console.log(newComponent);
                 store.commit("setCurrPageComponents",newComponent);
             }

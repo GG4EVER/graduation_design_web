@@ -32,9 +32,11 @@
     import DesignConfig from "@/components/design/DesignConfig";
     import DesignMain from "@/components/design/DesignMain";
     import DesignHeader from "@/components/design/DesignHeader";
+    import  store from "../store"
 
     export default {
         name: "Design",
+        store,
         components: {
             DesignAside,
             DesignMain,
@@ -45,6 +47,16 @@
             return{
 
             }
+        },created() {
+            //如果页面列表不为空
+            if(store.state.pages.length != 0){
+                //如果当前选中页面索引为空，则设置为选中第一个页面
+                if(store.state.currPageIndex == -1){
+                    store.commit("setCurrPageIndex",0)
+                }
+            }
+            //重新created了，将选中组件索引置为未选中状态
+            store.commit("setCurrComponentIndex",-1);
         }
     }
 </script>

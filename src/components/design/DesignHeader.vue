@@ -3,21 +3,20 @@
             :default-active="activeIndex"
             class="egg-design-header"
             mode="horizontal"
-            @select="handleSelect"
             text-color="#fff">
         <el-menu-item>
-            <div class="egg-login-logo-box" @click="backHome">
+            <div class="egg-login-logo-box" @click.stop="backHome">
                 <span class="egg-login-logo-name">Egg Paint</span>
             </div>
         </el-menu-item>
         <el-menu-item class="design-header-utils">
             <el-tooltip class="item" effect="dark" :value="!canPreview && showCanNotPreview" content="当前暂时不可预览" placement="bottom-end">
                 <span class="design-header-util-item" @mouseover="showCanNotPreviewToolTip" @mouseout="hideCanNotPreviewToolTip">
-                    <el-button plain round size="small" :disabled="!canPreview">预览</el-button>
+                    <el-button plain round size="small" :disabled="!canPreview" @click.stop="previewProject">预览</el-button>
                 </span>
             </el-tooltip>
             <span class="design-header-util-item">
-                <el-button type="primary" round size="small" :loading="isSaving">{{isSaving ? '正在保存' : '保存'}}</el-button>
+                <el-button type="primary" round size="small" :loading="isSaving" @click.stop="saveProject">{{isSaving ? '正在保存' : '保存'}}</el-button>
             </span>
             <el-dropdown v-if="userInfo" class="egg-home-dropdown" trigger="click" @command="handleCommand">
                 <div class="egg-admin-info egg-not-copy">
@@ -48,6 +47,7 @@
     import store from "../../store";
     export default {
         name: "EggDesignHeader",
+        store,
         components:{
             [Menu.name]:Menu,
             [MenuItem.name]:MenuItem,
@@ -70,15 +70,23 @@
             };
         },
         methods: {
-            handleSelect(key, keyPath) {
-                // eslint-disable-next-line no-console
-                console.log(key, keyPath);
-            },
             showCanNotPreviewToolTip(){//显示不可预览时的提示信息
                 this.showCanNotPreview = true;
             },
             hideCanNotPreviewToolTip(){//显示不可预览时的提示信息
                 this.showCanNotPreview = false;
+            },
+            //预览项目
+            previewProject(){
+
+            },
+            //保存项目
+            saveProject(){
+                this.isSaving = true;
+                window.console.log(localStorage);
+                setTimeout(()=>{
+                    this.isSaving = false;
+                },500)
             },
             backHome(){
                 this.$confirm({
@@ -90,6 +98,8 @@
                     type: 'warning'
                 }).then(() => {
                     this.$router.push("/");
+                }).catch(()=>{
+                    //取消
                 });
             },
             handleCommand(command) {//点击下拉菜单，跳转

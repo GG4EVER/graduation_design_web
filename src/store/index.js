@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import VuexAlong from 'vuex-along'
 
 Vue.use(Vuex)
 
@@ -7,13 +8,8 @@ export default new Vuex.Store({
   state: {
     token: localStorage.getItem("token") ? localStorage.getItem("token") : "",//登录凭证
     userInfo:null,
-    currPageIndex:0,
-    pages:[//页面列表
-        {
-          name:"index",//用户设定的页面名称
-          description:""//用户对这个页面的描述
-        }
-    ],
+    currPageIndex:0,//当前选择的页面索引
+    pages:[],//页面列表
     globalStyle:{
       navigationBarTextStyle: "black",
       navigationBarTitleText: "导航栏",
@@ -28,6 +24,7 @@ export default new Vuex.Store({
     },
     pageComponents:{},//所有页面的所有组件
     currPageComponents:[],//当前页面的组件
+    currComponentIndex:-1,//当前选择的组件索引，-1为没有选择
   },
   mutations: {
     setToken(state,token){//设置token
@@ -39,6 +36,30 @@ export default new Vuex.Store({
     setCurrPageComponents(state,component){
       window.console.log(component)
       state.currPageComponents.push(component);
+      state.pageComponents[state.pages[state.currPageIndex].name] =  state.currPageComponents;
+    },
+    /**
+     * 移动组件
+     * @param state
+     * @param data
+     */
+    moveCurrPageComponents(state,data){
+      let isUp = data.isUp;//获得是向上还是向下
+      let index = data.index;//获得索引
+      let currPage = state.pages[state.currPageIndex];//获得当前页面
+      let temp = state.currPageComponents;//获得当前页面组件列表
+      if(isUp){//向上移动
+        let component = temp[index];
+        temp[index] = temp[index - 1];
+        temp[index - 1] = component;
+      }else{//向下移动
+        let component = temp[index];
+        temp[index] = temp[index + 1];
+        temp[index + 1] = component;
+      }
+      state.currPageComponents = temp;
+      //重新赋值
+      state.pageComponents[currPage.name] = temp;
     },
     /**
      * 删除当前页面组件
@@ -66,20 +87,49 @@ export default new Vuex.Store({
         return false;
       }
     },
-    setCurrPageIndex(state,currPageIndex){//设置当前页面index
-      //选择了其他页面，则将旧的组件保存进所有组件里，再更改页面index
-      let oldPage = state.pages[state.currPageIndex];
-      if(oldPage){//如果旧页面存在
-        //保存旧的组件列表
-        state.pageComponents[oldPage.name] = state.currPageComponents;
+    /**
+     * 设置当前选中的组件的索引
+     * @param state
+     * @param currComponentIndex
+     */
+    setCurrComponentIndex(state,currComponentIndex){
+      state.currComponentIndex= currComponentIndex;
+    },
+    /**
+     * 保存当前正在修改的属性
+     * @param state
+     */
+    saveComponentAttribute(state){
+      let currPage = state.pages[state.currPageIndex];
+      if(currPage){
+        //保存组件列表
+        state.pageComponents[currPage.name] = state.currPageComponents;
       }
-      //切换页面
-      state.currPageIndex = currPageIndex;
-      //切换组件列表
-      state.currPageComponents = state.pageComponents[state.pages[currPageIndex].name];
-      if(!state.currPageComponents){//如果不存在，则初始化
+    },
+    setCurrPageIndex(state,currPageIndex){//设置当前页面index
+      if(currPageIndex != -1){//如果是选择了页面
+        if(state.currPageIndex != -1){//如果原本选择的页面的索引不是-1，则表示原本选择了页面，那么先保存旧页面的组件
+          //选择了其他页面，则将旧的组件保存进所有组件里，再更改页面index
+          let oldPage = state.pages[state.currPageIndex];
+          if(oldPage){//如果旧页面存在
+            //保存旧的组件列表
+            state.pageComponents[oldPage.name] = state.currPageComponents;
+          }
+        }
+        //切换页面
+        state.currPageIndex = currPageIndex;
+        //切换组件列表
+        state.currPageComponents = state.pageComponents[state.pages[currPageIndex].name];
+        if(!state.currPageComponents){//如果不存在，则初始化
+          state.currPageComponents = new Array();
+        }
+      }else{//否则是删除了一个页面，将选择去掉
+        state.currPageIndex = -1;
+        //清空当前组件列表
         state.currPageComponents = new Array();
       }
+      //将当前选中的组件索引置为未选择状态
+      state.currComponentIndex= -1;
     },
     setPages(state,pages){//设置页面列表
       state.pages = pages;
@@ -109,6 +159,7 @@ export default new Vuex.Store({
   },
   actions: {
   },
-  modules: {
-  }
+  modules:{
+  },
+  plugins: [VuexAlong()],
 })

@@ -177,15 +177,21 @@
             /**
              * 页面滚动至顶部
              */
-            scrollBack() {
+            scrollBack() {//前快后慢
+                let scrollTop = this.$refs.phoneScreen.scrollTop;
+                let slowSpeed = Math.floor(scrollTop * 3 / 4);
                 let time = setInterval(() => {
-                    if (this.$refs.phoneScreen.scrollTop >= 80) {
-                        this.$refs.phoneScreen.scrollTop -= 80;
-                    } else {
+                    if (slowSpeed >= 20) {
+                        this.$refs.phoneScreen.scrollTop = slowSpeed;
+                        slowSpeed = Math.floor(slowSpeed * 3 / 4);//速度减少
+                    } else if(slowSpeed > 0){
+                        slowSpeed--;//再次减慢
+                        this.$refs.phoneScreen.scrollTop = slowSpeed;
+                    }else {
                         this.$refs.phoneScreen.scrollTop = 0;
                         clearInterval(time);
                     }
-                }, 50);
+                }, 20);
             },
         },
         created() {
@@ -193,7 +199,6 @@
             if(store.state.pages.length !=0 ){//如果页面数组不为空
                 this.currPageComponents = store.state.pageComponents[store.state.pages[store.state.currPageIndex].name];
                 window.console.log(store.state.pageComponents)
-                window.console.log(store.state.currPageComponents)
                 window.console.log(this.currPageComponents)
                 if(!this.currPageComponents){
                     this.currPageComponents = [];

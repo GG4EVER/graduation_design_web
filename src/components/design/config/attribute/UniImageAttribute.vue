@@ -1,12 +1,33 @@
 <template>
     <!--    修改图片的属性-->
-    <el-form :rules="rules" :model="ComponentAttribute" status-icon>
-        <el-form-item prop="src">
-            <div slot="label" class="design-setting-label egg-not-copy"><span class="design-setting-star">*&nbsp;</span>图片路径
-            </div>
-            <el-input v-model="ComponentAttribute.src" placeholder="请输入图片路径" clearable autocomplete="off"></el-input>
-        </el-form-item>
-    </el-form>
+    <el-col :span="24">
+        <el-col :span="24" class="design-setting-title egg-not-copy"><i class="el-icon-minus el-icon--left"></i>图片属性<i class="el-icon-minus el-icon--right"></i></el-col>
+        <el-form :rules="rules" :model="ComponentAttribute" status-icon>
+            <el-form-item prop="src">
+                <div slot="label" class="design-setting-label egg-not-copy"><span class="design-setting-star">*&nbsp;</span>图片路径
+                </div>
+                <el-input v-model="ComponentAttribute.src" placeholder="请输入图片路径" clearable autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <div slot="label" class="design-setting-label egg-not-copy">懒加载</div>
+                <el-switch
+                        v-model="ComponentAttribute.lazyLoad"
+                        active-color="#13ce66"
+                        inactive-color="#cccccc">
+                </el-switch>
+            </el-form-item>
+            <el-form-item>
+                <div slot="label" class="design-setting-label egg-not-copy"><span class="design-setting-star">*&nbsp;</span>缩放类型</div>
+                <el-radio-group class="attribute-radio-group" v-model="ComponentAttribute.mode">
+                    <el-radio label="scaleToFill" border>默认</el-radio>
+                    <el-radio label="aspectFit" border>保持长边</el-radio>
+                    <el-radio label="aspectFill" border>保持短边</el-radio>
+                    <el-radio label="widthFix" border>保持宽度</el-radio>
+                    <el-radio label="center" border>凸显中部</el-radio>
+                </el-radio-group>
+            </el-form-item>
+        </el-form>
+    </el-col>
 </template>
 
 <script>
@@ -17,9 +38,6 @@
             ComponentAttribute: {
                 type: Object
             },
-            ComponentStyle: {
-                type: String
-            }
         },
         components: {
             [Form.name]: Form,
@@ -35,7 +53,7 @@
                 window.console.log(value);
                 window.console.log(this.ComponentAttribute);
                 if (!value) {
-                    callback(new Error('文本内容不能为空'));
+                    callback(new Error('图片路径不能为空'));
                 }else{
                     callback();
                 }
@@ -46,25 +64,30 @@
                         { validator : checkImageSrc, trigger : 'blur'},
                         { validator : checkImageSrc, trigger : 'change'}
                     ]
-                }
+                },
+                style:{}//样式
             }
         },
         methods: {
-            //监听更换按钮类型
-            //如果选择自定义，则将镂空设为false和禁用
-            changeButtonType(){
-                if(this.ComponentAttribute.type == ""){//选择自定义
-                    this.ComponentAttribute.plain = false
-                }
-            },
-            //保存属性
-            saveAttribute(){
-                this.$emit("listenSaveAttribute");
-            },
         }
     }
 </script>
 
 <style scoped>
+    .design-setting-title{
+        font-size: 17px;
+        text-align: center;
+        padding: 5px 0;
+        color: #2d93bb;
+        font-weight: bold;
+    }
 
+    .design-setting-label {
+        font-size: 16px;
+    }
+
+    .design-setting-star {
+        color: indianred;
+        font-weight: bold;
+    }
 </style>

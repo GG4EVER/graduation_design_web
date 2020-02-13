@@ -5,12 +5,12 @@
                 视图容器
             </template>
             <el-row>
-                <el-col :span="8" class="design-component-box">
-                    <div class="design-component-item egg-not-copy">容器</div>
-                </el-col>
-                <el-col :span="8" class="design-component-box">
-                    <div class="design-component-item egg-not-copy">轮播图</div>
-                </el-col>
+<!--                <el-col :span="8" class="design-component-box">-->
+<!--                    <div class="design-component-item egg-not-copy">容器</div>-->
+<!--                </el-col>-->
+<!--                <el-col :span="8" class="design-component-box">-->
+<!--                    <div class="design-component-item egg-not-copy">轮播图</div>-->
+<!--                </el-col>-->
             </el-row>
         </el-collapse-item>
         <el-collapse-item>

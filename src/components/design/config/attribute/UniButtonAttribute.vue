@@ -23,7 +23,6 @@
                 <el-radio label="" border>自定义</el-radio>
             </el-radio-group>
         </el-form-item>
-        <el-button type="success" @click="saveAttribute">保存</el-button>
     </el-form>
 </template>
 
@@ -74,10 +73,6 @@
                 if(this.ComponentAttribute.type == ""){//选择自定义
                     this.ComponentAttribute.plain = false
                 }
-            },
-            //保存属性
-            saveAttribute(){
-                this.$emit("listenSaveAttribute");
             },
         }
     }

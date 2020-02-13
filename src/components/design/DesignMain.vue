@@ -86,11 +86,16 @@
         watch: {
             "$store.state.currPageComponents": function (newVal) {//监听当前页面组件列表
                 if (newVal) {
+                    //如果监听到新的列表长度不同，则滚动屏幕
+                    let shouldScrollScreen = this.currPageComponents.length != newVal.length;
+
                     this.currPageComponents = newVal;
                     this.currComponentIndex = -1;
-                    this.$nextTick(() => {
-                        this.$refs.phoneScreen.scrollTop = this.$refs.phoneScreen.scrollHeight;
-                    });
+                    if(shouldScrollScreen){
+                        this.$nextTick(() => {
+                            this.$refs.phoneScreen.scrollTop = this.$refs.phoneScreen.scrollHeight;
+                        });
+                    }
                 }
             },
             "$store.state.globalStyle": function (newVal) {

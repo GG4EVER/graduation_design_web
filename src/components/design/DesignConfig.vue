@@ -22,26 +22,27 @@
 </template>
 
 <script>
-    import {Tabs,TabPane} from 'element-ui';
+    import {Tabs, TabPane} from 'element-ui';
     import DesignAttribute from "./config/DesignAttribute";
     import DesignAnimation from "./config/DesignAnimation";
     import DesignDataSource from "./config/DesignDataSource";
+
     export default {
         name: "EggConfig",
-        components:{
+        components: {
             DesignDataSource,
             DesignAttribute,
             DesignAnimation,
-            [Tabs.name]:Tabs,
-            [TabPane.name]:TabPane
+            [Tabs.name]: Tabs,
+            [TabPane.name]: TabPane
         },
-        data(){
-            return{
-                tabs:["属性","动画","数据源"],
+        data() {
+            return {
+                tabs: ["属性", "动画", "数据源"],
             }
         },
-        methods:{
-            asideTabClick(e){
+        methods: {
+            asideTabClick(e) {
                 window.console.log(e.index)
             }
         }
@@ -49,8 +50,8 @@
 </script>
 
 <style scoped>
-    .design-aside{
+    .design-aside {
         height: 100%;
-        border:none !important;
+        border: none !important;
     }
 </style>

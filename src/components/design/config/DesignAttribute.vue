@@ -3,6 +3,7 @@
     <el-col :span="24" class="design-attribute">
         <el-col v-if="currComponentIndex != -1" :span="20" :offset="2">
             <component :is="attributeComponentName" :component-attribute="currComponent.attribute" @listenSaveAttribute="saveAttribute"></component>
+            <base-attribute :component-attribute="currComponent.style"></base-attribute>
         </el-col>
         <el-col v-else :span="20" :offset="2" class="design-no-checked-box egg-not-copy">
             当前没有选中任何元素
@@ -12,12 +13,15 @@
 
 <script>
     import store from "../../../store"
+    import BaseAttribute from "./attribute/BaseAttribute";
     import UniButtonAttribute from "./attribute/UniButtonAttribute";
     import UniImageAttribute from "./attribute/UniImageAttribute";
+
     export default {
         name: "DesignAttribute",
         store,
         components:{
+            BaseAttribute,
             UniButtonAttribute,
             UniImageAttribute
         },

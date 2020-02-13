@@ -235,4 +235,13 @@
     .attribute-radio-group .el-radio{
         margin: 5px 4px !important;
     }
+
+    .design-aside .el-aside{
+        overflow: hidden !important;
+    }
+
+    .design-aside .el-tabs__content{
+        overflow-y: scroll !important;
+        height: 100% !important;
+    }
 </style>

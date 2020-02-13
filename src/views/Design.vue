@@ -18,7 +18,6 @@
                 <el-col :span="6" class="design-aside left-box-shadow">
                     <el-aside width="100%" class="design-aside">
                         <design-config>
-
                         </design-config>
                     </el-aside>
                 </el-col>

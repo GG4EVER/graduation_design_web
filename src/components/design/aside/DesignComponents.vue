@@ -80,7 +80,7 @@
                     attribute: JSON.parse(JSON.stringify(this.$ComponentConfig[componentName]))
                 };
                 window.console.log(newComponent);
-                store.commit("setCurrPageComponents",newComponent);
+                store.commit("addComponent",newComponent);
             }
         }
     }

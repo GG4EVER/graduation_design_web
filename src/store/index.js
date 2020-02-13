@@ -33,10 +33,18 @@ export default new Vuex.Store({
     setUserInfo(state,userInfo){//设置userInfo
       state.userInfo = userInfo;
     },
-    setCurrPageComponents(state,component){
-      window.console.log(component)
-      state.currPageComponents.push(component);
-      state.pageComponents[state.pages[state.currPageIndex].name] =  state.currPageComponents;
+    addComponent(state,component){
+      if(component){
+        state.currPageComponents.push(component);
+        state.pageComponents[state.pages[state.currPageIndex].name] =  state.currPageComponents;
+      }
+    },
+    initCurrPageComponents(state){
+      state.currPageComponents = state.pageComponents[state.pages[state.currPageIndex].name] ;
+    },
+    setCurrPageComponents(state,components){
+        state.currPageComponents = components;
+        state.pageComponents[state.pages[state.currPageIndex].name] =  components;
     },
     /**
      * 移动组件

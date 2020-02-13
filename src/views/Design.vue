@@ -51,9 +51,12 @@
             //如果页面列表不为空
             if(store.state.pages.length != 0){
                 //如果当前选中页面索引为空，则设置为选中第一个页面
-                if(store.state.currPageIndex == -1){
-                    store.commit("setCurrPageIndex",0)
+                let currPageIndex = store.state.currPageIndex;
+                if(currPageIndex == -1){
+                    currPageIndex = 0;
                 }
+                store.commit("setCurrPageIndex",currPageIndex);
+                store.commit("initCurrPageComponents",currPageIndex);
             }
             //重新created了，将选中组件索引置为未选中状态
             store.commit("setCurrComponentIndex",-1);

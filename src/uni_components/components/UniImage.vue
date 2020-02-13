@@ -1,6 +1,7 @@
 <template>
-    <div>
+    <div class="uni-image-box" :style="ComponentStyle">
         <template v-if="ComponentAttribute.src">
+            <div class="uni-image-real" :class="ComponentAttribute.mode" :style="'background-image: url(' + ComponentAttribute.src + ');'"></div>
             <img class="uni-image" :src="ComponentAttribute.src" :mode="ComponentAttribute.mode"/>
         </template>
         <template v-else>
@@ -35,12 +36,24 @@
 </script>
 
 <style scoped>
-    .uni-image {
-        width: 100%;
-        height: auto;
+    .uni-image-box{
+        position: relative;
         display: inline-block;
-        overflow: hidden;
-        position: relative
+        width: 100%;
+        height: 12rem;
+    }
+
+    .uni-image-real{
+        height: 100%;
+        width: 100%;
+    }
+
+    .uni-image {
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
     }
 
     .uni-image-no-image{
@@ -65,5 +78,34 @@
         font-weight: bold;
         text-align: center;
         color: #7B7B7B;
+    }
+
+    .scaleToFill{
+        background-position: 0% 0%;
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+    }
+
+    .aspectFit{
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center center;
+    }
+
+    .aspectFill{
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+    }
+
+    .widthFix{
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+    }
+
+    .center{
+        background-size: auto;
+        background-repeat: no-repeat;
+        background-position: center center;
     }
 </style>

@@ -31,7 +31,7 @@
 </template>
 
 <script>
-    import {Form, FormItem, Input, Button, Switch,RadioGroup,Radio} from "element-ui"
+    import {Form, FormItem, Input, Switch,RadioGroup,Radio} from "element-ui"
     export default {
         name: "UniImageAttribute",
         props: {
@@ -43,7 +43,6 @@
             [Form.name]: Form,
             [FormItem.name]: FormItem,
             [Input.name]: Input,
-            [Button.name]: Button,
             [Switch.name]: Switch,
             [RadioGroup.name]:RadioGroup,
             [Radio.name]:Radio

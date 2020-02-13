@@ -29,10 +29,8 @@
 
 <script>
     import {Form, FormItem, Input, Button, Switch,RadioGroup,Radio} from "element-ui"
-    import store from "../../../../store"
     export default {
         name: "UniButtonAttribute",
-        store,
         props: {
             ComponentAttribute: {
                 type: Object

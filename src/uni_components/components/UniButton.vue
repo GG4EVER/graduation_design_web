@@ -49,6 +49,7 @@
         -webkit-tap-highlight-color: transparent;
         color: #000;
         background-color: #f8f8f8;
+        border: 1px solid rgba(0,0,0,.2);
     }
 
     .uni-button:after {
@@ -58,7 +59,6 @@
         position: absolute;
         top: 0;
         left: 0;
-        border: 1px solid rgba(0,0,0,.2);
         -webkit-transform: scale(.5);
         transform: scale(.5);
         -webkit-transform-origin: 0 0;

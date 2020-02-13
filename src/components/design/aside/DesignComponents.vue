@@ -77,8 +77,7 @@
                 window.console.log(componentName)
                 let newComponent = {
                     name : componentName,
-                    attribute: JSON.parse(JSON.stringify(this.$ComponentConfig[componentName])),
-                    style: "width:100%;height:100%;"
+                    attribute: JSON.parse(JSON.stringify(this.$ComponentConfig[componentName]))
                 };
                 window.console.log(newComponent);
                 store.commit("addComponent",newComponent);

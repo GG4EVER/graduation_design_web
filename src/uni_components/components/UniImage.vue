@@ -1,8 +1,10 @@
 <template>
     <div class="uni-image-box" :style="ComponentStyle">
         <template v-if="ComponentAttribute.src">
-            <div class="uni-image-real" :class="ComponentAttribute.mode" :style="'background-image: url(' + ComponentAttribute.src + ');'"></div>
-            <img class="uni-image" :src="ComponentAttribute.src" :mode="ComponentAttribute.mode"/>
+            <div class="uni-image-real-box" :style="ComponentStyle">
+                <div class="uni-image-real" :class="ComponentAttribute.mode" :style="getAllStyle"></div>
+                <img class="uni-image" :src="ComponentAttribute.src" :mode="ComponentAttribute.mode"/>
+            </div>
         </template>
         <template v-else>
             <div class="uni-image-no-image">
@@ -31,6 +33,11 @@
                 type: String,
                 default: "",
             }
+        },
+        computed:{
+            getAllStyle:function(){
+                return "background-image: url(" + this.ComponentAttribute.src + ");" + this.ComponentStyle;
+            }
         }
     }
 </script>
@@ -38,6 +45,12 @@
 <style scoped>
     .uni-image-box{
         position: relative;
+        display: inline-block;
+        width: 100%;
+        height: 12rem;
+    }
+
+    .uni-image-real-box{
         display: inline-block;
         width: 100%;
         height: 12rem;

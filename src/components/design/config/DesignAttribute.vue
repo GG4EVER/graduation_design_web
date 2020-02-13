@@ -1,9 +1,9 @@
 <template>
     <!--    属性-->
     <el-col :span="24" class="design-attribute">
-        <el-col v-if="currComponentIndex != -1" :span="20" :offset="2">
+        <el-col v-if="currComponentIndex != -1" :span="22" :offset="2">
             <component :is="attributeComponentName" :component-attribute="currComponent.attribute" @listenSaveAttribute="saveAttribute"></component>
-            <base-attribute :component-attribute="currComponent.style"></base-attribute>
+            <base-attribute :component-attribute="currComponent.style" @listenChangeComponentStyle="changeComponentStyle"></base-attribute>
         </el-col>
         <el-col v-else :span="20" :offset="2" class="design-no-checked-box egg-not-copy">
             当前没有选中任何元素
@@ -44,6 +44,16 @@
         methods:{
             saveAttribute(){
                 store.commit("saveComponentAttribute");
+            },
+            /**
+             * 监听修改组件样式
+             * @param style
+             */
+            changeComponentStyle(style){
+                this.currComponent.style = style;
+                window.console.log(store.state.currPageComponents)
+                window.console.log(store.state.pageComponents)
+                //store.commit("setComponentStyle",this.currComponent);
             }
         }
     }
@@ -51,10 +61,12 @@
 
 <style scoped>
     .design-attribute {
-        padding: 14px 0;
+        padding-top: 14px;
+        padding-bottom: 50px;
     }
 
     .design-no-checked-box {
+        height: 100%;
         text-align: center;
         background-color: rgba(200, 231, 252, 0.5);
         border-radius: 14px;

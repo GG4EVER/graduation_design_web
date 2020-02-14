@@ -13,12 +13,12 @@
                 <el-switch
                         v-model="ComponentAttribute.lazyLoad"
                         active-color="#13ce66"
-                        inactive-color="#cccccc">
+                        inactive-color="#cccccc" @change="saveAttribute">
                 </el-switch>
             </el-form-item>
             <el-form-item>
                 <div slot="label" class="design-setting-label egg-not-copy"><span class="design-setting-star">*&nbsp;</span>缩放类型</div>
-                <el-radio-group class="attribute-radio-group" v-model="ComponentAttribute.mode">
+                <el-radio-group class="attribute-radio-group" v-model="ComponentAttribute.mode" @change="saveAttribute">
                     <el-radio label="scaleToFill" border>默认</el-radio>
                     <el-radio label="aspectFit" border>保持长边</el-radio>
                     <el-radio label="aspectFill" border>保持短边</el-radio>
@@ -49,11 +49,10 @@
         },
         data() {
             let checkImageSrc = (rule, value, callback) => {
-                window.console.log(value);
-                window.console.log(this.ComponentAttribute);
                 if (!value) {
                     callback(new Error('图片路径不能为空'));
                 }else{
+                    this.saveAttribute();
                     callback();
                 }
             };
@@ -68,6 +67,9 @@
             }
         },
         methods: {
+            saveAttribute(){
+                this.$emit("saveAttribute")
+            }
         }
     }
 </script>

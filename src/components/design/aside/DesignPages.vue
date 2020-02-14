@@ -129,14 +129,16 @@
                                     description:this.pages[index].description,
                                 });
                             }else{//否则添加页面
+                                store.commit("addPage",{
+                                    name:this.editingPageName,
+                                    description:"",
+                                });
                                 //如果添加了页面之后,长度为1,那么将currPageIndex置位0
                                 if(this.pages.length == 1){
                                     this.currPageIndex = 0;
+                                    store.commit("setCurrPageIndex", 0);
                                 }
-                                store.commit("setPages", this.pages);
-                                store.commit("setCurrPageIndex", 0);
                             }
-                            window.console.log(store.state.pages)
                             this.editingPageName = "";
                             this.isEditPageIndex = -1;
                         } else {

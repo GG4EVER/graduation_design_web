@@ -51,9 +51,8 @@
              */
             changeComponentStyle(style){
                 this.currComponent.style = style;
-                window.console.log(store.state.currPageComponents)
-                window.console.log(store.state.pageComponents)
-                //store.commit("setComponentStyle",this.currComponent);
+                this.$set(store.state.currPageComponents,store.state.currComponentIndex,this.currComponent);
+                this.saveAttribute();
             }
         }
     }

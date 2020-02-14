@@ -88,7 +88,6 @@
                 if (newVal) {
                     //如果监听到新的列表长度不同，则滚动屏幕
                     let shouldScrollScreen = this.currPageComponents.length != newVal.length;
-
                     this.currPageComponents = newVal;
                     this.currComponentIndex = -1;
                     if(shouldScrollScreen){
@@ -203,11 +202,6 @@
             this.navigationBarSetting = store.state.globalStyle;
             if(store.state.pages.length !=0 ){//如果页面数组不为空
                 this.currPageComponents = store.state.pageComponents[store.state.pages[store.state.currPageIndex].name];
-                window.console.log(store.state.pageComponents)
-                window.console.log(this.currPageComponents)
-                if(!this.currPageComponents){
-                    this.currPageComponents = [];
-                }
             }
         }
     }

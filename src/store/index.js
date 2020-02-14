@@ -128,9 +128,6 @@ export default new Vuex.Store({
         state.currPageIndex = currPageIndex;
         //切换组件列表
         state.currPageComponents = state.pageComponents[state.pages[currPageIndex].name];
-        if(!state.currPageComponents){//如果不存在，则初始化
-          state.currPageComponents = new Array();
-        }
       }else{//否则是删除了一个页面，将选择去掉
         state.currPageIndex = -1;
         //清空当前组件列表
@@ -141,6 +138,10 @@ export default new Vuex.Store({
     },
     setPages(state,pages){//设置页面列表
       state.pages = pages;
+    },
+    addPage(state,page){//添加页面列表
+      state.pages.push(page);//添加新页面
+      state.pageComponents[page.name] = new Array();//初始化新页面的组件
     },
     updatePages(state,data){//修改页面
       let index = data.index;

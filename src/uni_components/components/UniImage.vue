@@ -3,7 +3,6 @@
         <template v-if="ComponentAttribute.src">
             <div class="uni-image-real-box" :style="ComponentStyle">
                 <div class="uni-image-real" :class="ComponentAttribute.mode" :style="getAllStyle"></div>
-                <img class="uni-image" :src="ComponentAttribute.src" :mode="ComponentAttribute.mode"/>
             </div>
         </template>
         <template v-else>

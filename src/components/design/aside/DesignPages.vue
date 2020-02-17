@@ -5,43 +5,43 @@
         </el-col>
         <template v-if="pages.length != 0">
             <template v-for="(page,index) in pages">
-                <div :key="index" @click="selectPage(index)">
-                    <el-col :span="22" :offset="1" class="design-page "
-                            :class="index == currPageIndex ? 'design-page-active' : ''">
+                    <div :key="index" @click="selectPage(index)" @click.right="clickRightPage($event,index)">
+                        <el-col :span="22" :offset="1" class="design-page "
+                                :class="index == currPageIndex ? 'design-page-active' : ''">
 
-                        <el-col :span="2" class="design-page-check-box">
-                            <el-radio></el-radio>
+                            <el-col :span="2" class="design-page-check-box">
+                                <el-radio></el-radio>
+                            </el-col>
+                            <template v-if="isEditPageIndex != index">
+                                <el-col :span="14" class="design-page-name">
+                                    {{page.name}}
+                                </el-col>
+                                <el-col :span="8" class="design-page-check-box design-page-operate-box">
+                                    <el-button type="primary" class="design-page-rename-button"
+                                               @click.stop="editPageName(index)">
+                                        <i class="el-icon-edit"></i></el-button>
+                                    <el-button type="danger" class="design-page-rename-button"
+                                               @click.stop="deletePage(index)"><i
+                                            class="el-icon-delete"></i></el-button>
+                                </el-col>
+                            </template>
+                            <template v-else>
+                                <el-col :span="17">
+                                    <el-input type="text" size="small" maxlength="32" v-model="editingPageName"
+                                              show-word-limit
+                                              class="design-page-name-input"></el-input>
+                                </el-col>
+                                <el-col :span="5" class="design-page-check-box design-page-operate-box">
+                                    <el-button type="success" circle class="design-page-rename-button"
+                                               @click.stop="submitEditPageName(true,index)"><i
+                                            class="el-icon-check"></i></el-button>
+                                    <el-button type="danger" circle class="design-page-rename-button"
+                                               @click.stop="submitEditPageName(false)"><i
+                                            class="el-icon-close"></i></el-button>
+                                </el-col>
+                            </template>
                         </el-col>
-                        <template v-if="isEditPageIndex != index">
-                            <el-col :span="14" class="design-page-name">
-                                {{page.name}}
-                            </el-col>
-                            <el-col :span="8" class="design-page-check-box design-page-operate-box">
-                                <el-button type="primary" class="design-page-rename-button"
-                                           @click.stop="editPageName(index)">
-                                    <i class="el-icon-edit"></i></el-button>
-                                <el-button type="danger" class="design-page-rename-button"
-                                           @click.stop="deletePage(index)"><i
-                                        class="el-icon-delete"></i></el-button>
-                            </el-col>
-                        </template>
-                        <template v-else>
-                            <el-col :span="17">
-                                <el-input type="text" size="small" maxlength="32" v-model="editingPageName"
-                                          show-word-limit
-                                          class="design-page-name-input"></el-input>
-                            </el-col>
-                            <el-col :span="5" class="design-page-check-box design-page-operate-box">
-                                <el-button type="success" circle class="design-page-rename-button"
-                                           @click.stop="submitEditPageName(true,index)"><i
-                                        class="el-icon-check"></i></el-button>
-                                <el-button type="danger" circle class="design-page-rename-button"
-                                           @click.stop="submitEditPageName(false)"><i
-                                        class="el-icon-close"></i></el-button>
-                            </el-col>
-                        </template>
-                    </el-col>
-                </div>
+                    </div>
             </template>
         </template>
         <template v-else>
@@ -53,7 +53,7 @@
 </template>
 
 <script>
-    import {Radio, Input, Button} from "element-ui"
+    import {Radio, Input, Button,Popover} from "element-ui"
     import store from "../../../store";
 
     export default {
@@ -62,12 +62,14 @@
         components: {
             [Radio.name]: Radio,
             [Input.name]: Input,
-            [Button.name]: Button
+            [Button.name]: Button,
+            [Popover.name]:Popover
         },
         data() {
             return {
                 pageName: "index",
                 currPageIndex: -1,
+                currRightPageIndex: -1,
                 isEditPageIndex: -1,
                 pages: [],
                 editingPageName: "",//正在修改的页面的名字
@@ -95,6 +97,11 @@
                     this.currPageIndex = index;
                     store.commit("setCurrPageIndex", index);
                 }
+            },
+            clickRightPage(e,index){//右键点击了页面
+                window.console.log("鼠标右键点击")
+                window.console.log(e)
+                window.console.log(index)
             },
             editPageName(index) {//编辑页面名称
                 if (this.isEditPageIndex != -1) {//如果是true,则表示还有页面没改完名称

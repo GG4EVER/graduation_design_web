@@ -18,7 +18,7 @@
                                 <div class="design-main-component" v-for="(component,index) in currPageComponents"
                                      :key="index" @click.stop="clickComponent(index)">
                                     <component :is="component.name" :component-attribute="component.attribute"
-                                               :component-style="component.style"></component>
+                                               :component-style="component.style" :component-animation="component.animation"></component>
                                     <div class="design-main-component-mark animated"
                                          :class="index == currComponentIndex ? 'flash' : ''"
                                          :style="index == currComponentIndex ? 'display:block;' : ''"></div>
@@ -89,8 +89,8 @@
                     //如果监听到新的列表长度不同，则滚动屏幕
                     let shouldScrollScreen = this.currPageComponents.length != newVal.length;
                     this.currPageComponents = newVal;
-                    this.currComponentIndex = -1;
                     if(shouldScrollScreen){
+                        this.currComponentIndex = -1;
                         this.$nextTick(() => {
                             this.$refs.phoneScreen.scrollTop = this.$refs.phoneScreen.scrollHeight;
                         });

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button class="uni-button" :size="ComponentAttribute.size" :type="ComponentAttribute.type"
+        <button class="uni-button" :class="ComponentAnimation" :size="ComponentAttribute.size" :type="ComponentAttribute.type"
                 :plain="ComponentAttribute.plain" :disabled="ComponentAttribute.disabled"
                 :loading="ComponentAttribute.loading"
                 :hover-class="ComponentAttribute.hoverClass" :style="ComponentStyle">
@@ -30,7 +30,11 @@
             ComponentStyle: {//额外的样式
                 type: String,
                 default : "",
-            }
+            },
+            ComponentAnimation:{//动画效果
+                type: String,
+                default : "",
+            },
         },
     }
 </script>

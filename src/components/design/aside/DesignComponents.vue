@@ -75,10 +75,7 @@
                 let componentName = e.target.dataset.componentName;
                 window.console.log(this.$ComponentConfig);
                 window.console.log(componentName)
-                let newComponent = {
-                    name : componentName,
-                    attribute: JSON.parse(JSON.stringify(this.$ComponentConfig[componentName]))
-                };
+                let newComponent = JSON.parse(JSON.stringify(this.$ComponentConfig[componentName]))
                 window.console.log(newComponent);
                 store.commit("addComponent",newComponent);
             }

@@ -1,7 +1,7 @@
 <template>
     <div class="uni-image-box" :style="ComponentStyle">
         <template v-if="ComponentAttribute.src">
-            <div class="uni-image-real-box" :style="ComponentStyle">
+            <div class="uni-image-real-box" :class="ComponentAnimation" :style="ComponentStyle">
                 <div class="uni-image-real" :class="ComponentAttribute.mode" :style="getAllStyle"></div>
             </div>
         </template>
@@ -31,7 +31,11 @@
             ComponentStyle: {//额外的样式
                 type: String,
                 default: "",
-            }
+            },
+            ComponentAnimation:{//动画效果
+                type: String,
+                default: "",
+            },
         },
         computed:{
             getAllStyle:function(){

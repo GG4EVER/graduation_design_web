@@ -7,7 +7,11 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     token: localStorage.getItem("token") ? localStorage.getItem("token") : "",//登录凭证
-    userInfo:null,
+    userInfo:{
+      userNickName:"荷包蛋",
+      userPhone:"17817781227",
+      userPassword:"123456"
+    },
     currPageIndex:0,//当前选择的页面索引
     pages:[],//页面列表
     globalStyle:{

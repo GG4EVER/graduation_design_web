@@ -52,24 +52,24 @@
             }
         },
         created() {
-            if (store.state.userInfo) {//如果本地有用户信息
-                this.userInfo = store.state.userInfo;
-            } else {
-                if (!store.state.token) {//如果没有token,跳转登录
-                    this.$message.error("请重新登录~");
-                    this.$router.push("/login");
-                } else {//否则通过token获取用户信息
-                    this.$API.getUserInfo().then(res => {
-                        window.console.log(res.data);
-                        if (res.data.error != "0") {//发生错误，比如token过期之类的
-                            this.$message.error(res.data.error_message);
-                        } else {
-                            store.commit("setUserInfo", res.data.userInfo);
-                            this.userInfo = res.data.userInfo;
-                        }
-                    });
-                }
-            }
+            // if (store.state.userInfo) {//如果本地有用户信息
+            //     this.userInfo = store.state.userInfo;
+            // } else {
+            //     if (!store.state.token) {//如果没有token,跳转登录
+            //         this.$message.error("请重新登录~");
+            //         this.$router.push("/login");
+            //     } else {//否则通过token获取用户信息
+            //         this.$API.getUserInfo().then(res => {
+            //             window.console.log(res.data);
+            //             if (res.data.error != "0") {//发生错误，比如token过期之类的
+            //                 this.$message.error(res.data.error_message);
+            //             } else {
+            //                 store.commit("setUserInfo", res.data.userInfo);
+            //                 this.userInfo = res.data.userInfo;
+            //             }
+            //         });
+            //     }
+            // }
 
         }
     }

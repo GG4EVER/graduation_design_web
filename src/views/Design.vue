@@ -44,7 +44,39 @@
         },
         data(){
             return{
-
+                path:"ws://localhost:8080/design/1",
+                socket:"",
+            }
+        },
+        methods:{
+            init: function () {
+                if(typeof(WebSocket) === "undefined"){
+                    alert("您的浏览器不支持socket")
+                }else{
+                    // 实例化socket
+                    this.socket = new WebSocket(this.path)
+                    // 监听socket连接
+                    this.socket.onopen = this.open;
+                    // 监听socket错误信息
+                    this.socket.onerror = this.error;
+                    // 监听socket消息
+                    this.socket.onmessage = this.getMessage;
+                }
+            },
+            open: function () {
+                window.console.log("socket连接成功")
+            },
+            error: function () {
+                window.console.log("连接错误")
+            },
+            getMessage: function (msg) {
+                window.console.log(msg.data)
+            },
+            send: function (params) {
+                this.socket.send(params)
+            },
+            close: function () {
+                window.console.log("socket已经关闭")
             }
         },created() {
             //如果页面列表不为空
@@ -59,6 +91,7 @@
             }
             //重新created了，将选中组件索引置为未选中状态
             store.commit("setCurrComponentIndex",-1);
+            //this.init(); //打开webSocket
         }
     }
 </script>

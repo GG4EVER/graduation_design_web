@@ -21,7 +21,7 @@ const Config = {
             mode: "scaleToFill",//图片裁剪、缩放的模式
             lazyLoad: false,//图片懒加载。只针对page与scroll-view下的image有效
         },
-        style:"",//样式
+        style:"width:100%;",//样式
         animation:"",//动画
     }
 };

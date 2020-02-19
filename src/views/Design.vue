@@ -1,7 +1,7 @@
 <template>
     <el-container>
         <el-header class="design-header">
-            <design-header></design-header>
+            <design-header @listenSaveProject="saveProject"></design-header>
         </el-header>
         <el-container class="design-main">
             <el-row>
@@ -44,7 +44,7 @@
         },
         data(){
             return{
-                path:"ws://localhost:8080/design/1",
+                path:"ws://localhost:8080/design/hbd",
                 socket:"",
             }
         },
@@ -77,6 +77,20 @@
             },
             close: function () {
                 window.console.log("socket已经关闭")
+            },
+            //保存项目到后台
+            saveProject(){
+                let message  = {
+                    type:"save",
+                    pageJson:{
+                        pages:store.state.pages,
+                        globalStyle:store.state.globalStyle,
+                        tabBar:store.state.tabBar
+                    },
+                    components:store.state.pageComponents
+                };
+                window.console.log(message)
+                //this.send(JSON.stringify(message))
             }
         },created() {
             //如果页面列表不为空

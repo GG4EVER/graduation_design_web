@@ -83,6 +83,7 @@
             //保存项目
             saveProject(){
                 this.isSaving = true;
+                this.$emit("listenSaveProject");
                 window.console.log(localStorage);
                 setTimeout(()=>{
                     this.isSaving = false;

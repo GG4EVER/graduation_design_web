@@ -244,4 +244,10 @@
         overflow-y: scroll !important;
         height: 100% !important;
     }
+
+    .user-project-info-input .el-input__count{
+        bottom: -6px !important;
+        right: 6px !important;
+        background-color:transparent !important;
+    }
 </style>

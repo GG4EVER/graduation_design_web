@@ -1,5 +1,5 @@
 <template>
-    <el-dialog width="60%" :visible.sync="IsShow" :modal-append-to-body="false" top="10vh" :before-close="closeProject">
+    <el-dialog class="user-project-dialog" width="60%" :visible.sync="IsShow" :modal-append-to-body="false" top="10vh" :before-close="closeProject">
         <div class="user-project-info-title egg-not-copy" slot="title"><i class="el-icon-postcard el-icon--left user-project-info-icon"></i>{{ProjectInfo.name}}</div>
         <el-col :span="24">
             <el-col :span="16" :offset="4">

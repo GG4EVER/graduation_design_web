@@ -54,3 +54,8 @@
 .egg-cursor{
     cursor: pointer;
 }
+
+.egg-table-row:hover{
+    transition: 0.5s;
+    font-weight: bold;
+}

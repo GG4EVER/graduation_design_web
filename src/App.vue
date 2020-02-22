@@ -145,6 +145,22 @@
         background-color: rgba(200,231,252,0.1) !important;
     }
 
+    .user-message-dialog .el-dialog__header{
+        background-color: transparent !important;
+    }
+
+    .user-message-dialog .el-dialog__body{
+        background-color: transparent !important;
+    }
+
+    .user-project-dialog .el-dialog__header{
+        background-color: transparent !important;
+    }
+
+    .user-project-dialog .el-dialog__body{
+        background-color: transparent !important;
+    }
+
     .design-aside-tab-pane .el-tabs__header{
         border-right: none !important;
     }

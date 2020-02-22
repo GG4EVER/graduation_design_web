@@ -106,11 +106,11 @@ export default {
      * 修改用户资料
      * @param userInfo
      */
-    updateUserInfo:(userInfo) =>{
+    updateUserInfo: (userInfo) => {
         let data = {
-            userNickName : userInfo.userNickName,
-            userPhone:userInfo.userPhone,
+            userNickName: userInfo.userNickName,
+            userPhone: userInfo.userPhone,
         };
-        return request(BaseUrl + "/user", "PATCH",data);
+        return request(BaseUrl + "/user", "PATCH", data);
     }
 }

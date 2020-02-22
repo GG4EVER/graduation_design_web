@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@dcloudio/uni-ui": "^1.0.6",
+    "@deraw/vue-cli-plugin-proxy": "^2.2.5",
     "animate.css": "^3.7.2",
     "axios": "^0.19.0",
     "core-js": "^3.3.2",

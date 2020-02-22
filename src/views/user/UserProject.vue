@@ -124,11 +124,6 @@
                 this.showProjectInfo = false;
                 this.projectInfo = {};
             },
-        },
-        created() {
-            // this.$axios.get("http://pv.sohu.com/cityjson").then(res=>{
-            //     window.console.log(res)
-            // })
         }
     }
 </script>

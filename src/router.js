@@ -27,7 +27,7 @@ export default new Router({
             component: () => import(/* webpackChunkName: "about" */ './views/User.vue'),
             children:[
                 {
-                    path: '/',
+                    path: '',
                     name: '用户个人中心界面',
                     component: () => import(/* webpackChunkName: "about" */ './views/user/Home.vue')
                 },
@@ -58,7 +58,7 @@ export default new Router({
             component: () => import(/* webpackChunkName: "about" */ './views/Admin.vue'),
             children:[
                 {
-                    path: '/',
+                    path: '',
                     name: '管理员主页',
                     component: () => import(/* webpackChunkName: "about" */ './views/admin/Home.vue')
                 },

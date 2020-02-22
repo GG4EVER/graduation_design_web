@@ -20,7 +20,7 @@
 </script>
 
 <style>
-    @import "assets/css/egg_paint.css";
+    @import "./assets/css/egg_paint.css";
 
     body{
         margin: 0;

@@ -54,22 +54,30 @@
 
             <!--            选择新建一个项目或者继续旧的项目-->
             <div v-if="!showPlatformInformation">
-                <el-row class="egg-home-begin-box">
+                <el-row class="egg-home-begin-box animated fadeIn">
                     <el-col :span="8">
                         <el-col :span="24" class="egg-home-check-box-title">
                             新建一个新项目
                         </el-col>
-                        <el-col :span="20" :offset="2" class="egg-home-check-box">
-                            <span class="egg-home-check-box-logo"><i class="el-icon-plus"></i></span>
-                        </el-col>
+                        <div @click="createProject">
+                            <el-col :span="20" :offset="2" class="egg-home-check-box">
+                                <span class="egg-home-check-box-logo"><i class="el-icon-plus"></i></span>
+                            </el-col>
+                        </div>
                     </el-col>
                     <el-col :span="8">
                         <el-col :span="24" class="egg-home-check-box-title">
                             继续之前的项目
                         </el-col>
-                        <el-col :span="20" :offset="2" class="egg-home-check-box">
-                            <span class="egg-home-check-box-logo"><i class="el-icon-s-opportunity"></i></span>
-                        </el-col>
+                        <div @click="designProject">
+                            <el-col :span="20" :offset="2" class="egg-home-check-box">
+                                <span class="egg-home-check-box-logo"><i class="el-icon-s-opportunity"></i></span>
+                                <div class="home-last-project-mask">
+                                    <div class="home-last-project-info">项目1</div>
+                                    <div class="home-last-project-info">2020-02-20</div>
+                                </div>
+                            </el-col>
+                        </div>
                     </el-col>
                 </el-row>
             </div>
@@ -110,14 +118,25 @@
             beginNow() {//点击开始使用
                 if (isPC()) {
                     //判断是否登录，没登录跳转登录注册,登录了则显示创建新项目或者继续以前的项目
-                    if (this.userInfo) {
-                        this.showPlatformInformation = false;
-                    } else {
-                        this.toLogin();
-                    }
+                    // if (this.userInfo) {
+                    //     this.showPlatformInformation = false;
+                    // } else {
+                    //     this.toLogin();
+                    // }
+                    this.showPlatformInformation = false;
                 } else {
                     this.$message.error("暂时不支持在移动端上创作，请前往PC端。");
                 }
+            },
+            designProject() {
+                let routeUrl = this.$router.resolve({
+                    path: "/design",
+                    params: {id: ""}
+                });
+                window.open(routeUrl.href, "_blank");
+            },
+            createProject(){
+              //创建新项目
             },
             toLogin() {
                 this.$router.push('/login');
@@ -129,28 +148,28 @@
                 this.$router.push('/about');
             },
             handleCommand(command) {//点击下拉菜单，跳转
-                if(command == "/logout"){//如果选择了退出登录
-                    store.commit("setToken","");//清除token
+                if (command == "/logout") {//如果选择了退出登录
+                    store.commit("setToken", "");//清除token
                     localStorage.removeItem("token");//清除token
                     this.$message.success("退出登录~");
                     //刷新页面
                     this.$router.go(0);
-                }else{
+                } else {
                     this.$router.push(command);
                 }
             },
         },
         created() {
-            if(store.state.userInfo){//如果本地有用户信息，则直接读取
+            if (store.state.userInfo) {//如果本地有用户信息，则直接读取
                 this.userInfo = store.state.userInfo;
-            }else if (store.state.token) {//否则读取是否有token
+            } else if (store.state.token) {//否则读取是否有token
                 this.$API.getUserInfo().then(res => {
                     if (res.data.error != "0") {//如果token已经过期或者失效等，则清除掉本地存储的token
-                        store.commit("setToken","");
+                        store.commit("setToken", "");
                         localStorage.removeItem("token");//清除token
                     } else {//否则获取用户信息
                         this.userInfo = res.data.userInfo;
-                        store.commit("setUserInfo",res.data.userInfo);
+                        store.commit("setUserInfo", res.data.userInfo);
                     }
                 });
             }
@@ -267,6 +286,7 @@
     }
 
     .egg-home-check-box {
+        transition: 0.4s;
         padding: 15% 0;
         border-radius: 20px;
         background-color: #eeeeee;
@@ -276,13 +296,38 @@
         justify-content: center;
         display: flex;
         flex-direction: column;
+        position: relative;
     }
 
     .egg-home-check-box:hover {
-        transition: 0.2s;
+        transition: 0.4s;
         background-image: linear-gradient(180deg, rgba(0, 174, 255, 0.5) 0%, rgba(51, 105, 231, 0.5) 100%);
         color: #F0F0F0 !important;
         box-shadow: 0 0 20px #aaaaaa;
+    }
+
+    .egg-home-check-box:hover .home-last-project-mask {
+        transition: 0.4s;
+        opacity: 1;
+    }
+
+    .home-last-project-mask {
+        transition: 0.4s;
+        opacity: 0;
+        position: absolute;
+        height: 80px;
+        width: 100%;
+        bottom: 0;
+        background-color: rgba(0, 174, 255, 0.2);
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+    }
+
+    .home-last-project-info {
+        font-size: 18px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
     }
 
     .egg-home-check-box-logo {

@@ -109,7 +109,7 @@
                             }
                             originMessages = originMessages.replace(deleteItem, "");
                         }
-                        this.messages = JSON.parse(originMessages)
+                        this.messages = JSON.parse(originMessages);
                     }).catch(() => {
                     })
                 } else {

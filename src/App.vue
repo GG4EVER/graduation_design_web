@@ -266,4 +266,9 @@
         right: 6px !important;
         background-color:transparent !important;
     }
+
+    .user-project-row .cell{
+        white-space: nowrap !important;
+        text-overflow: ellipsis !important;
+    }
 </style>

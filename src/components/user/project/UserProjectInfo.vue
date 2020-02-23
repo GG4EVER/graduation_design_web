@@ -14,6 +14,10 @@
                         <el-input v-show="isModifying" v-model="currProjectInfo.name" placeholder="起一个牛逼哄哄的项目名吧"></el-input>
                     </el-form-item>
                     <el-form-item>
+                        <div class="user-project-info-label egg-not-copy" slot="label"><i class="el-icon-date el-icon--left user-project-info-icon"></i>创建时间</div>
+                        <div class="user-project-info-content">{{ProjectInfo.createDate}}</div>
+                    </el-form-item>
+                    <el-form-item>
                         <div class="user-project-info-label egg-not-copy" slot="label"><i class="el-icon-tickets el-icon--left user-project-info-icon"></i>项目描述</div>
                         <div v-show="!isModifying" class="user-project-info-content">{{ProjectInfo.description}}</div>
                         <el-input class="user-project-info-input" type="textarea" :autosize="{minRows: 2,maxRows: 6}" maxlength="150" show-word-limit resize="none" v-show="isModifying" v-model="currProjectInfo.description" placeholder="用150以内的字数描述下项目吧"></el-input>

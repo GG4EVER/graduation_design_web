@@ -27,6 +27,14 @@
                     label="创建者">
             </el-table-column>
             <el-table-column
+                    label="创建时间"
+                    width="180" empty-text="/">
+                <template slot-scope="scope">
+                    <div v-if="scope.row.createDate">{{scope.row.createDate}}</div>
+                    <div v-else>-</div>
+                </template>
+            </el-table-column>
+            <el-table-column
                     label="上次修改时间"
                     width="180" empty-text="/">
                 <template slot-scope="scope">
@@ -64,6 +72,7 @@
                 projectInfo: {},
                 projects: [{
                     id: "project1",
+                    createDate:"2020-02-01",
                     lastModified: '2020-02-02',
                     name: '项目名',
                     description: '项目描述',

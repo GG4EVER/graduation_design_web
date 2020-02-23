@@ -141,7 +141,7 @@
                 let loading = this.$loading.service({
                     lock: true,
                     text: '正在创建，请稍等..',
-                    background: 'rgba(0, 0, 0, 0.7)'
+                    background: 'rgba(0, 0, 0, 0.6)'
                 });
                 window.console.log(newProject)
                 this.closeCreateProject();

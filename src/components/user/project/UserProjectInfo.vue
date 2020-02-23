@@ -3,7 +3,7 @@
         <div class="user-project-info-title egg-not-copy" slot="title"><i class="el-icon-postcard el-icon--left user-project-info-icon"></i>{{ProjectInfo.name}}</div>
         <el-col :span="24">
             <el-col :span="16" :offset="4">
-                <el-form label-width="48%">
+                <el-form label-width="40%">
                     <el-form-item>
                         <div class="user-project-info-label egg-not-copy" slot="label"><i class="el-icon-s-opportunity el-icon--left user-project-info-icon"></i>项目ID</div>
                         <div class="user-project-info-content">{{ProjectInfo.id}}</div>
@@ -117,12 +117,12 @@
     .user-project-info-label {
         font-size: 16px;
         font-weight: bold;
-        color: #304156;
+        color: #8994C6;
     }
 
     .user-project-info-content {
         font-size: 16px;
-        color: #8994C6;
+        color: #304156;
     }
 
     .user-project-info-button-box {

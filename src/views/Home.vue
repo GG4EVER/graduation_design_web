@@ -90,6 +90,8 @@
             <div class="egg-about-box animated fadeIn" @click="toAboutEggPaint">
                 关于Egg Paint<i class="el-icon-arrow-right"></i>
             </div>
+            <user-create-project :is-show="showCreateProject" @listenCreate="submitCreateProject"
+                                                      @listenClose="closeCreateProject"></user-create-project>
         </el-main>
     </el-container>
 </template>
@@ -98,11 +100,13 @@
     import {Button, Dropdown, DropdownMenu, DropdownItem} from "element-ui"
     import {isPC} from "../utils/function";
     import store from "../store"
+    import UserCreateProject from "../components/user/project/UserCreateProject";
 
     export default {
         name: "Home",
         store,
         components: {
+            UserCreateProject,
             [Button.name]: Button,
             [Dropdown.name]: Dropdown,
             [DropdownMenu.name]: DropdownMenu,
@@ -112,6 +116,7 @@
             return {
                 showPlatformInformation: true,
                 userInfo: null,
+                showCreateProject:false
             }
         },
         methods: {
@@ -128,6 +133,41 @@
                     this.$message.error("暂时不支持在移动端上创作，请前往PC端。");
                 }
             },
+            closeCreateProject() {
+                this.showCreateProject = false;
+            },
+            //提交创建的新项目
+            submitCreateProject(newProject) {
+                let loading = this.$loading.service({
+                    lock: true,
+                    text: '正在创建，请稍等..',
+                    background: 'rgba(0, 0, 0, 0.7)'
+                });
+                window.console.log(newProject)
+                this.closeCreateProject();
+                setTimeout(()=>{
+                    loading.close();
+                    this.showPlatformInformation = true;
+                    this.whenCreateSuccess();
+                },2000)
+            },
+            //创建成功后，提示开始创作或者取消
+            whenCreateSuccess(){
+                this.$confirm({
+                    showCancelButton:true,
+                    title:"创建成功",
+                    type:"success",
+                    showClose:false,
+                    message:"是否立刻开始设计（也可以在个人中心 -> 我的项目 中进入设计）",
+                    confirmButtonText:"开始设计",
+                    cancelButtonText:"暂时不用",
+                    roundButton:true
+                }).then(()=>{
+                    this.$router.push("/design");
+                }).catch(()=>{
+                    //暂时不用
+                })
+            },
             designProject() {
                 let routeUrl = this.$router.resolve({
                     path: "/design",
@@ -137,6 +177,7 @@
             },
             createProject(){
               //创建新项目
+                this.showCreateProject = true;
             },
             toLogin() {
                 this.$router.push('/login');

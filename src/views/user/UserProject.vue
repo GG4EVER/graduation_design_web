@@ -1,6 +1,7 @@
 <template>
     <el-col :span="24">
-        <div class="user-project-add-button"><i class="el-icon-plus"></i><span class="user-project-add-content">创建新项目</span></div>
+        <div class="user-project-add-button egg-not-copy" @click="createProject"><i class="el-icon-plus"></i><span
+                class="user-project-add-content">创建新项目</span></div>
         <el-table
                 class="user-project-table"
                 :data="projects"
@@ -18,7 +19,7 @@
             </el-table-column>
             <el-table-column
                     prop="description"
-                    label="项目描述">
+                    label="项目描述" class-name="user-project-row">
             </el-table-column>
             <el-table-column
                     prop="creator"
@@ -26,30 +27,41 @@
                     label="创建者">
             </el-table-column>
             <el-table-column
-                    prop="lastModified"
                     label="上次修改时间"
-                    width="180">
+                    width="180" empty-text="/">
+                <template slot-scope="scope">
+                    <div v-if="scope.row.lastModified">{{scope.row.lastModified}}</div>
+                    <div v-else>-</div>
+                </template>
             </el-table-column>
         </el-table>
-        <user-project-info :is-show="showProjectInfo" :project-info="projectInfo" @listenUpdateProjectInfo="updateProjectInfo" @listenDesign="designProject" @listenDelete="deleteProject" @listenClose="closeProjectInfo"></user-project-info>
+        <user-create-project :is-show="showCreateProject" @listenCreate="submitCreateProject"
+                             @listenClose="closeCreateProject"></user-create-project>
+        <user-project-info :is-show="showProjectInfo" :project-info="projectInfo"
+                           @listenUpdateProjectInfo="updateProjectInfo" @listenDesign="designProject"
+                           @listenDelete="deleteProject" @listenClose="closeProjectInfo"></user-project-info>
     </el-col>
 </template>
 
 <script>
-    import {Table, TableColumn,Button} from "element-ui"
+    import {Table, TableColumn, Button} from "element-ui";
+    import UserCreateProject from "../../components/user/project/UserCreateProject";
     import UserProjectInfo from "../../components/user/project/UserProjectInfo";
+
     export default {
         name: "UserProject",
         components: {
+            UserCreateProject,
             UserProjectInfo,
             [Table.name]: Table,
             [TableColumn.name]: TableColumn,
-            [Button.name]:Button
+            [Button.name]: Button
         },
         data() {
             return {
-                showProjectInfo:false,
-                projectInfo:{},
+                showCreateProject: false,
+                showProjectInfo: false,
+                projectInfo: {},
                 projects: [{
                     id: "project1",
                     lastModified: '2020-02-02',
@@ -59,12 +71,31 @@
                 }]
             }
         },
-        methods:{
+        methods: {
+            createProject() {
+                this.showCreateProject = true;
+            },
+            closeCreateProject() {
+                this.showCreateProject = false;
+            },
+            submitCreateProject(newProject) {
+                let loading = this.$loading.service({
+                    lock: true,
+                    text: '正在创建，请稍等..',
+                    background: 'rgba(0, 0, 0, 0.7)'
+                });
+                this.closeCreateProject();
+                setTimeout(()=>{
+                    this.projects.push(newProject);
+                    loading.close();
+                    this.$message.success("创建成功");
+                },2000)
+            },
             /**
              * 查看项目
              * @param project
              */
-            lookProjectInfo(project){
+            lookProjectInfo(project) {
                 this.showProjectInfo = true;
                 this.projectInfo = project;
             },
@@ -72,17 +103,17 @@
              * 更新项目
              * @param project
              */
-            updateProjectInfo(newInfo){
+            updateProjectInfo(newInfo) {
                 newInfo = JSON.parse(newInfo);
                 let j = -1;
-                for(let i =0 ; i<this.projects.length; i++){
-                    if(newInfo.id == this.projects[i].id){
+                for (let i = 0; i < this.projects.length; i++) {
+                    if (newInfo.id == this.projects[i].id) {
                         j = i;
                         break;
                     }
                 }
-                if(j != -1){
-                    this.$set(this.projects,j,newInfo);
+                if (j != -1) {
+                    this.$set(this.projects, j, newInfo);
                 }
                 this.projectInfo = newInfo;
             },
@@ -90,16 +121,16 @@
              * 删除项目
              * @param project
              */
-            deleteProject(){
+            deleteProject() {
                 let index = -1;
-                for(let i =0 ; i<this.projects.length; i++){
-                    if(this.projectInfo.id == this.projects[i].id){
+                for (let i = 0; i < this.projects.length; i++) {
+                    if (this.projectInfo.id == this.projects[i].id) {
                         index = i;
                         break;
                     }
                 }
-                if(index != -1){
-                    this.projects = this.projects.slice(0, index).concat( this.projects.slice(index + 1, this.projects.length) );
+                if (index != -1) {
+                    this.projects = this.projects.slice(0, index).concat(this.projects.slice(index + 1, this.projects.length));
                 }
                 this.$message.success("已删除");
                 this.showProjectInfo = false;
@@ -108,19 +139,19 @@
             /**
              * 跳转设计项目页面
              **/
-            designProject(){
-                let project =this.projectInfo;
+            designProject() {
+                let project = this.projectInfo;
                 let routeUrl = this.$router.resolve({
                     path: "/design",
                     params: {id: project.id}
                 });
-                window.open(routeUrl.href,"_blank");
+                window.open(routeUrl.href, "_blank");
             },
             /**
              * 关闭查看项目
              * @param project
              */
-            closeProjectInfo(){
+            closeProjectInfo() {
                 this.showProjectInfo = false;
                 this.projectInfo = {};
             },
@@ -129,11 +160,11 @@
 </script>
 
 <style scoped>
-    .user-project-table-column{
+    .user-project-table-column {
         cursor: pointer;
     }
 
-    .user-project-add-button{
+    .user-project-add-button {
         transition: 0.4s;
         height: 18px;
         width: 18px;
@@ -148,21 +179,21 @@
         border: 2px solid #f68484;
         color: #f68484;
         overflow: hidden;
-        white-space:nowrap;
+        white-space: nowrap;
         margin-left: 10px;
     }
 
-    .user-project-add-button:hover{
+    .user-project-add-button:hover {
         transition: 0.4s;
         background-color: #f68484ee;
         width: 110px;
         border-radius: 50px;
         color: #ffffff;
-        border: 2px solid  #f68484;
+        border: 2px solid #f68484;
         box-shadow: 0 0 4px #ffffff inset;
     }
 
-    .user-project-add-content{
+    .user-project-add-content {
         transition: 0.4s;
         font-size: 14px;
         padding-left: 4px;
@@ -172,7 +203,7 @@
         opacity: 0;
     }
 
-    .user-project-add-button:hover .user-project-add-content{
+    .user-project-add-button:hover .user-project-add-content {
         transition: 0.5s;
         color: #ffffff;
         opacity: 1;

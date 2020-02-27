@@ -23,6 +23,11 @@
                 </el-col>
             </el-row>
         </el-container>
+        <el-dialog :visible="beginTest" title="输入指令">
+            <el-input v-model="instruction"></el-input>
+            <div style="height: 50px;"></div>
+            <el-button type="success" @click="submitInstruction">提交</el-button>
+        </el-dialog>
     </el-container>
 </template>
 
@@ -31,6 +36,7 @@
     import DesignConfig from "@/components/design/DesignConfig";
     import DesignMain from "@/components/design/DesignMain";
     import DesignHeader from "@/components/design/DesignHeader";
+    import {Dialog,Input,Button} from "element-ui"
     import  store from "../store"
 
     export default {
@@ -41,11 +47,18 @@
             DesignMain,
             DesignConfig,
             DesignHeader,
+            [Dialog.name]:Dialog,
+            [Input.name]:Input,
+            [Button.name]:Button
         },
         data(){
             return{
-                path:"ws://localhost:8080/design/hbd",
+                path:"ws://localhost:8080/design/ufa66c26c31e2e1601b8c0b404e439a22",
                 socket:"",
+                userId:"ufa66c26c31e2e1601b8c0b404e439a22",
+                appId:"ab8cfa4fc3766f93f8e818e880b95cc43",
+                instruction:"",
+                beginTest:false,
             }
         },
         methods:{
@@ -53,8 +66,9 @@
                 if(typeof(WebSocket) === "undefined"){
                     alert("您的浏览器不支持socket")
                 }else{
+                    this.beginTest = true;
                     // 实例化socket
-                    this.socket = new WebSocket(this.path)
+                    this.socket = new WebSocket(this.path);
                     // 监听socket连接
                     this.socket.onopen = this.open;
                     // 监听socket错误信息
@@ -64,13 +78,20 @@
                 }
             },
             open: function () {
-                window.console.log("socket连接成功")
+                window.console.log("socket连接成功");
+                let message = {
+                    type:"init",
+                    userId:this.userId,
+                    appId:this.appId
+                }
+                this.send(JSON.stringify(message));
             },
             error: function () {
                 window.console.log("连接错误")
             },
             getMessage: function (msg) {
-                window.console.log(msg.data)
+                let data = JSON.parse(msg.data)
+                window.console.log(data)
             },
             send: function (params) {
                 this.socket.send(params)
@@ -78,10 +99,21 @@
             close: function () {
                 window.console.log("socket已经关闭")
             },
+            submitInstruction(){
+                let message  = {
+                    type:this.instruction,
+                    userId:this.userId,
+                    appId:this.appId,
+                    buildType:"mp-weixin",
+                };
+                this.send(JSON.stringify(message))
+            },
             //保存项目到后台
             saveProject(){
                 let message  = {
                     type:"save",
+                    userId:this.userId,
+                    appId:this.appId,
                     pageJson:{
                         pages:store.state.pages,
                         globalStyle:store.state.globalStyle,
@@ -90,7 +122,7 @@
                     components:store.state.pageComponents
                 };
                 window.console.log(message)
-                //this.send(JSON.stringify(message))
+                this.send(JSON.stringify(message))
             }
         },created() {
             //如果页面列表不为空

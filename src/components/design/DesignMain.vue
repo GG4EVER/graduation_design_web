@@ -18,7 +18,9 @@
                                 <div class="design-main-component" v-for="(component,index) in currPageComponents"
                                      :key="index" @click.stop="clickComponent(index)">
                                     <component :is="component.name" :component-attribute="component.attribute"
-                                               :component-style="component.style" :component-animation="component.animation"></component>
+                                               :component-style="component.style"
+                                               :component-animation="component.animation"
+                                               :component-children="component.children"></component>
                                     <div class="design-main-component-mark animated"
                                          :class="index == currComponentIndex ? 'flash' : ''"
                                          :style="index == currComponentIndex ? 'display:block;' : ''"></div>
@@ -63,8 +65,9 @@
 </template>
 
 <script>
-    import UniButton from "../../uni_components/components/UniButton";
     import store from "../../store";
+    import UniSwiper from "../../uni_components/components/UniSwiper";
+    import UniButton from "../../uni_components/components/UniButton";
     import UniImage from "../../uni_components/components/UniImage";
     import {Tooltip} from "element-ui"
     import 'element-ui/lib/theme-chalk/display.css';
@@ -73,7 +76,7 @@
         store,
         name: "DesignMain",
         components: {
-            UniButton, UniImage,
+            UniButton, UniImage, UniSwiper,
             [Tooltip.name]: Tooltip
         },
         data() {
@@ -89,7 +92,7 @@
                     //如果监听到新的列表长度不同，则滚动屏幕
                     let shouldScrollScreen = this.currPageComponents.length != newVal.length;
                     this.currPageComponents = newVal;
-                    if(shouldScrollScreen){
+                    if (shouldScrollScreen) {
                         this.currComponentIndex = -1;
                         this.$nextTick(() => {
                             this.$refs.phoneScreen.scrollTop = this.$refs.phoneScreen.scrollHeight;
@@ -108,10 +111,10 @@
              * 点击组件以外的空白区域
              */
             clickDesignShowBox() {
-                if(this.currComponentIndex != -1){
+                if (this.currComponentIndex != -1) {
                     this.currComponentIndex = -1;//取消选择当前组件
-                    store.commit("setCurrComponentIndex",-1);
-                }else{
+                    store.commit("setCurrComponentIndex", -1);
+                } else {
                     window.console.log(store.state.currPageComponents)
                 }
             },
@@ -122,10 +125,10 @@
             clickComponent(index) {
                 if (this.currComponentIndex != index) {
                     this.currComponentIndex = index;
-                    store.commit("setCurrComponentIndex",index);
+                    store.commit("setCurrComponentIndex", index);
                 } else {
                     this.currComponentIndex = -1;
-                    store.commit("setCurrComponentIndex",-1);
+                    store.commit("setCurrComponentIndex", -1);
                 }
             },
             /**
@@ -188,10 +191,10 @@
                     if (slowSpeed >= 20) {
                         this.$refs.phoneScreen.scrollTop = slowSpeed;
                         slowSpeed = Math.floor(slowSpeed * 3 / 4);//速度减少
-                    } else if(slowSpeed > 0){
+                    } else if (slowSpeed > 0) {
                         slowSpeed--;//再次减慢
                         this.$refs.phoneScreen.scrollTop = slowSpeed;
-                    }else {
+                    } else {
                         this.$refs.phoneScreen.scrollTop = 0;
                         clearInterval(time);
                     }
@@ -200,7 +203,7 @@
         },
         created() {
             this.navigationBarSetting = store.state.globalStyle;
-            if(store.state.pages.length !=0 ){//如果页面数组不为空
+            if (store.state.pages.length != 0) {//如果页面数组不为空
                 this.currPageComponents = store.state.pageComponents[store.state.pages[store.state.currPageIndex].name];
             }
         }
@@ -316,6 +319,7 @@
         box-shadow: 3px 3px 0px #8192d6 inset, -3px -3px 0px #8192d6 inset, 0px 0px 20px #8192d6;
         animation-iteration-count: infinite;
         animation-duration: 2.5s;
+        z-index: 999;
     }
 
     .design-main-util-box {

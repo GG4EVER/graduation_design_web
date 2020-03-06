@@ -1,5 +1,22 @@
 //uni app所有组件的默认属性
 const Config = {
+    "uni-swiper":{
+      name:"uni-swiper",
+        attribute:{//属性
+            "indicator-dots": false,//是否显示面板指示点
+            "indicator-color": "rgba(0, 0, 0, .3)",//指示点颜色
+            "indicator-active-color": "#000000",//当前选中的指示点颜色
+            autoplay: false,//是否自动切换
+            current: 0,//当前所在滑块的 index
+            interval: 5000,//自动切换时间间隔
+            duration: 500,//滑动动画时长
+            vertical: false,//滑动方向是否为纵向,
+            circular:true,//衔接滑动
+        },
+        style:"height:150px;width:100%;",//样式
+        animation:"",//动画
+        children:[],
+    },
     "uni-button": {
         name:"uni-button",
         attribute:{//属性
@@ -28,7 +45,8 @@ const Config = {
 
 const AttributeComponentMap = {
     "uni-button" : "UniButtonAttribute",
-    "uni-image" : "UniImageAttribute"
+    "uni-image" : "UniImageAttribute",
+    "uni-swiper":"UniSwiperAttribute"
 };
 
 

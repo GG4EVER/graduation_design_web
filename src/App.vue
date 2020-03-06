@@ -21,7 +21,6 @@
 
 <style>
     @import "./assets/css/egg_paint.css";
-
     body{
         margin: 0;
         padding: 0;
@@ -261,6 +260,37 @@
         height: 100% !important;
     }
 
+    .design-attribute-tabs .el-tabs__header{
+        border: none !important;
+    }
+
+    .design-attribute-tabs .el-tabs__header .el-tabs__nav-scroll{
+        background-color: initial;
+    }
+
+    .design-attribute-tabs .el-tabs__header .el-tabs__nav{
+        background-color: initial;
+        border: none !important;
+    }
+
+    .design-attribute-tabs .el-tabs__item{
+        background-color: initial;
+        border: none !important;
+        font-size: 14px !important;
+    }
+
+    .design-attribute-tabs .el-tabs__item .is-active{
+        border: none !important;
+    }
+
+    .design-attribute-tabs .el-tabs__header .is-active {
+        -webkit-box-shadow: 0 -4px 0 #2d93bb inset;
+        box-shadow: none;
+        background-color: initial !important;
+        color: #409EFF !important;
+        border: none !important;
+    }
+
     .user-project-info-input .el-input__count{
         bottom: -6px !important;
         right: 6px !important;
@@ -270,5 +300,17 @@
     .user-project-row .cell{
         white-space: nowrap !important;
         text-overflow: ellipsis !important;
+    }
+
+    .swiper-pagination-bullet{
+        background-color: rgba(0,0,0,0.5) !important;
+    }
+
+    .swiper-pagination-bullet-active{
+        background-color: rgba(0,0,0,0.8) !important;
+    }
+
+    .design-swiper-drawer .el-drawer{
+        background-color: #edf8ff;
     }
 </style>

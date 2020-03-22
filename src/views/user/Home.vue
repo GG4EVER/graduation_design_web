@@ -31,8 +31,8 @@
                 <div class="egg-home-item-box egg-not-copy">
                     <div class="egg-home-item user-home-message" @click="openUserMessage">
                         <span class="egg-home-item-icon"><i class="el-icon-s-comment"></i></span>
-                        <span class="egg-home-item-number">4</span>
-                        <div class="egg-home-item-direction">查看未读消息<i class="el-icon-arrow-right el-icon--right"></i></div>
+                        <span class="egg-home-item-number">{{unReadNum}}</span>
+                        <div class="egg-home-item-direction">查看所有消息<i class="el-icon-arrow-right el-icon--right"></i></div>
                     </div>
                 </div>
             </el-col>
@@ -43,6 +43,19 @@
 <script>
     export default {
         name: "Home",
+        data(){
+            return{
+                unReadNum:0,
+            }
+        },
+        created() {
+            this.$API.getMessages(false).then(res => {
+                if(res.data.error == 0){
+                    let messages = res.data.messages;
+                    this.unReadNum = messages.length;
+                }
+            })
+        },
         methods:{
             openUserProject(){
                 this.$router.push("/user/userProject");

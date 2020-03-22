@@ -1,6 +1,7 @@
 import axios from 'axios';
 import store from '../store'
 
+let Host = "http://localhost:8080";
 let BaseUrl = "http://localhost:8080/api";
 
 // 创建axios实例
@@ -11,9 +12,15 @@ const Request = axios.create({
 
 // 添加request拦截器
 Request.interceptors.request.use(config => {
-    config.headers = {
-        'Content-Type': 'application/json',
-    };
+    if(typeof config.data == typeof FormData){
+        config.headers = {
+            'Content-Type': 'multipart/form-data',
+        };
+    }else{
+        config.headers = {
+            'Content-Type': 'application/json',
+        };
+    }
     if (store.state.token) {//如果存在token
         config.headers.Token = store.state.token;
     }
@@ -43,6 +50,7 @@ let request = function (url, method, data) {
 };
 
 export default {
+    Host,
     BaseUrl,
     /**
      * 管理员登录
@@ -112,5 +120,66 @@ export default {
             userPhone: userInfo.userPhone,
         };
         return request(BaseUrl + "/user", "PATCH", data);
+    },
+
+    /**
+     * 上传图片
+     * @param userId
+     * @param file
+     * @param type
+     */
+    uploadImage(params){
+        return request(Host + "/image", "POST", params);
+    },
+
+    /**
+     * 获取用户实名认证信息
+     * @returns {AxiosPromise}
+     */
+    getCertification: () => {
+        return request(BaseUrl + "/user/certification", "GET", {});
+    },
+
+    /**
+     * 提交实名认证
+     * @param data
+     * @returns {AxiosPromise}
+     */
+    setCertification:(data) =>{
+        return request(BaseUrl + "/user/certification", "POST", data);
+    },
+
+    /**
+     * 获取消息列表
+     * @param isRead 可选参数，是否已读
+     */
+    getMessages:(isRead)=>{
+        if(isRead != null){
+            return request(BaseUrl + "/user/messages?isRead=" + isRead , "GET", {});
+        }else{
+            return request(BaseUrl + "/user/messages", "GET", {});
+        }
+    },
+
+    /**
+     * 将消息设为已读
+     * @param messageId
+     */
+    readMessage:(messageId) =>{
+        //不需要返回结果
+        request(BaseUrl + "/user/message" , "POST", {
+            messageId:messageId
+        });
+    },
+
+    /**
+     * 批量删除消息
+     * @param messages
+     * @returns {AxiosPromise}
+     */
+    deleteMessages:(messages) =>{
+        return request(BaseUrl + "/user/messages", "DELETE", {
+            messages: JSON.stringify(messages)
+        });
     }
 }

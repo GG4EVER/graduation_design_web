@@ -18,7 +18,6 @@
                 <div class="design--setting-swiper-change egg-not-copy" @click="showEditSwiperDrawer(true)"><i class="el-icon-set-up el-icon--left"></i>更改轮播图</div>
             </el-form-item>
         </el-form>
-
         <el-drawer class="design-swiper-drawer" :visible.sync="showEditSwiper" direction="rtl" size="40%" @before-close="showEditSwiperDrawer(false)">
             <div class="design-swiper-drawer-title egg-not-copy" slot="title">编辑轮播图</div>
         </el-drawer>

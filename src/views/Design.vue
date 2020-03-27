@@ -36,9 +36,10 @@
     import DesignConfig from "@/components/design/DesignConfig";
     import DesignMain from "@/components/design/DesignMain";
     import DesignHeader from "@/components/design/DesignHeader";
-    import {Dialog,Input,Button} from "element-ui"
-    import  store from "../store"
+    import {Dialog, Input, Button} from "element-ui"
+    import store from "../store"
 
+    var loading = null;
     export default {
         name: "Design",
         store,
@@ -47,25 +48,57 @@
             DesignMain,
             DesignConfig,
             DesignHeader,
-            [Dialog.name]:Dialog,
-            [Input.name]:Input,
-            [Button.name]:Button
+            [Dialog.name]: Dialog,
+            [Input.name]: Input,
+            [Button.name]: Button
         },
-        data(){
-            return{
-                path:"ws://localhost:8080/design/ufa66c26c31e2e1601b8c0b404e439a22",
-                socket:"",
-                userId:"ufa66c26c31e2e1601b8c0b404e439a22",
-                appId:"ab8cfa4fc3766f93f8e818e880b95cc43",
-                instruction:"",
-                beginTest:false,
+        data() {
+            return {
+                app: null,
+                path: "ws://localhost:8080/design/ufa66c26c31e2e1601b8c0b404e439a22",
+                socket: "",
+                userId: "ufa66c26c31e2e1601b8c0b404e439a22",
+                appId: "ab8cfa4fc3766f93f8e818e880b95cc43",
+                instruction: "",
+                beginTest: false,
             }
         },
-        methods:{
+        methods: {
+            async checkApp() {//检查有没有权限
+                loading = this.$loading.service({
+                    lock: true,
+                    text: '正在获取项目信息',
+                    background: 'rgba(0, 0, 0, 0.9)'
+                });
+                let query = this.$route.query;
+                let userInfo = this.$store.state.userInfo;
+                if (userInfo != null) {//登录了
+                    if (query.appId) {
+                        let res = await this.$API.getProjectByAppId({
+                            appId: query.appId
+                        });
+                        if (res.data.error == 0) {
+                            let app = res.data.app;
+                            if (userInfo.userId == app.userId) {
+                                loading.close();
+                                this.app = app;
+                                return true;
+                            }
+                            return false;
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        return false;
+                    }
+                } else {//没登录
+                    return false;
+                }
+            },
             init: function () {
-                if(typeof(WebSocket) === "undefined"){
+                if (typeof (WebSocket) === "undefined") {
                     alert("您的浏览器不支持socket")
-                }else{
+                } else {
                     this.beginTest = true;
                     // 实例化socket
                     this.socket = new WebSocket(this.path);
@@ -80,9 +113,9 @@
             open: function () {
                 window.console.log("socket连接成功");
                 let message = {
-                    type:"init",
-                    userId:this.userId,
-                    appId:this.appId
+                    type: "init",
+                    userId: this.userId,
+                    appId: this.appId
                 }
                 this.send(JSON.stringify(message));
             },
@@ -99,67 +132,83 @@
             close: function () {
                 window.console.log("socket已经关闭")
             },
-            submitInstruction(){
-                let message  = {
-                    type:this.instruction,
-                    userId:this.userId,
-                    appId:this.appId,
-                    buildType:"mp-weixin",
+            submitInstruction() {
+                let message = {
+                    type: this.instruction,
+                    userId: this.userId,
+                    appId: this.appId,
+                    buildType: "mp-weixin",
                 };
                 this.send(JSON.stringify(message))
             },
             //保存项目到后台
-            saveProject(){
-                let message  = {
-                    type:"save",
-                    userId:this.userId,
-                    appId:this.appId,
-                    pageJson:{
-                        pages:store.state.pages,
-                        globalStyle:store.state.globalStyle,
-                        tabBar:store.state.tabBar
+            saveProject() {
+                let message = {
+                    type: "save",
+                    userId: this.userId,
+                    appId: this.appId,
+                    pageJson: {
+                        pages: store.state.pages,
+                        globalStyle: store.state.globalStyle,
+                        tabBar: store.state.tabBar
                     },
-                    components:store.state.pageComponents
+                    components: store.state.pageComponents
                 };
                 window.console.log(message)
                 this.send(JSON.stringify(message))
             }
-        },created() {
-            //如果页面列表不为空
-            if(store.state.pages.length != 0){
-                //如果当前选中页面索引为空，则设置为选中第一个页面
-                let currPageIndex = store.state.currPageIndex;
-                if(currPageIndex == -1){
-                    currPageIndex = 0;
+        },
+        created() {
+            let that = this;
+            this.checkApp().then(flag => {
+                if (flag) {
+                    //如果页面列表不为空
+                    if (store.state.pages.length != 0) {
+                        //如果当前选中页面索引为空，则设置为选中第一个页面
+                        let currPageIndex = store.state.currPageIndex;
+                        if (currPageIndex == -1) {
+                            currPageIndex = 0;
+                        }
+                        store.commit("setCurrPageIndex", currPageIndex);
+                        store.commit("initCurrPageComponents", currPageIndex);
+                    }
+                    //重新created了，将选中组件索引置为未选中状态
+                    store.commit("setCurrComponentIndex", -1);
+                    //that.init(); //打开webSocket
+                } else {
+                    that.$confirm("","你没有权限",{
+                        type:"error",
+                    }).then(() => {
+                        loading.close();
+                        that.$router.push("/")
+                    }).catch(()=>{
+                        loading.close();
+                        that.$router.push("/")
+                    });
                 }
-                store.commit("setCurrPageIndex",currPageIndex);
-                store.commit("initCurrPageComponents",currPageIndex);
-            }
-            //重新created了，将选中组件索引置为未选中状态
-            store.commit("setCurrComponentIndex",-1);
-            //this.init(); //打开webSocket
+            });
         }
     }
 </script>
 
 <style scoped>
-    .design-header{
+    .design-header {
         padding: 0 !important;
     }
 
-    .design-main{
+    .design-main {
         height: calc(100vh - 60px);
     }
 
-    .design-aside{
+    .design-aside {
         height: 100%;
     }
 
-    .right-box-shadow{
+    .right-box-shadow {
         box-shadow: 2px 0 5px #e0e0e0;
     }
 
-    .left-box-shadow{
+    .left-box-shadow {
         box-shadow: -2px 0 5px #e0e0e0;
     }
 </style>

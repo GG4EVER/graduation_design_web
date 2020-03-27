@@ -150,6 +150,49 @@ export default {
     },
 
     /**
+     * 创建项目
+     * @param data
+     * @returns {AxiosPromise}
+     */
+    createProject(data){
+        return request(BaseUrl + "/project/", "POST", data);
+    },
+
+    /**
+     * 获得当前用户所有项目
+     */
+    getUserProjects(){
+        return request(BaseUrl + "/projects", "GET", {});
+    },
+
+    /**
+     * 获得指定app的信息
+     * @param data
+     * @returns {AxiosPromise}
+     */
+    getProjectByAppId(data){
+        return request(BaseUrl + "/project/" + data.appId, "GET", {});
+    },
+
+    /**
+     * 更新项目
+     * @param data
+     * @returns {AxiosPromise}
+     */
+    updateProject(data){
+        return request(BaseUrl + "/project/" + data.appId, "PATCH", data);
+    },
+
+    /**
+     * 删除项目
+     * @param data
+     * @returns {AxiosPromise}
+     */
+    deleteProject(data){
+        return request(BaseUrl + "/project/" + data.appId, "DELETE", data);
+    },
+
+    /**
      * 获取消息列表
      * @param isRead 可选参数，是否已读
      */

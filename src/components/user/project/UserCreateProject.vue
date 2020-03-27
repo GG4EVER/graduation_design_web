@@ -6,7 +6,7 @@
                 <el-form label-width="30%">
                     <el-form-item>
                         <div class="user-project-info-label egg-not-copy" slot="label"><span class="design-setting-star">*&nbsp;</span>项目名称</div>
-                        <el-input v-model="newProject.name" placeholder="起一个牛逼哄哄的项目名吧"></el-input>
+                        <el-input v-model="newProject.appName" placeholder="起一个牛逼哄哄的项目名吧"></el-input>
                     </el-form-item>
                     <el-form-item>
                         <div class="user-project-info-label egg-not-copy" slot="label"><span class="design-setting-star">*&nbsp;</span>项目描述</div>
@@ -40,7 +40,7 @@
         data(){
             return{
                 newProject:{
-                    name:"",
+                    appName:"",
                     description:""
                 }
             }
@@ -49,7 +49,7 @@
             submitCreate(flag = true){
                 if(flag){
                     let newProject = this.newProject;
-                    if(!newProject.name){
+                    if(!newProject.appName){
                         this.$message.error("项目名不能为空哦");
                         return;
                     }

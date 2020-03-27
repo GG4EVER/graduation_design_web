@@ -1,21 +1,21 @@
 <template>
     <el-dialog class="user-project-dialog" width="60%" :visible.sync="IsShow" :modal-append-to-body="false" top="10vh" :before-close="closeProject">
-        <div class="user-project-info-title egg-not-copy" slot="title"><i class="el-icon-postcard el-icon--left user-project-info-icon"></i>{{ProjectInfo.name}}</div>
+        <div class="user-project-info-title egg-not-copy" slot="title"><i class="el-icon-postcard el-icon--left user-project-info-icon"></i>{{ProjectInfo.appName}}</div>
         <el-col :span="24">
             <el-col :span="16" :offset="4">
                 <el-form label-width="40%">
                     <el-form-item>
                         <div class="user-project-info-label egg-not-copy" slot="label"><i class="el-icon-s-opportunity el-icon--left user-project-info-icon"></i>项目ID</div>
-                        <div class="user-project-info-content">{{ProjectInfo.id}}</div>
+                        <div class="user-project-info-content">{{ProjectInfo.appId}}</div>
                     </el-form-item>
                     <el-form-item>
                         <div class="user-project-info-label egg-not-copy" slot="label"><i class="el-icon-magic-stick el-icon--left user-project-info-icon"></i>项目名称</div>
-                        <div v-show="!isModifying" class="user-project-info-content">{{ProjectInfo.name}}</div>
-                        <el-input v-show="isModifying" v-model="currProjectInfo.name" placeholder="起一个牛逼哄哄的项目名吧"></el-input>
+                        <div v-show="!isModifying" class="user-project-info-content">{{ProjectInfo.appName}}</div>
+                        <el-input v-show="isModifying" v-model="currProjectInfo.appName" placeholder="起一个牛逼哄哄的项目名吧"></el-input>
                     </el-form-item>
                     <el-form-item>
                         <div class="user-project-info-label egg-not-copy" slot="label"><i class="el-icon-date el-icon--left user-project-info-icon"></i>创建时间</div>
-                        <div class="user-project-info-content">{{ProjectInfo.createDate}}</div>
+                        <div class="user-project-info-content">{{ProjectInfo.createTime}}</div>
                     </el-form-item>
                     <el-form-item>
                         <div class="user-project-info-label egg-not-copy" slot="label"><i class="el-icon-tickets el-icon--left user-project-info-icon"></i>项目描述</div>
@@ -89,7 +89,7 @@
             },
             //删除项目
             deleteProject() {
-                let name = this.ProjectInfo.name;
+                let name = this.ProjectInfo.appName;
                 this.$confirm({
                     title:"确认要删除 "+name + " 吗?",
                     showCancelButton:true

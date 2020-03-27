@@ -123,11 +123,11 @@
             beginNow() {//点击开始使用
                 if (isPC()) {
                     //判断是否登录，没登录跳转登录注册,登录了则显示创建新项目或者继续以前的项目
-                    // if (this.userInfo) {
-                    //     this.showPlatformInformation = false;
-                    // } else {
-                    //     this.toLogin();
-                    // }
+                    if (this.userInfo) {
+                        this.showPlatformInformation = false;
+                    } else {
+                        this.toLogin();
+                    }
                     this.showPlatformInformation = false;
                 } else {
                     this.$message.error("暂时不支持在移动端上创作，请前往PC端。");

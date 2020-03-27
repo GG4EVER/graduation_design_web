@@ -3,34 +3,41 @@
         <div class="user-project-add-button egg-not-copy" @click="createProject"><i class="el-icon-plus"></i><span
                 class="user-project-add-content">创建新项目</span></div>
         <el-table
-                class="user-project-table"
+                class="user-project-table animated fadeIn"
                 :data="projects"
                 stripe
                 style="width: 100%" row-class-name="egg-cursor" @row-click="lookProjectInfo">
-            <el-table-column
-                    prop="id"
-                    label="项目ID"
-                    width="150">
+            <el-table-column width="1">
+                <template slot-scope="scope">
+                    <span style="display: none;">{{scope.row.$index = scope.$index}}</span>
+                </template>
             </el-table-column>
             <el-table-column
-                    prop="name"
+                    prop="appId"
+                    label="项目ID"
+                    min-width="150">
+            </el-table-column>
+            <el-table-column
+                    prop="appName"
                     label="项目名称"
                     width="160">
             </el-table-column>
             <el-table-column
                     prop="description"
-                    label="项目描述" class-name="user-project-row">
+                    label="项目描述" class-name="user-project-row" min-width="150">
             </el-table-column>
-            <el-table-column
-                    prop="creator"
-                    width="180"
-                    label="创建者">
-            </el-table-column>
+            <!--            <el-table-column-->
+            <!--                    width="180"-->
+            <!--                    label="创建者">-->
+            <!--                <template slot-scope="scope">-->
+            <!--                    -->
+            <!--                </template>-->
+            <!--            </el-table-column>-->
             <el-table-column
                     label="创建时间"
                     width="180" empty-text="/">
                 <template slot-scope="scope">
-                    <div v-if="scope.row.createDate">{{scope.row.createDate}}</div>
+                    <div v-if="scope.row.createTime">{{scope.row.createTime}}</div>
                     <div v-else>-</div>
                 </template>
             </el-table-column>
@@ -38,7 +45,7 @@
                     label="上次修改时间"
                     width="180" empty-text="/">
                 <template slot-scope="scope">
-                    <div v-if="scope.row.lastModified">{{scope.row.lastModified}}</div>
+                    <div v-if="scope.row.lastModifiedTime">{{scope.row.lastModifiedTime}}</div>
                     <div v-else>-</div>
                 </template>
             </el-table-column>
@@ -71,16 +78,31 @@
                 showProjectInfo: false,
                 projectInfo: {},
                 projects: [{
-                    id: "project1",
-                    createDate:"2020-02-01",
-                    lastModified: '2020-02-02',
-                    name: '项目名',
-                    description: '项目描述',
-                    creator: "创建者"
+                    appId: "ab8cfa4fc3766f93f8e818e880b95cc43",
+                    userId: "ufa66c26c31e2e1601b8c0b404e439a22",
+                    appName: "测试",
+                    description: "测试的描述",
+                    createTime: "2020-02-27 00:30:11",
+                    lastModifiedTime: "2020-02-27 00:30:11",
                 }]
             }
         },
+        created() {
+            this.initProjects();
+        },
         methods: {
+            //获得所有项目
+            initProjects() {
+                this.$API.getUserProjects().then(res => {
+                    if (res.data.error == 0) {
+                        this.projects = res.data.apps;
+                    } else {
+                        this.$message.error(res.data.error_message);
+                    }
+                }).catch(()=>{
+                    this.$message.error("发生意外错误");
+                })
+            },
             createProject() {
                 this.showCreateProject = true;
             },
@@ -93,12 +115,20 @@
                     text: '正在创建，请稍等..',
                     background: 'rgba(0, 0, 0, 0.7)'
                 });
-                this.closeCreateProject();
-                setTimeout(()=>{
-                    this.projects.push(newProject);
+                this.$API.createProject(newProject).then(res => {
+                    if(res.data.error == 0){
+                        this.projects.push(res.data.app);
+                        loading.close();
+                        this.closeCreateProject();
+                        this.$message.success("创建成功");
+                    }else{
+                        loading.close();
+                        this.$message.error(res.data.error_message);
+                    }
+                }).catch(()=>{
                     loading.close();
-                    this.$message.success("创建成功");
-                },2000)
+                    this.$message.error("发生意外错误");
+                })
             },
             /**
              * 查看项目
@@ -108,42 +138,45 @@
                 this.showProjectInfo = true;
                 this.projectInfo = project;
             },
+
             /**
              * 更新项目
              * @param project
              */
             updateProjectInfo(newInfo) {
                 newInfo = JSON.parse(newInfo);
-                let j = -1;
-                for (let i = 0; i < this.projects.length; i++) {
-                    if (newInfo.id == this.projects[i].id) {
-                        j = i;
-                        break;
+                this.$API.updateProject(newInfo).then(res => {
+                    if (res.data.error == 0) {
+                        this.$set(this.projects, newInfo.$index, newInfo);
+                        this.$message.success("修改成功");
+                        this.projectInfo = newInfo;
+                    } else {
+                        this.$message.error(res.data.error_message);
                     }
-                }
-                if (j != -1) {
-                    this.$set(this.projects, j, newInfo);
-                }
-                this.projectInfo = newInfo;
+                }).catch(()=>{
+                    this.$message.error("发生意外错误");
+                });
             },
             /**
              * 删除项目
              * @param project
              */
             deleteProject() {
-                let index = -1;
-                for (let i = 0; i < this.projects.length; i++) {
-                    if (this.projectInfo.id == this.projects[i].id) {
-                        index = i;
-                        break;
+                this.$API.deleteProject(this.projectInfo).then(res => {
+                    if(res.data.error == 0){
+                        let index = this.projectInfo.$index;
+                        if (index != -1) {
+                            this.projects = this.projects.slice(0, index).concat(this.projects.slice(index + 1, this.projects.length));
+                        }
+                        this.showProjectInfo = false;
+                        this.projectInfo = {};
+                        this.$message.success("已删除");
+                    }else{
+                        this.$message.error(res.data.error_message);
                     }
-                }
-                if (index != -1) {
-                    this.projects = this.projects.slice(0, index).concat(this.projects.slice(index + 1, this.projects.length));
-                }
-                this.$message.success("已删除");
-                this.showProjectInfo = false;
-                this.projectInfo = {};
+                }).catch(()=>{
+                    this.$message.error("发生意外错误");
+                })
             },
             /**
              * 跳转设计项目页面
@@ -152,7 +185,7 @@
                 let project = this.projectInfo;
                 let routeUrl = this.$router.resolve({
                     path: "/design",
-                    params: {id: project.id}
+                    query: {appId: project.appId}
                 });
                 window.open(routeUrl.href, "_blank");
             },

@@ -30,6 +30,7 @@
             };
         },
         methods:{
+
             changeCollapse(){//切换菜单栏打开和关闭的状态
                 this.isCollapse = !this.isCollapse;
             },

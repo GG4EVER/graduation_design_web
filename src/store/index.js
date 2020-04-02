@@ -23,6 +23,14 @@ export default new Vuex.Store({
       backgroundColor: "#F8F8F8",
       list: []
     },
+    weChatConfig:{
+      weChatAppId:"",
+    },
+    appInfo:{
+      appName: "",
+      appId: "",
+      description: "",
+    },
     pageComponents:{},//所有页面的所有组件
     currPageComponents:[],//当前页面的组件
     currComponentIndex:-1,//当前选择的组件索引，-1为没有选择
@@ -36,6 +44,9 @@ export default new Vuex.Store({
     },
     setCertification(state,certification){//设置实名认证信息
       state.certification = certification;
+    },
+    setAppInfo(state,appInfo){//设置app信息
+      state.appInfo = appInfo;
     },
     addComponent(state,component){
       if(component){

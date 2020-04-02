@@ -1,26 +1,27 @@
 <template>
     <el-row class="egg-full-height">
         <el-col :span="24" class="egg-flex egg-flex-justify-center">
-            <el-col :xs="22" :md="18" :lg="12" class="egg-admin-home-logo-box egg-flex egg-flex-justify-center egg-flex-align-center egg-not-copy">
+            <el-col :xs="22" :md="18" :lg="12"
+                    class="egg-admin-home-logo-box egg-flex egg-flex-justify-center egg-flex-align-center egg-not-copy">
                 <img class="egg-admin-home-logo" src="../../assets/logo.png" draggable="false"/>
                 <span class="egg-admin-home-logo-title">Egg Paint</span>
             </el-col>
         </el-col>
         <el-col :span="24" class="egg-flex egg-flex-justify-around">
-            <el-col :xs="20" :md="10" :lg="5">
-                <div class="egg-home-item-box">
-                    <div class="egg-home-item">
-                        <span class="egg-home-item-icon"><i class="el-icon-message"></i></span>
-                        <span class="egg-home-item-number">99+</span>
-                        <div class="egg-home-item-direction">消息数</div>
-                    </div>
-                </div>
-            </el-col>
+<!--            <el-col :xs="20" :md="10" :lg="5">-->
+<!--                <div class="egg-home-item-box">-->
+<!--                    <div class="egg-home-item">-->
+<!--                        <span class="egg-home-item-icon"><i class="el-icon-message"></i></span>-->
+<!--                        <span class="egg-home-item-number">99+</span>-->
+<!--                        <div class="egg-home-item-direction">消息数</div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </el-col>-->
             <el-col :xs="20" :md="10" :lg="5">
                 <div class="egg-home-item-box">
                     <div class="egg-home-item">
                         <span class="egg-home-item-icon"><i class="el-icon-s-custom"></i></span>
-                        <span class="egg-home-item-number">5201314</span>
+                        <span class="egg-home-item-number">{{userCount}}</span>
                         <div class="egg-home-item-direction">总用户数</div>
                     </div>
                 </div>
@@ -29,7 +30,7 @@
                 <div class="egg-home-item-box">
                     <div class="egg-home-item">
                         <span class="egg-home-item-icon"><i class="el-icon-s-order"></i></span>
-                        <span class="egg-home-item-number">0</span>
+                        <span class="egg-home-item-number">{{authenticationCount}}</span>
                         <div class="egg-home-item-direction">待审核数</div>
                     </div>
                 </div>
@@ -49,18 +50,42 @@
 
 <script>
     export default {
-        name: "home"
+        name: "home",
+        data() {
+            return {
+                userCount: 0,
+                authenticationCount: 0,
+            }
+        },
+        created() {
+            this.initUserCount();
+            this.initAuthentication();
+        },
+        methods: {
+            //初始化总用户数
+            initUserCount() {
+                this.$API.adminGetUserCount().then(res => {
+                    this.userCount = res.data.count;
+                })
+            },
+            //初始化待审核数
+            initAuthentication() {
+                this.$API.adminGetUserCertificationCount().then(res => {
+                    this.authenticationCount = res.data.count;
+                })
+            },
+        }
     }
 </script>
 
 <style scoped>
-    .egg-home-item-box{
+    .egg-home-item-box {
         padding-top: 100%;
         border-radius: 30px;
         position: relative;
     }
 
-    .egg-home-item{
+    .egg-home-item {
         height: 100%;
         width: 100%;
         position: absolute;
@@ -75,7 +100,7 @@
         cursor: pointer;
     }
 
-    .egg-home-item-direction{
+    .egg-home-item-direction {
         width: 100%;
         height: 15%;
         position: absolute;
@@ -90,38 +115,38 @@
         color: #ffffff;
     }
 
-    .egg-home-item:hover{
+    .egg-home-item:hover {
         transition: 0.4s;
         background-color: #3e5470;
         color: #ffffff;
         box-shadow: 3px 3px 15px #666666;
     }
 
-    .egg-home-item-icon{
+    .egg-home-item-icon {
         font-size: 70px;
     }
 
-    .egg-home-item-number{
+    .egg-home-item-number {
         font-size: 50px;
     }
 
-    .egg-home-item:hover > .egg-home-item-direction{
+    .egg-home-item:hover > .egg-home-item-direction {
         transition: 0.2s;
         opacity: 0.7;
     }
 
-    .egg-admin-home-logo-box{
+    .egg-admin-home-logo-box {
         height: 100px;
         margin: 60px;
     }
 
-    .egg-admin-home-logo{
+    .egg-admin-home-logo {
         height: 5rem;
         width: 5rem;
         margin: 0 1rem;
     }
 
-    .egg-admin-home-logo-title{
+    .egg-admin-home-logo-title {
         font-size: 3rem;
         background: linear-gradient(90deg, #00AEFF 0%, #8994C6 100%);
         -webkit-background-clip: text;

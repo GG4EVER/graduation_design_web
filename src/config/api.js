@@ -1,11 +1,9 @@
 import axios from 'axios';
 import store from '../store'
 
-let Host = "http://localhost:8080";
-let BaseUrl = "http://localhost:8080/api";
-
 // 创建axios实例
 const Request = axios.create({
+    baseURL: process.env.VUE_APP_API_URL,
     timeout: 30000, // 请求超时时间
     withCredentials: true
 });
@@ -50,8 +48,6 @@ let request = function (url, method, data) {
 };
 
 export default {
-    Host,
-    BaseUrl,
     /**
      * 管理员登录
      * @param adminName
@@ -59,7 +55,7 @@ export default {
      * @returns {AxiosPromise}
      */
     adminLogin: (adminName, adminPassword) => {
-        return request(BaseUrl + "/admin/login", "POST", {
+        return request("/api/admin/login", "POST", {
             adminName: adminName,
             adminPassword: adminPassword
         });
@@ -72,14 +68,14 @@ export default {
      * @returns {AxiosPromise}
      */
     userLogin: (userName, userPassword) => {
-        return request(BaseUrl + "/user/login", "POST", {
+        return request("/api/user/login", "POST", {
             userName: userName,
             userPassword: userPassword
         });
     },
 
     getUserInfo: () => {
-        return request(BaseUrl + "/user", "GET", {});
+        return request("/api/user", "GET", {});
     },
 
 
@@ -87,14 +83,14 @@ export default {
      * 检测用户名是否重复
      */
     userCheckUserName: (userName) => {
-        return request(BaseUrl + "/user/register?userName=" + userName, "POST", {});
+        return request("/api/user/register?userName=" + userName, "POST", {});
     },
 
     /**
      * 检测手机是否重复
      */
     userCheckUserPhone: (userPhone) => {
-        return request(BaseUrl + "/user/register?userPhone=" + userPhone, "POST", {});
+        return request("/api/user/register?userPhone=" + userPhone, "POST", {});
     },
 
     /**
@@ -104,7 +100,7 @@ export default {
      * @returns {AxiosPromise}
      */
     userRegister: (userName, userPassword) => {
-        return request(BaseUrl + "/user", "POST", {
+        return request("/api/user", "POST", {
             userName: userName,
             userPassword: userPassword
         });
@@ -119,7 +115,7 @@ export default {
             userNickName: userInfo.userNickName,
             userPhone: userInfo.userPhone,
         };
-        return request(BaseUrl + "/user", "PATCH", data);
+        return request("/api/user", "PATCH", data);
     },
 
     /**
@@ -129,7 +125,7 @@ export default {
      * @param type
      */
     uploadImage(params){
-        return request(Host + "/image", "POST", params);
+        return request("/image", "POST", params);
     },
 
     /**
@@ -137,7 +133,7 @@ export default {
      * @returns {AxiosPromise}
      */
     getCertification: () => {
-        return request(BaseUrl + "/user/certification", "GET", {});
+        return request("/api/user/certification", "GET", {});
     },
 
     /**
@@ -146,7 +142,7 @@ export default {
      * @returns {AxiosPromise}
      */
     setCertification:(data) =>{
-        return request(BaseUrl + "/user/certification", "POST", data);
+        return request("/api/user/certification", "POST", data);
     },
 
     /**
@@ -155,14 +151,14 @@ export default {
      * @returns {AxiosPromise}
      */
     createProject(data){
-        return request(BaseUrl + "/project/", "POST", data);
+        return request("/api/project/", "POST", data);
     },
 
     /**
      * 获得当前用户所有项目
      */
     getUserProjects(){
-        return request(BaseUrl + "/projects", "GET", {});
+        return request("/api/projects", "GET", {});
     },
 
     /**
@@ -171,7 +167,7 @@ export default {
      * @returns {AxiosPromise}
      */
     getProjectByAppId(data){
-        return request(BaseUrl + "/project/" + data.appId, "GET", {});
+        return request("/api/project/" + data.appId, "GET", {});
     },
 
     /**
@@ -180,7 +176,7 @@ export default {
      * @returns {AxiosPromise}
      */
     updateProject(data){
-        return request(BaseUrl + "/project/" + data.appId, "PATCH", data);
+        return request("/api/project/" + data.appId, "PATCH", data);
     },
 
     /**
@@ -189,7 +185,7 @@ export default {
      * @returns {AxiosPromise}
      */
     deleteProject(data){
-        return request(BaseUrl + "/project/" + data.appId, "DELETE", data);
+        return request("/api/project/" + data.appId, "DELETE", data);
     },
 
     /**
@@ -198,9 +194,9 @@ export default {
      */
     getMessages:(isRead)=>{
         if(isRead != null){
-            return request(BaseUrl + "/user/messages?isRead=" + isRead , "GET", {});
+            return request("/api/user/messages?isRead=" + isRead , "GET", {});
         }else{
-            return request(BaseUrl + "/user/messages", "GET", {});
+            return request("/api/user/messages", "GET", {});
         }
     },
 
@@ -210,7 +206,7 @@ export default {
      */
     readMessage:(messageId) =>{
         //不需要返回结果
-        request(BaseUrl + "/user/message" , "POST", {
+        request("/api/user/message" , "POST", {
             messageId:messageId
         });
     },
@@ -221,8 +217,80 @@ export default {
      * @returns {AxiosPromise}
      */
     deleteMessages:(messages) =>{
-        return request(BaseUrl + "/user/messages", "DELETE", {
+        return request("/api/user/messages", "DELETE", {
             messages: JSON.stringify(messages)
         });
+    },
+
+    /**
+     * 管理员获得用户列表
+     * @param page
+     * @returns {AxiosPromise}
+     */
+    adminGetAllUser(page){
+        return request("/api/admin/users/" + page, "GET", {});
+    },
+
+    /**
+     * 多条件获取用户列表
+     * @param page
+     * @param data
+     * @returns {AxiosPromise}
+     */
+    adminSearchAllUser(page,data){
+        return request("/api/admin/users/" + page, "POST", data);
+    },
+
+    /**
+     * 管理员获得项目列表
+     * @param page
+     * @returns {AxiosPromise}
+     */
+    adminGetAllUniApp(page){
+        return request("/api/admin/projects/" + page, "GET", {});
+    },
+
+    /**
+     * 多条件获取用户列表
+     * @param page
+     * @param data
+     * @returns {AxiosPromise}
+     */
+    adminSearchAllUniApp(page,data){
+        return request("/api/admin/projects/" + page, "POST", data);
+    },
+
+    /**
+     * 多条件获取实名认证列表
+     * @param page
+     * @param data
+     */
+    adminGetCertification(page,data){
+        return request("/api/admin/users/certification/" + page, "POST", data);
+    },
+
+    /**
+     * 更新指定实名认证
+     * @param data
+     * @returns {AxiosPromise}
+     */
+    adminUpdateCertification(data){
+        return request("/api/admin/user/certification", "PATCH", data);
+    },
+
+    /**
+     * 获得用户总数
+     * @returns {AxiosPromise}
+     */
+    adminGetUserCount(){
+        return request("/api/admin/user/count", "GET", {});
+    },
+
+    /**
+     * 获得待审核实名认证总数
+     * @returns {AxiosPromise}
+     */
+    adminGetUserCertificationCount(){
+        return request("/api/admin/user/certification/count", "GET", {});
     }
 }

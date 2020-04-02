@@ -190,8 +190,8 @@
             },
             handleCommand(command) {//点击下拉菜单，跳转
                 if (command == "/logout") {//如果选择了退出登录
-                    store.commit("setToken", "");//清除token
-                    localStorage.removeItem("token");//清除token
+                    store.commit("setToken", null);//清除token
+                    store.commit("setUserInfo", null);//清除token
                     this.$message.success("退出登录~");
                     //刷新页面
                     this.$router.go(0);

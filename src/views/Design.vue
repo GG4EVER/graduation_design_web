@@ -112,12 +112,12 @@
             },
             open: function () {
                 window.console.log("socket连接成功");
-                let message = {
-                    type: "init",
-                    userId: this.userId,
-                    appId: this.appId
-                }
-                this.send(JSON.stringify(message));
+                // let message = {
+                //     type: "init",
+                //     userId: this.userId,
+                //     appId: this.appId
+                // }
+                // this.send(JSON.stringify(message));
             },
             error: function () {
                 window.console.log("连接错误")
@@ -133,13 +133,18 @@
                 window.console.log("socket已经关闭")
             },
             submitInstruction() {
-                let message = {
-                    type: this.instruction,
-                    userId: this.userId,
-                    appId: this.appId,
-                    buildType: "mp-weixin",
-                };
-                this.send(JSON.stringify(message))
+                if(this.instruction == "save"){
+                    this.saveProject();
+                }else{
+                    let message = {
+                        type: this.instruction,
+                        userId: this.userId,
+                        appId: this.appId,
+                        buildType: "mp-weixin",
+                    };
+                    window.console.log(message)
+                    this.send(JSON.stringify(message))
+                }
             },
             //保存项目到后台
             saveProject() {
@@ -174,7 +179,7 @@
                     }
                     //重新created了，将选中组件索引置为未选中状态
                     store.commit("setCurrComponentIndex", -1);
-                    //that.init(); //打开webSocket
+                    that.init(); //打开webSocket
                 } else {
                     that.$confirm("","你没有权限",{
                         type:"error",

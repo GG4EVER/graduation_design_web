@@ -225,11 +225,10 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {//检查通过
                         if (this.loginData.userName.indexOf("_") != -1) {//如果用户名中出现 _ ，则是管理员
-                            this.$API.adminLogin(name, password).then(function (data) {
-                                if (data.error == "0") {//登录成功
+                            this.$API.adminLogin(name, password).then(function (res) {
+                                if (res.data.error == "0") {//登录成功
                                     //保存token
-                                    store.commit("setToken", data.token);
-                                    localStorage.setItem("token",data.token);
+                                    store.commit("setToken", res.data.token);
                                     that.$router.push("/admin");
                                 } else {
                                     that.$message.error("用户名或密码错误");
@@ -241,7 +240,6 @@
                                 if (res.data.error == "0") {//登录成功
                                     //保存token
                                     store.commit("setToken", res.data.token);
-                                    localStorage.setItem("token",res.data.token);
                                     that.$router.push("/user");
                                 } else {
                                     that.$message.error("用户名或密码错误");

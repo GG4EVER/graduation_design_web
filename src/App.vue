@@ -313,4 +313,18 @@
     .design-swiper-drawer .el-drawer{
         background-color: #edf8ff;
     }
+
+    .admin-user-list-header{
+        font-size: 17px;
+        color: #1B1B1B;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .admin-el-pagination {
+        margin-top: 50px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
 </style>

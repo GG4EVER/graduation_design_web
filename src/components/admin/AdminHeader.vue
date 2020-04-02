@@ -9,7 +9,7 @@
                 <span class="egg-admin-name">Admin</span>
             </div>
             <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="updateInfo">修改资料</el-dropdown-item>
+<!--                <el-dropdown-item command="updateInfo">修改资料</el-dropdown-item>-->
                 <el-dropdown-item command="logout" divided>退出登录</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>

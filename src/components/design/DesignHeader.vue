@@ -84,7 +84,6 @@
             saveProject(){
                 this.isSaving = true;
                 this.$emit("listenSaveProject");
-                window.console.log(localStorage);
                 setTimeout(()=>{
                     this.isSaving = false;
                 },500)

@@ -26,8 +26,7 @@
                         <div class="user-message-content-top-wall">
                             <div class="user-message-triangle"></div>
                         </div>
-                        <div class="user-message-content">
-                            {{MessageInfo.content}}
+                        <div class="user-message-content" v-html="MessageInfo.content">
                         </div>
                         <div class="user-message-content-bottom-wall"></div>
                     </el-form-item>

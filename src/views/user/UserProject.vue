@@ -53,7 +53,9 @@
         <user-create-project :is-show="showCreateProject" @listenCreate="submitCreateProject"
                              @listenClose="closeCreateProject"></user-create-project>
         <user-project-info :is-show="showProjectInfo" :project-info="projectInfo"
-                           @listenUpdateProjectInfo="updateProjectInfo" @listenDesign="designProject"
+                           @listenUpdateProjectInfo="updateProjectInfo"
+                           @listenBuildProject="buildProject"
+                           @listenDesign="designProject"
                            @listenDelete="deleteProject" @listenClose="closeProjectInfo"></user-project-info>
     </el-col>
 </template>
@@ -77,14 +79,7 @@
                 showCreateProject: false,
                 showProjectInfo: false,
                 projectInfo: {},
-                projects: [{
-                    appId: "ab8cfa4fc3766f93f8e818e880b95cc43",
-                    userId: "ufa66c26c31e2e1601b8c0b404e439a22",
-                    appName: "测试",
-                    description: "测试的描述",
-                    createTime: "2020-02-27 00:30:11",
-                    lastModifiedTime: "2020-02-27 00:30:11",
-                }]
+                projects: []
             }
         },
         created() {
@@ -99,7 +94,7 @@
                     } else {
                         this.$message.error(res.data.error_message);
                     }
-                }).catch(()=>{
+                }).catch(() => {
                     this.$message.error("发生意外错误");
                 })
             },
@@ -116,16 +111,16 @@
                     background: 'rgba(0, 0, 0, 0.7)'
                 });
                 this.$API.createProject(newProject).then(res => {
-                    if(res.data.error == 0){
+                    if (res.data.error == 0) {
                         this.projects.push(res.data.app);
                         loading.close();
                         this.closeCreateProject();
                         this.$message.success("创建成功");
-                    }else{
+                    } else {
                         loading.close();
                         this.$message.error(res.data.error_message);
                     }
-                }).catch(()=>{
+                }).catch(() => {
                     loading.close();
                     this.$message.error("发生意外错误");
                 })
@@ -153,17 +148,28 @@
                     } else {
                         this.$message.error(res.data.error_message);
                     }
-                }).catch(()=>{
+                }).catch(() => {
                     this.$message.error("发生意外错误");
                 });
             },
+
+            buildProject(buildType) {
+                this.$API.buildProject(buildType, this.projectInfo.appId).then(res => {
+                    if (res.data.error == 0) {
+                        this.$message.success(res.data.message);
+                    }else{
+                        this.$message.error(res.data.error_message);
+                    }
+                });
+            },
+
             /**
              * 删除项目
              * @param project
              */
             deleteProject() {
                 this.$API.deleteProject(this.projectInfo).then(res => {
-                    if(res.data.error == 0){
+                    if (res.data.error == 0) {
                         let index = this.projectInfo.$index;
                         if (index != -1) {
                             this.projects = this.projects.slice(0, index).concat(this.projects.slice(index + 1, this.projects.length));
@@ -171,10 +177,10 @@
                         this.showProjectInfo = false;
                         this.projectInfo = {};
                         this.$message.success("已删除");
-                    }else{
+                    } else {
                         this.$message.error(res.data.error_message);
                     }
-                }).catch(()=>{
+                }).catch(() => {
                     this.$message.error("发生意外错误");
                 })
             },

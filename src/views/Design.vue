@@ -23,11 +23,11 @@
                 </el-col>
             </el-row>
         </el-container>
-        <el-dialog :visible="beginTest" title="输入指令">
-            <el-input v-model="instruction"></el-input>
-            <div style="height: 50px;"></div>
-            <el-button type="success" @click="submitInstruction">提交</el-button>
-        </el-dialog>
+<!--        <el-dialog :visible="beginTest" title="输入指令">-->
+<!--            <el-input v-model="instruction"></el-input>-->
+<!--            <div style="height: 50px;"></div>-->
+<!--            <el-button type="success" @click="submitInstruction">提交</el-button>-->
+<!--        </el-dialog>-->
     </el-container>
 </template>
 
@@ -112,12 +112,12 @@
             },
             open: function () {
                 window.console.log("socket连接成功");
-                // let message = {
-                //     type: "init",
-                //     userId: this.userId,
-                //     appId: this.appId
-                // }
-                // this.send(JSON.stringify(message));
+                let message = {
+                    type: "init",
+                    userId: this.userId,
+                    appId: this.appId
+                }
+                this.send(JSON.stringify(message));
             },
             error: function () {
                 window.console.log("连接错误")

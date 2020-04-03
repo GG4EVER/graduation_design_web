@@ -43,7 +43,7 @@
                 <el-table-column
                         label="内容">
                     <template slot-scope="scope">
-                        <span class="inbox-message-content"> {{scope.row.content}}</span>
+                        <div class="inbox-message-content" v-html="scope.row.content"></div>
                     </template>
                 </el-table-column>
                 <el-table-column

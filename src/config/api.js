@@ -180,6 +180,16 @@ export default {
     },
 
     /**
+     * 打包项目
+     * @param buildType
+     * @param appId
+     * @returns {AxiosPromise}
+     */
+    buildProject(buildType,appId) {
+        return request("http://localhost:8080/api/project/build/" + appId + "?buildType=" + buildType, "GET", {});
+    },
+
+    /**
      * 删除项目
      * @param data
      * @returns {AxiosPromise}

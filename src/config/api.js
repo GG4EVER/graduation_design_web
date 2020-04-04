@@ -302,5 +302,22 @@ export default {
      */
     adminGetUserCertificationCount(){
         return request("/api/admin/user/certification/count", "GET", {});
+    },
+
+    /**
+     * 发布需求
+     * @param data
+     * @returns {AxiosPromise}
+     */
+    submitRequirement(data){
+        return request("/api/user/requirement", "POST", data);
+    },
+
+    /**
+     * 获得需求列表
+     * @param page
+     */
+    adminGetRequirements(page){
+        return request("/api/admin/requirements/" + page, "GET", {});
     }
 }

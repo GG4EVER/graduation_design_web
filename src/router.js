@@ -47,6 +47,11 @@ export default new Router({
                     component: () => import(/* webpackChunkName: "about" */ './views/user/UserProject.vue')
                 },
                 {
+                    path: 'userRequirement',
+                    name: '用户定制需求页面',
+                    component: () => import(/* webpackChunkName: "about" */ './views/user/UserRequirement.vue')
+                },
+                {
                     path: 'inBox',
                     name: '用户收件箱',
                     component: () => import(/* webpackChunkName: "about" */ './views/user/InBox.vue')
@@ -91,6 +96,11 @@ export default new Router({
                     path: 'realNameAuthentication',
                     name: '实名认证',
                     component: () => import(/* webpackChunkName: "about" */ './views/admin/RealNameAuthentication.vue')
+                },
+                {
+                    path:'requirementList',
+                    name: '用户需求列表',
+                    component: () => import(/* webpackChunkName: "about" */ './views/admin/RequirementList.vue')
                 },
                 {
                     path: 'inBox',

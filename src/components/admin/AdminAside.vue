@@ -41,6 +41,8 @@
 <!--                <el-menu-item class="egg-menu-item" index="5-2" route="/admin/outBox">发件箱</el-menu-item>-->
 <!--            </el-menu-item-group>-->
 <!--        </el-submenu>-->
+        <el-menu-item class="egg-menu-item" index="5" route="/admin/requirementList"><i class="el-icon-s-home"></i><span slot="title">需求列表</span></el-menu-item>
+
     </el-menu>
 </template>
 

@@ -20,7 +20,8 @@
                 <el-menu-item class="egg-menu-item" index="/user/userProject" route="/user/userProject">我的项目</el-menu-item>
             </el-menu-item-group>
         </el-submenu>
-        <el-submenu index="4">
+        <el-menu-item index="/user/userRequirement" class="egg-menu-item" route="/user/userRequirement"><i class="el-icon-brush"></i><span slot="title">定制需求</span></el-menu-item>
+        <el-submenu index="5">
             <template slot="title">
                 <i class="el-icon-message-solid"></i>
                 <span slot="title">站内消息</span>
@@ -54,6 +55,7 @@
                     this.$refs["elMenu"].close("2");
                     this.$refs["elMenu"].close("3");
                     this.$refs["elMenu"].close("4");
+                    this.$refs["elMenu"].close("5");
                 }
                 this.activeMenu = path;
             }

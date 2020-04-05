@@ -54,6 +54,10 @@
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item command="h5">H5</el-dropdown-item>
                     <el-dropdown-item command="mp-weixin">微信小程序</el-dropdown-item>
+                    <el-dropdown-item command="mp-alipay">支付宝小程序</el-dropdown-item>
+                    <el-dropdown-item command="mp-baidu">百度小程序</el-dropdown-item>
+                    <el-dropdown-item command="mp-toutiao">字节跳动小程序</el-dropdown-item>
+                    <el-dropdown-item command="mp-qq">QQ小程序</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
             <el-button class="animated fadeIn" v-show="!isModifying" round plain type="danger" @click="deleteProject"

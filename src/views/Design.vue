@@ -54,11 +54,10 @@
         },
         data() {
             return {
-                app: null,
-                path: "ws://localhost:8080/design/ufa66c26c31e2e1601b8c0b404e439a22",
+                path: "ws://localhost:8080/design/",
                 socket: "",
-                userId: "ufa66c26c31e2e1601b8c0b404e439a22",
-                appId: "ab8cfa4fc3766f93f8e818e880b95cc43",
+                userId: "",
+                appId: "",
                 instruction: "",
                 beginTest: false,
             }
@@ -74,6 +73,8 @@
                 let userInfo = this.$store.state.userInfo;
                 if (userInfo != null) {//登录了
                     if (query.appId) {
+                        this.appId = query.appId;
+                        this.userId = userInfo.userId;
                         let res = await this.$API.getProjectByAppId({
                             appId: query.appId
                         });
@@ -81,7 +82,15 @@
                             let app = res.data.app;
                             if (userInfo.userId == app.userId) {
                                 loading.close();
-                                this.app = app;
+                                let appInfoList = store.state.appInfo;
+                                let appInfo = {
+                                    appName: app.appName,
+                                    appId: app.appId,
+                                    description: app.description,
+                                    weChatAppId:app.weChatConfig.weChatAppId
+                                };
+                                appInfoList[app.appId] = appInfo;
+                                store.commit("setAppInfo",appInfoList);
                                 return true;
                             }
                             return false;
@@ -101,7 +110,7 @@
                 } else {
                     this.beginTest = true;
                     // 实例化socket
-                    this.socket = new WebSocket(this.path);
+                    this.socket = new WebSocket(this.path + this.userId);
                     // 监听socket连接
                     this.socket.onopen = this.open;
                     // 监听socket错误信息
@@ -131,20 +140,6 @@
             },
             close: function () {
                 window.console.log("socket已经关闭")
-            },
-            submitInstruction() {
-                if(this.instruction == "save"){
-                    this.saveProject();
-                }else{
-                    let message = {
-                        type: this.instruction,
-                        userId: this.userId,
-                        appId: this.appId,
-                        buildType: "mp-weixin",
-                    };
-                    window.console.log(message)
-                    this.send(JSON.stringify(message))
-                }
             },
             //保存项目到后台
             saveProject() {

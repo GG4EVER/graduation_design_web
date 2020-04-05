@@ -5,15 +5,25 @@
                 <img src="../../assets/images/authentication.jpg">
             </el-col>
             <el-col :lg="{span:9}" :md="{span:9}" :sm="{span:24}" :xs="{span:24}" v-if="certification">
-                <el-col class="user-authentication-title" style="text-align: left;">认证信息（<template v-if="certification.state == 0">审核中</template><template v-else-if="certification.state == 1"><span class="egg-success">审核通过</span></template><template v-else ><span class="egg-fail">审核不通过</span></template>）</el-col>
+                <el-col class="user-authentication-title" style="text-align: left;">认证信息（
+                    <template v-if="certification.state == 0">审核中</template>
+                    <template v-else-if="certification.state == 1"><span class="egg-success">审核通过</span></template>
+                    <template v-else><span class="egg-fail">审核不通过</span></template>
+                    ）
+                </el-col>
                 <el-form>
-                    <el-form-item label="姓名">{{certification.name.slice(0,1)}}*{{certification.name.slice(certification.name.length - 1)}}</el-form-item>
+                    <el-form-item label="姓名">
+                        {{certification.name.slice(0,1)}}*{{certification.name.slice(certification.name.length - 1)}}
+                    </el-form-item>
                 </el-form>
                 <el-form>
-                    <el-form-item label="身份证号">{{certification.idCard.slice(0,1)}}****************{{certification.idCard.slice(certification.idCard.length - 1)}}</el-form-item>
+                    <el-form-item label="身份证号">
+                        {{certification.idCard.slice(0,1)}}****************{{certification.idCard.slice(certification.idCard.length
+                        - 1)}}
+                    </el-form-item>
                 </el-form>
                 <el-form>
-                    <el-form-item  v-if="certification.state == 1" label="认证时间">{{certification.time}}</el-form-item>
+                    <el-form-item v-if="certification.state == 1" label="认证时间">{{certification.time}}</el-form-item>
                 </el-form>
             </el-col>
             <el-col :lg="{span:9}" :md="{span:9}" :sm="{span:24}" :xs="{span:24}" v-else>
@@ -56,7 +66,7 @@
                     <input type="file" style="display: none;" ref="idCardPerson" @change="uploadPhoto($event,1)"/>
                     <!--                如果有照片-->
                     <div v-if="certificationTemp.portraitUrl" class="user-authentication-no-photo" @click="getPhoto(1)">
-                        <img class="user-authentication-photo" :src="host +  certificationTemp.portraitUrl"/>
+                        <img class="user-authentication-photo" :src="certificationTemp.portraitUrl"/>
                         <div class="user-authentication-photo-mask"></div>
                     </div>
                     <div v-else class="user-authentication-no-photo" @click="getPhoto(1)">
@@ -71,8 +81,9 @@
                     <input type="file" style="display: none;" ref="idCardNationalEmblem"
                            @change="uploadPhoto($event,2)"/>
                     <!--                如果有照片-->
-                    <div v-if="certificationTemp.nationalEmblemUrl" class="user-authentication-no-photo" @click="getPhoto(2)">
-                        <img class="user-authentication-photo" :src="host + certificationTemp.nationalEmblemUrl"/>
+                    <div v-if="certificationTemp.nationalEmblemUrl" class="user-authentication-no-photo"
+                         @click="getPhoto(2)">
+                        <img class="user-authentication-photo" :src="certificationTemp.nationalEmblemUrl"/>
                         <div class="user-authentication-photo-mask"></div>
                     </div>
                     <div v-else class="user-authentication-no-photo" @click="getPhoto(2)">
@@ -104,35 +115,28 @@
             return {
                 showAuthentication: false,
                 certification: null,
-                host:"",
-                certificationTemp:{
-                    name:"",
-                    idCard:"",
-                    portraitUrl:"",
-                    nationalEmblemUrl:""
+                certificationTemp: {
+                    name: "",
+                    idCard: "",
+                    portraitUrl: "",
+                    nationalEmblemUrl: ""
                 },
             }
         },
         created() {
-            this.host = this.$API.Host;
-            let certification = this.$store.state.certification;
-            if (certification) {//如果已经获取过了
-                this.certification = certification;
-            } else {
-                this.$API.getCertification().then(res => {
-                    if (res.data.error == 0) {
-                        this.certification = res.data.certification;
-                    } else {
-                        this.$message.error(res.data.error_message);
-                    }
-                });
-            }
+            this.$API.getCertification().then(res => {
+                if (res.data.error == 0) {
+                    this.certification = res.data.certification;
+                } else {
+                    this.$message.error(res.data.error_message);
+                }
+            });
         },
         methods: {
             //打开实名认证
             openAuthentication() {
                 this.showAuthentication = true;
-                if(this.certification){//如果有实名认证的信息，则赋值
+                if (this.certification) {//如果有实名认证的信息，则赋值
                     this.certificationTemp = JSON.parse(JSON.stringify(this.certification));
                 }
             },
@@ -149,25 +153,25 @@
                 window.console.log(e.target.files[0])
                 let file = e.target.files[0];
                 let param = new FormData(); //创建form对象
-                param.append('file',file,file.name);
-                param.append('userId',this.$store.state.userInfo.userId);
+                param.append('file', file, file.name);
+                param.append('userId', this.$store.state.userInfo.userId);
                 if (index == 1) {
-                    param.append('type','portrait');
+                    param.append('type', 'portrait');
                     this.$API.uploadImage(param).then(res => {
                         let data = res.data;
-                        if(data.error == 0){//上传成功
+                        if (data.error == 0) {//上传成功
                             this.certificationTemp.portraitUrl = data.url;
-                        }else{
+                        } else {
                             this.$message.error(data.error_message);
                         }
                     });
                 } else {
-                    param.append('type','nationalEmblem');
+                    param.append('type', 'nationalEmblem');
                     this.$API.uploadImage(param).then(res => {
                         let data = res.data;
-                        if(data.error == 0){//上传成功
+                        if (data.error == 0) {//上传成功
                             this.certificationTemp.nationalEmblemUrl = data.url;
-                        }else{
+                        } else {
                             this.$message.error(data.error_message);
                         }
                     });
@@ -178,32 +182,32 @@
                 // eslint-disable-next-line no-empty
                 if (flag) {
                     let name = this.certificationTemp.name;
-                    if(name == "" || name ==null){
+                    if (name == "" || name == null) {
                         this.$message.error("姓名不能为空");
                         return;
                     }
                     let idCard = this.certificationTemp.idCard;
-                    if(idCard == "" || idCard ==null){
+                    if (idCard == "" || idCard == null) {
                         this.$message.error("身份证不能为空");
                         return;
                     }
                     let portraitUrl = this.certificationTemp.portraitUrl;
-                    if(portraitUrl == "" || portraitUrl ==null){
+                    if (portraitUrl == "" || portraitUrl == null) {
                         this.$message.error("身份证图片不能为空");
                         return;
                     }
                     let nationalEmblemUrl = this.certificationTemp.nationalEmblemUrl;
-                    if(nationalEmblemUrl == "" || nationalEmblemUrl ==null){
+                    if (nationalEmblemUrl == "" || nationalEmblemUrl == null) {
                         this.$message.error("身份证图片不能为空");
                         return;
                     }
                     let loading = this.$loading.service();
                     this.$API.setCertification(this.certificationTemp).then(res => {
                         loading.close();
-                        if(res.data.error == 0){
+                        if (res.data.error == 0) {
                             this.$message.success("已提交");
                             this.certification = res.data.certification;
-                        }else{
+                        } else {
                             this.$message.error(res.data.error_message);
                         }
                         this.showAuthentication = false;
@@ -212,7 +216,7 @@
                         this.showAuthentication = false;
                         this.$message.error("发生意外错误");
                     })
-                }else{
+                } else {
                     this.showAuthentication = false;
                 }
             }

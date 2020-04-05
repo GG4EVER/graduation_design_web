@@ -171,6 +171,15 @@ export default {
     },
 
     /**
+     * 修改项目微信配置
+     * @param data
+     * @returns {AxiosPromise}
+     */
+    updateProjectWeChatConfig(data){
+        return request("/api/project/wechat/" + data.appId, "PATCH", data);
+    },
+
+    /**
      * 更新项目
      * @param data
      * @returns {AxiosPromise}
@@ -186,7 +195,7 @@ export default {
      * @returns {AxiosPromise}
      */
     buildProject(buildType,appId) {
-        return request("http://localhost:8080/api/project/build/" + appId + "?buildType=" + buildType, "GET", {});
+        return request("/api/project/build/" + appId + "?buildType=" + buildType, "GET", {});
     },
 
     /**

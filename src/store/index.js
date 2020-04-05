@@ -23,14 +23,7 @@ export default new Vuex.Store({
       backgroundColor: "#F8F8F8",
       list: []
     },
-    weChatConfig:{
-      weChatAppId:"",
-    },
-    appInfo:{
-      appName: "",
-      appId: "",
-      description: "",
-    },
+    appInfo:[],//当前正在编辑的项目列表
     pageComponents:{},//所有页面的所有组件
     currPageComponents:[],//当前页面的组件
     currComponentIndex:-1,//当前选择的组件索引，-1为没有选择

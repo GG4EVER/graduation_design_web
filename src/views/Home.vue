@@ -101,7 +101,6 @@
     import {isPC} from "../utils/function";
     import store from "../store"
     import UserCreateProject from "../components/user/project/UserCreateProject";
-
     export default {
         name: "Home",
         store,
@@ -110,7 +109,7 @@
             [Button.name]: Button,
             [Dropdown.name]: Dropdown,
             [DropdownMenu.name]: DropdownMenu,
-            [DropdownItem.name]: DropdownItem
+            [DropdownItem.name]: DropdownItem,
         },
         data() {
             return {

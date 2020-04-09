@@ -27,7 +27,8 @@
         name: "UniSwiper",
         components: {
             UniImage,
-            swiper, swiperSlide
+            [swiper.name]:swiper,
+            [swiperSlide.name]:swiperSlide
         },
         props: {
             ComponentAttribute: {//组件属性

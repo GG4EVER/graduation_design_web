@@ -1,11 +1,11 @@
 <template>
     <div v-if="swiperOptions">
         <swiper :options="swiperOptions" :class="ComponentAnimation" :style="ComponentStyle">
-            <template v-if="true || ComponentChildren && ComponentChildren.length != 0">
+            <template v-if="ComponentChildren && ComponentChildren.length != 0">
                 <!-- slides -->
-                <swiper-slide v-for="(item,index) in list" :key="index" class="egg-swiper-item egg-no-swiper-item"
+                <swiper-slide v-for="(item,index) in ComponentChildren" :key="index" class="egg-swiper-item egg-no-swiper-item"
                               :style="ComponentStyle">
-                    <uni-image :component-attribute="{src:item.src,mode:'scaleToFill'}"></uni-image>
+                    <uni-image :component-attribute="{src:item,mode:'widthFix'}"></uni-image>
                 </swiper-slide>
             </template>
             <template v-else>
@@ -60,13 +60,18 @@
             }
         },
         watch: {
+            ComponentAttribute(newVal){
+                window.console.log("监听到了");
+                window.console.log(newVal)
+            },
             getOptions(newVal) {
                 this.swiperOptions = null;
                 this.$nextTick(() => {
                     this.swiperOptions = newVal;
                     this.appendStyle(this.ComponentAttribute["indicator-active-color"]);
                 })
-            }
+            },
+            deep:true
         },
         computed: {
             getOptions() {
@@ -98,18 +103,7 @@
                 swiperOptions: {},
                 showButton: false,
                 showScrollbar: false,
-                updateNum: 1,
-                list: [
-                    {
-                        src: "http://5b0988e595225.cdn.sohucs.com/images/20171031/380d6436c518434bb6c29918685589be.jpeg"
-                    },
-                    {
-                        src: "http://dingyue.nosdn.127.net/BwhYrYxowI5Tq5=9N2yzZHRNFRxyunEZMZnwMDMTNeXG51527583248120compressflag.jpg"
-                    },
-                    {
-                        src: "http://img.glzy8.com/upfiles/ceo/201811/1543384737810402.jpg"
-                    }
-                ]
+                updateNum: 1
             }
         }, methods: {
             appendStyle(color) {

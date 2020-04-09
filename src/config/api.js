@@ -129,6 +129,21 @@ export default {
     },
 
     /**
+     * 获得用户的素材库
+     */
+    getMaterials(){
+        return request("/api/user/materials", "GET", {});
+    },
+
+    /**
+     * 删除素材库图片
+     * @param data
+     */
+    deleteImage(url){
+        return request(url, "DELETE", {});
+    },
+
+    /**
      * 获取用户实名认证信息
      * @returns {AxiosPromise}
      */

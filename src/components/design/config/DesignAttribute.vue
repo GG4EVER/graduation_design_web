@@ -5,8 +5,8 @@
             <el-tabs class="design-attribute-tabs" v-model="showTabIndex">
                 <el-tab-pane label="组件属性" name="0">
                     <el-col :span="22" :offset="2">
-                        <component :is="attributeComponentName" :component-attribute="currComponent.attribute"
-                                   @listenSaveAttribute="saveAttribute"></component>
+                        <component :is="attributeComponentName" :component-attribute="currComponent.attribute" :component-children="currComponent.children"
+                                   @listenSaveChildren="saveChildren" @listenSaveAttribute="saveAttribute"></component>
                     </el-col>
                 </el-tab-pane>
                 <el-tab-pane  label="基础属性" name="1">
@@ -66,16 +66,28 @@
             }
         },
         methods: {
+            /**
+             * 保存属性
+             * */
             saveAttribute() {
-                store.commit("saveComponentAttribute");
+                this.$set(store.state.currPageComponents, store.state.currComponentIndex, this.currComponent);
+                this.$store.commit("saveComponentAttribute");
             },
+
+            /**
+             * 保存子组件
+             * */
+            saveChildren(children){
+                this.currComponent.children = children;
+                this.saveAttribute();
+            },
+
             /**
              * 监听修改组件样式
              * @param style
              */
             changeComponentStyle(style) {
                 this.currComponent.style = style;
-                this.$set(store.state.currPageComponents, store.state.currComponentIndex, this.currComponent);
                 this.saveAttribute();
             }
         }

@@ -26,13 +26,6 @@
                     prop="description"
                     label="项目描述" class-name="user-project-row" min-width="150">
             </el-table-column>
-            <!--            <el-table-column-->
-            <!--                    width="180"-->
-            <!--                    label="创建者">-->
-            <!--                <template slot-scope="scope">-->
-            <!--                    -->
-            <!--                </template>-->
-            <!--            </el-table-column>-->
             <el-table-column
                     label="创建时间"
                     width="180" empty-text="/">
@@ -99,7 +92,24 @@
                 })
             },
             createProject() {
-                this.showCreateProject = true;
+                //获取是否已经实名认证
+                this.$API.getCertification().then(res => {
+                    if(res.data.error == 0){
+                        let certification = res.data.certification;
+                        if(certification){//如果有
+                            if(certification.state == 1){
+                                //审核通过
+                                this.showCreateProject = true;
+                            }else if(certification.state == 0){
+                                this.$message.error("实名认证还在审核中，通过后才能创建项目");
+                            }else {
+                                this.$message.error("实名认证审核未通过，暂时不能创建项目");
+                            }
+                        }else{
+                            this.$message.error("请先实名认证");
+                        }
+                    }
+                });
             },
             closeCreateProject() {
                 this.showCreateProject = false;

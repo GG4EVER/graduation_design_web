@@ -5,7 +5,7 @@
             <el-col :span="24" class="design-setting-title egg-not-copy"><i class="el-icon-minus el-icon--left"></i>基础属性<i
                     class="el-icon-minus el-icon--right"></i></el-col>
             <el-form-item prop="width" label-width="50px">
-                <div slot="label" class="design-setting-label egg-not-copy">长度
+                <div slot="label" class="design-setting-label egg-not-copy">宽度
                 </div>
                 <el-input v-model="style.width" placeholder="单位可以为px、%等" clearable autocomplete="off"
                           @change="changeAttribute"></el-input>

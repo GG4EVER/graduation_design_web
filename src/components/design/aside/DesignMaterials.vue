@@ -7,7 +7,6 @@
                     class="design-materials-uploader"
                     action=""
                     :show-file-list="false"
-                    :on-success="materialsUploadSuccess"
                     :before-upload="beforeMaterialsUpload" ref="materialsUploader">
             </el-upload>
         </el-col>
@@ -16,7 +15,7 @@
                 <div class="design-materials-box">
                     <div v-for="(item,index) in materials" :key="index" class="design-material-item"
                          @click="clickMaterial(index)">
-                        <el-image class="design-material-image" :src="item"
+                        <el-image class="design-material-image" :src="baseURL + item"
                                   fit="contain"></el-image>
                         <div class="design-material-item-mark">
                             <div class="design-material-item-operation">
@@ -38,6 +37,7 @@
 
 <script>
     import {Button, Image, Upload} from "element-ui"
+    import store from "../../../store";
 
     export default {
         name: "DesignMaterials",
@@ -49,6 +49,7 @@
         data() {
             return {
                 materials: [],//素材列表
+                baseURL: process.env.VUE_APP_API_URL,
                 tempUrls: [
                     "https://dwz.cn/wJ1NhyH1",
                     "https://dwz.cn/x38wMHm7",
@@ -57,7 +58,25 @@
                 ]
             }
         },
+        created() {
+            this.initMaterials();
+        },
         methods: {
+            initMaterials(){
+              let materials = this.$store.state.materials;
+              if(materials == null){
+                this.$API.getMaterials().then(res => {
+                    if(res.data.error == 0){
+                        this.materials = res.data.materials;
+                        this.$store.commit("setMaterials",this.materials);
+                    }else{
+                        this.materials = [];
+                    }
+                })
+              }else{
+                  this.materials = materials;
+              }
+            },
             uploadMaterials() {//点击上传图片按钮
                 //获得el-upload最外层的元素
                 let element = this.$refs.materialsUploader.$el;
@@ -77,21 +96,69 @@
                     this.$message.error('图片大小请不要超过 200k ');
                     return false;
                 }
-                //模拟上传完成图片
-                let index = Math.floor(Math.random() * 4);//随机生成[0,4)的随机数,floor向下取整
-                window.console.log(index)
-                this.materials.push(this.tempUrls[index]);
-                this.$message.success("上传成功")
-                return false;//取消真实上传
+                let loading = this.$loading.service();
+                //上传图片
+                let param = new FormData(); //创建form对象
+                let userId = this.$store.state.userInfo.userId;
+                param.append('file', file, file.name);
+                param.append('userId', userId);
+                this.$API.uploadImage(param).then(res => {
+                    let data = res.data;
+                    if (data.error == 0) {//上传成功
+                        this.materials.push(data.url);
+                        this.$store.commit("setMaterials",this.materials);
+                        this.$message.success("上传成功")
+                    } else {
+                        this.$message.error(data.error_message);
+                    }
+                    loading.close();
+                }).catch(()=>{
+                    loading.close();
+                    this.$message.error("发生意外错误");
+                });
+                return false;//取消组件的图片上传
             },
-            materialsUploadSuccess() {//图片上传成功回调
-                window.console.log("上传成功")
+            clickMaterial(index) {//选择图片
+                //如果当前没有页面，则提醒需要先新建页面
+                if(store.state.pages.length == 0){
+                    this.$message.info("请先创建一个页面");
+                    return;
+                }
+                //如果当前没有选中任何页面，则提醒需要先选择页面
+                if(store.state.currPageIndex == -1){
+                    this.$message.info("请选择一个页面");
+                    return;
+                }
+                let imageUrl = this.materials[index];
+                let componentName = "uni-image";
+                let newComponent = JSON.parse(JSON.stringify(this.$ComponentConfig[componentName]));
+                newComponent.attribute.src = process.env.VUE_APP_API_URL +  imageUrl;
+                window.console.log(newComponent);
+                store.commit("addComponent",newComponent);
             },
-            clickMaterial() {//选择图片
-                this.$message.success("选择图片")
-            },
-            deleteMaterial() {//删除图片
-                this.$message.error("删除图片")
+            deleteMaterial(index) {//删除图片
+                this.$confirm('是否删除该素材?', '提示', {
+                    confirmButtonText: '确定',
+                    showCancelButton:true,
+                    cancelButtonText: '取消',
+                }).then(()=>{
+                    let loading = this.$loading.service();
+                    let materials = this.materials;
+                    this.$API.deleteImage(materials[index]).then(res => {
+                        if(res.data.error == 0){
+                            materials = materials.slice(0, index).concat(materials.slice(index + 1, materials.length));
+                            this.materials = materials;
+                            this.$store.commit("setMaterials",materials);
+                            this.$message.success("已删除");
+                        }else{
+                            this.$message.error(res.data.error_message);
+                        }
+                        loading.close();
+                    }).catch(()=>{
+                        loading.close();
+                        this.$message.error("发生意外错误");
+                    });
+                })
             }
         }
     }

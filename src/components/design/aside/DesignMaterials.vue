@@ -50,12 +50,6 @@
             return {
                 materials: [],//素材列表
                 baseURL: process.env.VUE_APP_API_URL,
-                tempUrls: [
-                    "https://dwz.cn/wJ1NhyH1",
-                    "https://dwz.cn/x38wMHm7",
-                    "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
-                    "https://dwz.cn/GbEF60Hj"
-                ]
             }
         },
         created() {
@@ -92,8 +86,8 @@
                     this.$message.error('图片请选择 jpg 或 png 格式');
                     return false;
                 }
-                if (size > 200) {
-                    this.$message.error('图片大小请不要超过 200k ');
+                if (size > 300) {
+                    this.$message.error('图片大小请不要超过 300k ');
                     return false;
                 }
                 let loading = this.$loading.service();

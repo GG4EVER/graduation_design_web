@@ -131,10 +131,11 @@
                 store.commit("addComponent",newComponent);
             },
             deleteMaterial(index) {//删除图片
-                this.$confirm('是否删除该素材?', '提示', {
-                    confirmButtonText: '确定',
+
+                this.$confirm({
+                    title: "提示",
+                    message: "是否删除该素材?",
                     showCancelButton:true,
-                    cancelButtonText: '取消',
                 }).then(()=>{
                     let loading = this.$loading.service();
                     let materials = this.materials;

@@ -25,7 +25,7 @@
             </el-form-item>
             <el-form-item>
                 <div slot="label" label-width="0px"></div>
-                <div class="design--setting-swiper-change egg-not-copy" @click="showEditSwiperDrawer(true)"><i
+                <div class="design-setting-swiper-change egg-not-copy" @click="showEditSwiperDrawer(true)"><i
                         class="el-icon-set-up el-icon--left"></i>更改轮播图
                 </div>
             </el-form-item>
@@ -109,9 +109,6 @@
                 this.children = this.ComponentChildren;
             }
         },
-        created() {
-            this.children = this.ComponentChildren;
-        },
         data() {
             return {
                 baseURL: process.env.VUE_APP_API_URL,
@@ -122,6 +119,9 @@
                 imageUrl: "",//网络图片地址
                 materials: [],//素材库
             }
+        },
+        created() {
+            this.children = this.ComponentChildren;
         },
         methods: {
             initMaterials() {
@@ -198,10 +198,16 @@
                 this.$emit("listenSaveChildren",this.children);
             },
             deleteChild(index){//删除素材
-                let children = this.children;
-                children = children.slice(0, index).concat(children.slice(index + 1, children.length));
-                this.children = children;
-                this.$emit("listenSaveChildren",children);
+                this.$confirm({
+                    title:"提示",
+                    message:"是否要删除该轮播图?",
+                    showCancelButton:true
+                }).then(()=>{
+                    let children = this.children;
+                    children = children.slice(0, index).concat(children.slice(index + 1, children.length));
+                    this.children = children;
+                    this.$emit("listenSaveChildren",children);
+                })
             }
         }
     }
@@ -225,7 +231,7 @@
         font-weight: bold;
     }
 
-    .design--setting-swiper-change {
+    .design-setting-swiper-change {
         transition: 0.4s;
         display: inline-block;
         padding: 0px 30px;
@@ -238,7 +244,7 @@
         border: 2px solid #5ca8cd;
     }
 
-    .design--setting-swiper-change:hover {
+    .design-setting-swiper-change:hover {
         transition: 0.4s;
         border-radius: 14px;
         border-color: #3d93bc;

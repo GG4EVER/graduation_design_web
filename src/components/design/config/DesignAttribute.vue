@@ -34,6 +34,7 @@
     import UniButtonAttribute from "./attribute/UniButtonAttribute";
     import UniImageAttribute from "./attribute/UniImageAttribute";
     import UniSwiperAttribute from "./attribute/UniSwiperAttribute";
+    import UniGridAttribute from "./attribute/UniGridAttribute";
     import {Tabs, TabPane} from "element-ui"
 
     export default {
@@ -44,6 +45,7 @@
             UniButtonAttribute,
             UniImageAttribute,
             UniSwiperAttribute,
+            UniGridAttribute,
             [Tabs.name]: Tabs,
             [TabPane.name]: TabPane
         },

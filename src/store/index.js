@@ -10,7 +10,8 @@ export default new Vuex.Store({
         userInfo: null,
         certification: null,
         currPageIndex: 0,//当前选择的页面索引
-        materials: null,//素材库
+        baseMaterials:null,//基础素材库（内置素材库）
+        materials: null,//用户素材库
         pages: [],//页面列表
         globalStyle: {
             navigationBarTextStyle: "black",
@@ -42,8 +43,11 @@ export default new Vuex.Store({
         setAppInfo(state, appInfo) {//设置app信息
             state.appInfo = appInfo;
         },
-        setMaterials(state, materials) {//设置素材库
+        setMaterials(state, materials) {//设置用户素材库
             state.materials = materials;
+        },
+        setBaseMaterials(state,baseMaterials){//设置内置素材库
+          state.baseMaterials = baseMaterials;
         },
         addComponent(state, component) {
             if (component) {
@@ -181,7 +185,7 @@ export default new Vuex.Store({
     modules: {},
     plugins: [VuexAlong({
             local: {
-                list: ["certification","materials"],
+                list: ["certification","materials","baseMaterials"],
                 isFilter: true,//将list的数据过滤，不保存本地
             }
         }

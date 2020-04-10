@@ -136,6 +136,14 @@ export default {
     },
 
     /**
+     * 获得基础素材库，内置素材库
+     * @returns {AxiosPromise}
+     */
+    getBaseMaterials(){
+        return request("/api/image/materials", "GET", {});
+    },
+
+    /**
      * 删除素材库图片
      * @param data
      */

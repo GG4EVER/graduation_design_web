@@ -152,7 +152,7 @@
                         globalStyle: store.state.globalStyle,
                         tabBar: store.state.tabBar
                     },
-                    components: store.state.pageComponents
+                    components: store.state.pageComponents,
                 };
                 window.console.log(message)
                 this.send(JSON.stringify(message))

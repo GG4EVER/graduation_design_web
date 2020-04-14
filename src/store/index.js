@@ -10,7 +10,7 @@ export default new Vuex.Store({
         userInfo: null,
         certification: null,
         currPageIndex: 0,//当前选择的页面索引
-        baseMaterials:null,//基础素材库（内置素材库）
+        baseMaterials: null,//基础素材库（内置素材库）
         materials: null,//用户素材库
         pages: [],//页面列表
         globalStyle: {
@@ -25,6 +25,7 @@ export default new Vuex.Store({
             backgroundColor: "#F8F8F8",
             list: []
         },
+        appId:"",//当前正在编辑的appId
         appInfo: [],//当前正在编辑的项目列表
         pageComponents: {},//所有页面的所有组件
         currPageComponents: [],//当前页面的组件
@@ -40,14 +41,28 @@ export default new Vuex.Store({
         setCertification(state, certification) {//设置实名认证信息
             state.certification = certification;
         },
+        setAppId(state, appId){
+            state.appId = appId;
+        },
         setAppInfo(state, appInfo) {//设置app信息
             state.appInfo = appInfo;
         },
         setMaterials(state, materials) {//设置用户素材库
             state.materials = materials;
         },
-        setBaseMaterials(state,baseMaterials){//设置内置素材库
-          state.baseMaterials = baseMaterials;
+        setBaseMaterials(state, baseMaterials) {//设置内置素材库
+            state.baseMaterials = baseMaterials;
+        },
+        setPageComponents(state, components) {//设置所有组件
+            state.pageComponents = components;
+            // for (let index  in components){
+            //     let componentList = components[index];
+            //     state.pageComponents[index] = new Array();
+            //     for(let i = 0;i< componentList.length; i++){
+            //         state.pageComponents[index].push(componentList[i]);
+            //         window.console.log( state.pageComponents[index])
+            //     }
+            // }
         },
         addComponent(state, component) {
             if (component) {
@@ -142,6 +157,9 @@ export default new Vuex.Store({
                 //切换页面
                 state.currPageIndex = currPageIndex;
                 //切换组件列表
+                if (!state.pageComponents[state.pages[currPageIndex].name]) {
+                    state.pageComponents[state.pages[currPageIndex].name] = [];
+                }
                 state.currPageComponents = state.pageComponents[state.pages[currPageIndex].name];
             } else {//否则是删除了一个页面，将选择去掉
                 state.currPageIndex = -1;
@@ -182,10 +200,9 @@ export default new Vuex.Store({
         },
     },
     actions: {},
-    modules: {},
     plugins: [VuexAlong({
             local: {
-                list: ["certification","materials","baseMaterials"],
+                list: ["certification", "materials", "baseMaterials"],
                 isFilter: true,//将list的数据过滤，不保存本地
             }
         }

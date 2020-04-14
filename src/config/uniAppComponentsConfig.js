@@ -44,6 +44,16 @@ const Config = {
         style: "",//样式
         animation: "",//动画
     },
+    "uni-text":{
+        name: "uni-text",
+        attribute: {//属性
+            selectable:false,//文本是否可选
+            title: "文本",//文本默认内容
+            space:'nbsp',//空格大小
+        },
+        style: "font-size:16px;color:#000000;text-align:justify;padding-top:0px;padding-bottom:0px;padding-left:0px;padding-right:0px;",//样式
+        animation: "",//动画
+    },
     "uni-image": {
         name: "uni-image",
         attribute: {//属性
@@ -53,14 +63,30 @@ const Config = {
         },
         style: "width:100%;",//样式
         animation: "",//动画
+    },
+    "uni-video":{
+        name:"uni-video",
+        attribute: {//属性
+            src: "",//视频资源地址
+            autoplay: false,//是否自动播放
+            loop: false,//是否循环播放
+            controls:true,//是否显示播放控件
+            "show-fullscreen-btn":true,//是否显示全屏按钮
+            "show-play-btn":true,//是否显示视频底部控制栏的播放按钮
+            poster:"",//视频封面地址，controls为true时才能设置
+        },
+        style: "width:100%;",//样式
+        animation: "",//动画
     }
 };
 
 const AttributeComponentMap = {
     "uni-button": "UniButtonAttribute",
+    "uni-text": "UniTextAttribute",
     "uni-image": "UniImageAttribute",
     "uni-swiper": "UniSwiperAttribute",
-    "uni-grid": "UniGridAttribute"
+    "uni-grid": "UniGridAttribute",
+    "uni-video": "UniVideoAttribute"
 };
 
 

@@ -67,3 +67,20 @@
 .egg-fail{
     color: #f56c6c;
 }
+
+.design-setting-title {
+    font-size: 17px;
+    text-align: center;
+    padding: 15px 0px;
+    color: #2d93bb;
+    font-weight: bold;
+}
+
+.design-setting-label {
+    font-size: 16px;
+}
+
+.design-setting-star {
+    color: indianred;
+    font-weight: bold;
+}

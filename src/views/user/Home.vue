@@ -8,12 +8,13 @@
             </el-col>
         </el-col>
         <el-col :span="24" class="user-home-box">
-            <el-col :xs="20" :sm="11"  :md="7" :lg="5">
+            <el-col :xs="20" :sm="11" :md="7" :lg="5">
                 <div class="egg-home-item-box egg-not-copy">
                     <div class="egg-home-item user-home-project" @click="openUserProject">
                         <span class="egg-home-item-icon"><i class="el-icon-s-open"></i></span>
                         <span class="egg-home-item-number">1</span>
-                        <div class="egg-home-item-direction">查看所有项目<i class="el-icon-arrow-right el-icon--right"></i></div>
+                        <div class="egg-home-item-direction">查看所有项目<i class="el-icon-arrow-right el-icon--right"></i>
+                        </div>
                     </div>
                 </div>
             </el-col>
@@ -23,16 +24,18 @@
                         <span class="egg-home-item-icon"><i class="el-icon-s-flag"></i></span>
                         <span class="egg-home-item-number user-home-item-date">项目1</span>
                         <span class="egg-home-item-number user-home-item-date">2020-02-20</span>
-                        <div class="egg-home-item-direction">继续上次的项目<i class="el-icon-arrow-right el-icon--right"></i></div>
+                        <div class="egg-home-item-direction">继续上次的项目<i class="el-icon-arrow-right el-icon--right"></i>
+                        </div>
                     </div>
                 </div>
             </el-col>
-            <el-col :xs="20"  :sm="11" :md="7" :lg="5">
+            <el-col :xs="20" :sm="11" :md="7" :lg="5">
                 <div class="egg-home-item-box egg-not-copy">
                     <div class="egg-home-item user-home-message" @click="openUserMessage">
                         <span class="egg-home-item-icon"><i class="el-icon-s-comment"></i></span>
                         <span class="egg-home-item-number">{{unReadNum}}</span>
-                        <div class="egg-home-item-direction">查看所有消息<i class="el-icon-arrow-right el-icon--right"></i></div>
+                        <div class="egg-home-item-direction">查看所有消息<i class="el-icon-arrow-right el-icon--right"></i>
+                        </div>
                     </div>
                 </div>
             </el-col>
@@ -43,31 +46,37 @@
 <script>
     export default {
         name: "Home",
-        data(){
-            return{
-                unReadNum:0,
+        data() {
+            return {
+                unReadNum: 0,
             }
         },
         created() {
-            this.$API.getMessages(false).then(res => {
-                if(res.data.error == 0){
-                    let messages = res.data.messages;
-                    this.unReadNum = messages.length;
-                }
-            })
+            this.initMessage();
         },
-        methods:{
-            openUserProject(){
+        methods: {
+            initMessage() {
+                let userInfo = this.$store.state.userInfo;
+                if (userInfo) {
+                    this.$API.getMessages(false).then(res => {
+                        if (res.data.error == 0) {
+                            let messages = res.data.messages;
+                            this.unReadNum = messages.length;
+                        }
+                    })
+                }
+            },
+            openUserProject() {
                 this.$router.push("/user/userProject");
             },
-            designProject(){
+            designProject() {
                 let routeUrl = this.$router.resolve({
                     path: "/design",
                     params: {id: ""}
                 });
-                window.open(routeUrl.href,"_blank");
+                window.open(routeUrl.href, "_blank");
             },
-            openUserMessage(){
+            openUserMessage() {
                 this.$router.push("/user/inBox");
             }
         }
@@ -75,7 +84,7 @@
 </script>
 
 <style scoped>
-    .user-home-box{
+    .user-home-box {
         flex-flow: wrap;
         display: flex;
         justify-content: space-around;
@@ -111,7 +120,7 @@
         opacity: 0;
         border-bottom-left-radius: 30px;
         border-bottom-right-radius: 30px;
-        background-color: rgba(0,0,0,0.5);
+        background-color: rgba(0, 0, 0, 0.5);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -124,33 +133,33 @@
         box-shadow: 3px 3px 15px #666666;
     }
 
-    .user-home-project{
+    .user-home-project {
         background-color: #f68484;
     }
 
-    .user-home-project:hover{
+    .user-home-project:hover {
         transition: 0.4s;
-        background-color: rgb(243,84,84);
+        background-color: rgb(243, 84, 84);
     }
 
-    .user-home-last-project{
-          background-color: #97d3c5;
-      }
-
-    .user-home-last-project:hover{
-        transition: 0.4s;
-        background-color: rgb(115,196,177);
+    .user-home-last-project {
+        background-color: #97d3c5;
     }
 
-    .user-home-message{
+    .user-home-last-project:hover {
+        transition: 0.4s;
+        background-color: rgb(115, 196, 177);
+    }
+
+    .user-home-message {
         background-color: #75b9e6;
         color: #ffffff;
     }
 
 
-    .user-home-message:hover{
+    .user-home-message:hover {
         transition: 0.4s;
-        background-color: rgb(74,163,222);
+        background-color: rgb(74, 163, 222);
     }
 
     .egg-home-item-icon {

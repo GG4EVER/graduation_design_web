@@ -45,22 +45,29 @@
                         <el-button plain circle @click="showAddTabDialog"><i class="el-icon-plus"></i></el-button>
                     </div>
                     <el-table-column
-                            prop="tabName"
+                            prop="text"
                             label="切换卡名称"
                             min-width="120">
                     </el-table-column>
                     <el-table-column
-                            prop="pagePath"
                             label="指向页面"
                             min-width="120">
+                        <template slot-scope="scope">
+                            {{scope.row.pagePath.split("/")[2]}}
+                        </template>
                     </el-table-column>
                     <el-table-column
-                            prop="iconPath"
                             label="图标" min-width="120">
+                        <template slot-scope="scope">
+                            <img v-if="scope.row.iconPath" class="design-tabbar-item-icon" :src="baseURL + scope.row.iconPath" @click="changeIcon(0)"/>
+                        </template>
                     </el-table-column>
                     <el-table-column
                             prop="selectedIconPath"
                             label="选中时图标" min-width="120">
+                        <template slot-scope="scope">
+                            <img v-if="scope.row.selectedIconPath" class="design-tabbar-item-icon" :src="baseURL + scope.row.selectedIconPath" @click="changeIcon(0)"/>
+                        </template>
                     </el-table-column>
                     <el-table-column label="操作" min-width="180" fixed="right">
                         <template slot-scope="scope">
@@ -90,26 +97,30 @@
                             <div slot="label" class="design-setting-label egg-not-copy"><span
                                     class="design-setting-star">*&nbsp;</span>切换卡名称
                             </div>
-                            <el-input v-model="tabName" placeholder="请输入切换卡名称"></el-input>
+                            <el-input v-model="text" placeholder="请输入切换卡名称"></el-input>
                         </el-form-item>
                         <el-form-item>
                             <div slot="label" class="design-setting-label egg-not-copy"><span
                                     class="design-setting-star">*&nbsp;</span>指向页面
                             </div>
-                            <el-select v-model="pagePath" placeholder="请选择" no-data-text="当前没有页面">
+                            <el-select v-model="pagePath" placeholder="请选择" no-data-text="当前没有页面" @change="changePagePath">
                                 <el-option
                                         v-for="item in currPages"
                                         :key="item.name"
                                         :label="item.name"
-                                        :value="item.name">
+                                        :value="'pages/' + item.name + '/' + item.name">
                                 </el-option>
                             </el-select>
                         </el-form-item>
                         <el-form-item>
                             <div slot="label" class="design-setting-label egg-not-copy">切换卡图标</div>
+                            <img v-if="iconPath" class="design-tabbar-item-icon" :src="baseURL + iconPath" @click="changeIcon(0)"/>
+                            <el-button v-else round type="warning" @click="changeIcon(0)">更改</el-button>
                         </el-form-item>
                         <el-form-item>
                             <div slot="label" class="design-setting-label egg-not-copy">选中时图标</div>
+                            <img v-if="selectedIconPath" class="design-tabbar-item-icon" :src="baseURL + selectedIconPath" @click="changeIcon(1)"/>
+                            <el-button v-else round type="warning" @click="changeIcon(1)">更改</el-button>
                         </el-form-item>
                     </el-form>
                 </el-col>
@@ -118,6 +129,14 @@
                 <el-button @click="showAddTabDialog(false)">取 消</el-button>
                 <el-button type="primary" @click="isAdding ? addTab() : editTab()">确 定</el-button>
           </span>
+        </el-dialog>
+        <el-dialog :title="iconType == 0 ? '更改默认图标' : '更改选中时图标'" :visible.sync="showIconDialog" append-to-body :close-on-click-modal="false"
+                   :close-on-press-escape="false" width="80%">
+            <div class="design-material-box">
+                <template v-for="(item,index) in baseMaterials" >
+                    <img class="design-material-item" :src="baseURL + item" :key="index" @click="clickMaterial(index)"/>
+                </template>
+            </div>
         </el-dialog>
         <div class="egg-design-setting-dialog-footer">
             <el-button v-show="showSaveButton" type="success" round :loading="isSaving" @click="submitSaving">保存<i
@@ -177,6 +196,7 @@
         },
         data() {
             return {
+                baseURL:process.env.VUE_APP_API_URL,
                 tabBarTextColor: "#333333",//切换卡默认字体颜色
                 tabBarSelectedTextColor: "#409EFF",//切换卡选中字体颜色
                 tabBarBackgroundColor: "#ffffff",//切换卡背景颜色
@@ -189,13 +209,19 @@
                 isAdding: true,//是否是添加切换卡，否的话则是编辑
                 editIndex: 0,
                 currPages: [],//当前用户创建的页面列表
-                tabName: "",//切换卡名称
+                text: "",//切换卡名称
                 pagePath: "",//指向的页面路径
                 iconPath: "",//图标路径
-                selectedIconPath: ""//选择图标的路径
+                selectedIconPath: "",//选择图标的路径
+                showIconDialog:false,//是否显示选择图标库窗口
+                iconType:0,//图标库窗口名称
+                baseMaterials:[],
             }
         },
         methods: {
+            changePagePath(){
+              window.console.log(this.pagePath)
+            },
             closeAppSetting() {//关闭设置窗口
                 this.$emit("listenCloseSettingDialog");
             },
@@ -208,19 +234,38 @@
             },
             changeTabBarTextColor() {//监听切换卡默认字体颜色修改
                 this.showSavingButton();
-                window.console.log(this.tabBarTextColor)
             },
             changeTabBarSelectedTextColor() {//监听切换卡选中字体颜色修改
                 this.showSavingButton();
-                window.console.log(this.tabBarSelectedTextColor)
             },
             changeTabBarBackgroundColor() {//监听切换卡背景颜色修改
                 this.showSavingButton();
-                window.console.log(this.tabBarBackgroundColor)
             },
             changeTabBarBorderColor() {//监听切换卡上边框的颜色修改
                 this.showSavingButton();
-                window.console.log(this.tabBarBorderColor)
+            },
+            changeIcon(iconType){//改变切换卡图标
+                this.iconType = iconType;
+                this.initMaterials();
+                this.showIconDialog = true;
+            },
+            initMaterials(){//初始化内置素材库
+                if(this.baseMaterials.length == 0){
+                    this.$API.getBaseMaterials().then(res => {
+                        if(res.data.error == 0){
+                            this.baseMaterials = res.data.materials;
+                        }
+                    })
+                }
+            },
+            clickMaterial(index){
+                let path = this.baseMaterials[index];
+                if(this.iconType == 0){
+                    this.iconPath = path;
+                }else{
+                    this.selectedIconPath = path;
+                }
+                this.showIconDialog = false;
             },
             submitSaving() {//提交保存
                 let tabsLength = this.tabs.length;
@@ -233,17 +278,26 @@
                     return;
                 }
                 this.isSaving = true;
-                store.commit("setTabBar", {
+                let tabBar = {
                     color: this.tabBarTextColor,
                     selectedColor: this.tabBarSelectedTextColor,
                     backgroundColor: this.tabBarBackgroundColor,
                     borderStyle: this.tabBarBorderColor,
-                    list: this.tabs
-                });
-                setTimeout(() => {
-                    this.isSaving = false;
-                    this.showSavingButton(false);
-                }, 500);
+                    list: JSON.stringify(this.tabs)
+                }
+                let appId = this.$store.state.appId;
+                this.$API.updateTabBarConfig(appId,JSON.stringify(tabBar)).then(res => {
+                    if(res.data.error == 0){
+                        window.console.log(res.data);
+                        tabBar.list = JSON.parse(tabBar.list);
+                        store.commit("setTabBar", tabBar);
+                        this.isSaving = false;
+                        this.showSavingButton(false);
+                    }else{
+                        this.$message.error(res.data.error_message);
+                        this.isSaving = false;
+                    }
+                })
             },
             /**
              * 改变切换卡位置
@@ -262,14 +316,14 @@
                         }
                     } else {//编辑窗口
                         this.editIndex = index;
-                        this.tabName = this.tabs[index].tabName;
+                        this.text = this.tabs[index].text;
                         this.pagePath = this.tabs[index].pagePath;
                         this.iconPath = this.tabs[index].iconPath;
                         this.selectedIconPath = this.tabs[index].selectedIconPath;
                         this.isShowAddTabDialog = true;
                     }
                 } else {
-                    this.tabName = "";
+                    this.text = "";
                     this.pagePath = "";
                     this.iconPath = "";
                     this.selectedIconPath = "";
@@ -277,16 +331,16 @@
                 }
             },
             addTab() {//添加切换卡
-                let tabName = this.tabName;
+                let text = this.text;
                 let pagePath = this.pagePath;
-                if (tabName && pagePath) {
+                if (text && pagePath) {
                     this.tabs.push({
-                        tabName: this.tabName,
+                        text: this.text,
                         pagePath: this.pagePath
                     })
                     this.$message.success("添加成功~");
                     this.showSavingButton();
-                    this.tabName = "";
+                    this.text = "";
                     this.pagePath = "";
                     this.iconPath = "";
                     this.selectedIconPath = "";
@@ -319,13 +373,13 @@
              */
             editTab() {
                 let tab = {
-                    tabName: this.tabName,
+                    text: this.text,
                     pagePath: this.pagePath,
                     iconPath: this.iconPath,
                     selectedIconPath: this.selectedIconPath
                 }
                 this.$set(this.tabs, this.editIndex, tab);
-                this.tabName = "";
+                this.text = "";
                 this.pagePath = "";
                 this.iconPath = "";
                 this.selectedIconPath = "";
@@ -375,6 +429,12 @@
         font-weight: bold;
     }
 
+    .design-tabbar-item-icon{
+        height: 36px;
+        width: 36px;
+        cursor: pointer;
+    }
+
     .design-setting-tip-box {
         padding: 1rem;
         background-color: #f0f0f0;
@@ -406,5 +466,27 @@
         text-align: center;
         background-color: #f5fbff;
         z-index: 99;
+    }
+
+    .design-material-box{
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .design-material-item{
+        height: 40px;
+        width: 40px;
+        padding: 4px;
+        cursor: pointer;
+        opacity: 0.8;
+    }
+
+    .design-material-item:hover{
+        transition: 0.4s;
+        height: 48px;
+        width: 48px;
+        padding: 0px;
+        opacity: 1;
     }
 </style>

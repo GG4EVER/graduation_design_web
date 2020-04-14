@@ -15,18 +15,18 @@
                 <el-form>
                     <el-form-item>
                         <div slot="label" class="design-setting-label egg-not-copy">默认导航栏背景颜色</div>
-                        <el-color-picker v-model="navigatorBackgroundColor" @change="changeNavigatorBackgroundColor" :predefine="predefineColors"></el-color-picker>
+                        <el-color-picker v-model="globalStyle.navigationBarBackgroundColor" @change="changeNavigatorBackgroundColor" :predefine="predefineColors"></el-color-picker>
                     </el-form-item>
                     <el-form-item>
                         <div slot="label" class="design-setting-label egg-not-copy">默认导航栏标题颜色（暂时只能选择黑和白）</div>
-                        <el-radio-group v-model="navigatorTitleColor" @change="changeNavigatorTitleColor">
+                        <el-radio-group v-model="globalStyle.navigationBarTextStyle" @change="changeNavigatorTitleColor">
                             <el-radio-button label="black">黑</el-radio-button>
                             <el-radio-button label="white">白</el-radio-button>
                         </el-radio-group>
                     </el-form-item>
                     <el-form-item>
                         <div slot="label" class="design-setting-label egg-not-copy">默认导航栏标题</div>
-                        <el-input v-model="navigatorTitle" :disabled="isSaving" @change="changeNavigatorTitle"></el-input>
+                        <el-input v-model="globalStyle.navigationBarTitleText" :disabled="isSaving" @change="changeNavigatorTitle"></el-input>
                     </el-form-item>
                 </el-form>
             </el-col>
@@ -56,9 +56,11 @@
         },
         data(){
             return{
-                navigatorBackgroundColor:"#ffffff",//导航栏背景颜色
-                navigatorTitleColor:"black",//导航栏标题颜色
-                navigatorTitle:"",//导航栏标题
+                globalStyle:{
+                    navigationBarBackgroundColor:"#ffffff",//导航栏背景颜色
+                    navigationBarTextStyle:"black",//导航栏标题颜色
+                    navigationBarTitleText:"",//导航栏标题
+                },
                 predefineColors:["#ffffff","#f0f0f0","#e0e0e0","#999999","#666666","#333333","#000000"],//预定义颜色
                 showSaveButton:false,//是否显示保存按钮
                 isSaving:false//是否正在保存
@@ -77,32 +79,30 @@
             },
             changeNavigatorBackgroundColor(){//监听导航栏背景颜色修改
                 this.showSavingButton();
-                window.console.log(this.navigatorBackgroundColor)
             },
             changeNavigatorTitleColor(){//监听导航栏标题颜色修改
                 this.showSavingButton();
-                window.console.log(this.navigatorTitleColor)
             },
             changeNavigatorTitle(){//监听导航栏标题修改
                 this.showSavingButton();
             },
             submitSaving(){//提交保存
                 this.isSaving = true;
-                store.commit("setGlobalStyle",{
-                    navigationBarBackgroundColor : this.navigatorBackgroundColor,
-                    navigationBarTextStyle : this.navigatorTitleColor,
-                    navigationBarTitleText : this.navigatorTitle
-                });
-                setTimeout( ()=>{
-                    this.isSaving = false;
-                    this.showSavingButton(false);
-                },500);
+                let appId = this.$store.state.appId;
+                this.$API.updateGlobalStyleConfig(appId,this.globalStyle).then(res => {
+                    if(res.data.error == 0){
+                        store.commit("setGlobalStyle",this.globalStyle);
+                        this.isSaving = false;
+                        this.showSavingButton(false);
+                    }else{
+                        this.$message.error(res.data.error_message);
+                        this.isSaving = false;
+                    }
+                })
             }
         },
         created() {
-            this.navigatorBackgroundColor = store.state.globalStyle.navigationBarBackgroundColor;
-            this.navigatorTitleColor = store.state.globalStyle.navigationBarTextStyle;
-            this.navigatorTitle = store.state.globalStyle.navigationBarTitleText;
+            this.globalStyle = store.state.globalStyle;
         }
     }
 </script>

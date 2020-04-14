@@ -68,7 +68,9 @@
     import store from "../../store";
     import UniSwiper from "../../uni_components/components/UniSwiper";
     import UniButton from "../../uni_components/components/UniButton";
+    import UniText from "../../uni_components/components/UniText";
     import UniImage from "../../uni_components/components/UniImage";
+    import UniVideo from "../../uni_components/components/UniVideo";
     import UniGrid from "../../uni_components/components/UniGrid";
     import {Tooltip} from "element-ui"
     import 'element-ui/lib/theme-chalk/display.css';
@@ -77,7 +79,7 @@
         store,
         name: "DesignMain",
         components: {
-            UniButton, UniImage, UniSwiper,UniGrid,
+            UniButton, UniImage, UniVideo,UniSwiper,UniGrid,UniText,
             [Tooltip.name]: Tooltip
         },
         data() {

@@ -51,12 +51,4 @@
 </script>
 
 <style scoped>
-    .design-setting-label {
-        font-size: 16px;
-    }
-
-    .design-setting-star {
-        color: indianred;
-        font-weight: bold;
-    }
 </style>

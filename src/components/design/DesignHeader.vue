@@ -10,13 +10,13 @@
             </div>
         </el-menu-item>
         <el-menu-item class="design-header-utils">
-            <el-tooltip class="item" effect="dark" :value="!canPreview && showCanNotPreview" content="当前暂时不可预览" placement="bottom-end">
+            <el-tooltip class="item" effect="dark" :value="!CanPreview && showCanNotPreview" content="当前暂时不可预览" placement="bottom-end">
                 <span class="design-header-util-item" @mouseover="showCanNotPreviewToolTip" @mouseout="hideCanNotPreviewToolTip">
-                    <el-button plain round size="small" :disabled="!canPreview" @click.stop="previewProject">预览</el-button>
+                    <el-button plain round size="small" :disabled="!CanPreview" @click.stop="previewProject">预览</el-button>
                 </span>
             </el-tooltip>
             <span class="design-header-util-item">
-                <el-button type="primary" round size="small" :loading="isSaving" @click.stop="saveProject">{{isSaving ? '正在保存' : '保存'}}</el-button>
+                <el-button type="primary" round size="small" :loading="IsSaving" @click.stop="saveProject">{{IsSaving ? '正在保存' : '保存'}}</el-button>
             </span>
             <el-dropdown v-if="userInfo" class="egg-home-dropdown" trigger="click" @command="handleCommand">
                 <div class="egg-admin-info egg-not-copy">
@@ -58,11 +58,19 @@
             [Dropdown.name]:Dropdown,
             [Tooltip.name]:Tooltip
         },
+        props:{
+            CanPreview:{//是否可以预览
+                type: Boolean,
+                default:true
+            },
+            IsSaving:{//是否正在保存
+                type: Boolean,
+                default:false
+            },
+        },
         data() {
             return {
-                canPreview:false,//是否可以预览
                 showCanNotPreview:false,//是否显示不可预览的提示信息
-                isSaving:false,//是否正在保存
                 activeIndex: '1',
                 userInfo:{
                     userNickName:"荷包蛋"
@@ -78,15 +86,11 @@
             },
             //预览项目
             previewProject(){
-
+                this.$emit("listenPreviewProject");
             },
             //保存项目
             saveProject(){
-                this.isSaving = true;
                 this.$emit("listenSaveProject");
-                setTimeout(()=>{
-                    this.isSaving = false;
-                },500)
             },
             backHome(){
                 this.$confirm({

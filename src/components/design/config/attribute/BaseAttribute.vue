@@ -31,11 +31,19 @@
                 <el-color-picker v-model="style['color']" @change="changeAttribute"></el-color-picker>
             </el-form-item>
             <el-form-item label-width="80px">
+                <div slot="label" class="design-setting-label egg-not-copy">字体粗细</div>
+                <el-radio-group class="attribute-radio-group" v-model="style['font-weight']" @change="changeAttribute">
+                    <el-radio label="100" border>普通</el-radio>
+                    <el-radio label="bold" border>加粗</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label-width="80px">
                 <div slot="label" class="design-setting-label egg-not-copy">字体位置</div>
                 <el-radio-group class="attribute-radio-group" v-model="style['text-align']" @change="changeAttribute">
                     <el-radio label="left" border>靠左</el-radio>
                     <el-radio label="center" border>居中</el-radio>
                     <el-radio label="right" border>靠右</el-radio>
+                    <el-radio label="justify" border>两端对齐</el-radio>
                 </el-radio-group>
             </el-form-item>
             <el-col :span="24" class="design-setting-title egg-not-copy"><i class="el-icon-minus el-icon--left"></i>圆角属性<i
@@ -58,6 +66,28 @@
             <el-form-item label-width="80px">
                 <div slot="label" class="design-setting-label egg-not-copy">右下角</div>
                 <el-input v-model="style['border-bottom-right-radius']" placeholder="单位可以为px、%等" clearable
+                          autocomplete="off" @change="changeAttribute"></el-input>
+            </el-form-item>
+            <el-col :span="24" class="design-setting-title egg-not-copy"><i class="el-icon-minus el-icon--left"></i>内边距属性<i
+                    class="el-icon-minus el-icon--right"></i></el-col>
+            <el-form-item label-width="80px">
+                <div slot="label" class="design-setting-label egg-not-copy">上边距</div>
+                <el-input v-model="style['padding-top']" placeholder="单位px" clearable
+                          autocomplete="off" @change="changeAttribute"></el-input>
+            </el-form-item>
+            <el-form-item label-width="80px">
+                <div slot="label" class="design-setting-label egg-not-copy">下边距</div>
+                <el-input v-model="style['padding-bottom']" placeholder="单位px" clearable
+                          autocomplete="off" @change="changeAttribute"></el-input>
+            </el-form-item>
+            <el-form-item label-width="80px">
+                <div slot="label" class="design-setting-label egg-not-copy">左边距</div>
+                <el-input v-model="style['padding-left']" placeholder="单位px" clearable
+                          autocomplete="off" @change="changeAttribute"></el-input>
+            </el-form-item>
+            <el-form-item label-width="80px">
+                <div slot="label" class="design-setting-label egg-not-copy">右边距</div>
+                <el-input v-model="style['padding-right']" placeholder="单位px" clearable
                           autocomplete="off" @change="changeAttribute"></el-input>
             </el-form-item>
         </el-form>
@@ -117,6 +147,8 @@
                 style = style.slice(1,style.length - 1);
                 style = style.replace(/"/g,"");
                 style = style.replace(/,/g,";");
+                style += ";";
+                window.console.log(style)
                 this.$emit("listenChangeComponentStyle",style);
             },
         },
@@ -127,14 +159,6 @@
 </script>
 
 <style scoped>
-    .design-setting-title {
-        font-size: 17px;
-        text-align: center;
-        padding: 15px 0px;
-        color: #2d93bb;
-        font-weight: bold;
-    }
-
     .design-setting-label {
         font-size: 16px;
     }

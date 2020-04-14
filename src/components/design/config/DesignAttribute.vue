@@ -5,8 +5,8 @@
             <el-tabs class="design-attribute-tabs" v-model="showTabIndex">
                 <el-tab-pane label="组件属性" name="0">
                     <el-col :span="22" :offset="2">
-                        <component :is="attributeComponentName" :component-attribute="currComponent.attribute" :component-children="currComponent.children"
-                                   @listenSaveChildren="saveChildren" @listenSaveAttribute="saveAttribute"></component>
+                        <component :is="attributeComponentName" :component-attribute="currComponent.attribute" :component-style="currComponent.style"  :component-children="currComponent.children"
+                                   @listenSaveChildren="saveChildren" @listenSaveAttribute="saveAttribute" @listenChangeComponentStyle="changeComponentStyle"></component>
                     </el-col>
                 </el-tab-pane>
                 <el-tab-pane  label="基础属性" name="1">
@@ -32,7 +32,9 @@
     import store from "../../../store"
     import BaseAttribute from "./attribute/BaseAttribute";
     import UniButtonAttribute from "./attribute/UniButtonAttribute";
+    import UniTextAttribute from "./attribute/UniTextAttribute";
     import UniImageAttribute from "./attribute/UniImageAttribute";
+    import UniVideoAttribute from "./attribute/UniVideoAttribute";
     import UniSwiperAttribute from "./attribute/UniSwiperAttribute";
     import UniGridAttribute from "./attribute/UniGridAttribute";
     import {Tabs, TabPane} from "element-ui"
@@ -43,7 +45,9 @@
         components: {
             BaseAttribute,
             UniButtonAttribute,
+            UniTextAttribute,
             UniImageAttribute,
+            UniVideoAttribute,
             UniSwiperAttribute,
             UniGridAttribute,
             [Tabs.name]: Tabs,

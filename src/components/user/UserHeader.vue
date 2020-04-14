@@ -16,7 +16,7 @@
             <el-dropdown-menu class="egg-avatar-box" slot="dropdown">
                 <el-dropdown-item command="/user"><i class="el-icon-s-home"></i>个人中心</el-dropdown-item>
                 <!--                如果没有实名认证则优先显示实名认证-->
-                <el-dropdown-item v-if="UserCertification.state == null || UserCertification.state != 1" command="/user/userAuthentication">
+                <el-dropdown-item v-if="UserCertification && (UserCertification.state == null || UserCertification.state != 1)" command="/user/userAuthentication">
                     <i class="el-icon-picture"></i>实名认证
                 </el-dropdown-item>
                 <el-dropdown-item command="/user/userInfo"><i class="el-icon-user-solid"></i>个人资料</el-dropdown-item>

@@ -17,6 +17,11 @@
             <template slot="title">
                 基础内容
             </template>
+            <el-row>
+                <el-col :span="8" class="design-component-box">
+                    <div class="design-component-item egg-not-copy"  data-component-name="uni-text" @click="selectComponent">文本</div>
+                </el-col>
+            </el-row>
         </el-collapse-item>
         <el-collapse-item>
             <template slot="title">
@@ -35,6 +40,9 @@
             <el-row>
                 <el-col :span="8" class="design-component-box">
                     <div class="design-component-item egg-not-copy" data-component-name="uni-image" @click="selectComponent">图片</div>
+                </el-col>
+                <el-col :span="8" class="design-component-box">
+                    <div class="design-component-item egg-not-copy" data-component-name="uni-video" @click="selectComponent">视频</div>
                 </el-col>
             </el-row>
         </el-collapse-item>

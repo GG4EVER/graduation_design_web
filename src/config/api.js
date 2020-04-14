@@ -5,7 +5,7 @@ import store from '../store'
 const Request = axios.create({
     baseURL: process.env.VUE_APP_API_URL,
     timeout: 30000, // 请求超时时间
-    withCredentials: true
+    withCredentials: false
 });
 
 // 添加request拦截器
@@ -30,6 +30,11 @@ Request.interceptors.request.use(config => {
 // 添加response拦截器
 Request.interceptors.response.use(
     response => {
+        if(response.data.error == 1001){
+            //token非法或者过期或者无效
+            localStorage.clear();
+           window.location.href = "/login";
+        }
         return response;
     },
     error => {
@@ -194,12 +199,80 @@ export default {
     },
 
     /**
+     * 通过项目ID获得指定的用户Id
+     * @param data
+     * @returns {AxiosPromise}
+     */
+    getProjectUserIdByAppId(data){
+        return request("/api/project/userId/" + data.appId, "GET", {});
+    },
+
+    /**
+     * 获得所有页面
+     * @param data
+     * @returns {AxiosPromise}
+     */
+    getPages(data){
+        return request("/api/project/pages/" + data.appId, "GET", {});
+    },
+
+    /**
+     * 获得导航栏配置
+     * @param data
+     * @returns {AxiosPromise}
+     */
+    getGlobalStyleConfig(data){
+        return request("/api/project/global/" + data.appId, "GET", {});
+    },
+
+    /**
+     * 修改导航栏配置
+     * @param appId
+     * @param globalStyleConfig
+     * @returns {AxiosPromise}
+     */
+    updateGlobalStyleConfig(appId,globalStyleConfig){
+        return request("/api/project/global/" + appId, "PATCH", globalStyleConfig);
+    },
+
+    /**
+     * 获得微信小程序配置
+     * @param data
+     * @returns {AxiosPromise}
+     */
+    getWeChatConfig(data){
+        return request("/api/project/wechat/" + data.appId, "GET", {});
+    },
+
+    /**
      * 修改项目微信配置
      * @param data
      * @returns {AxiosPromise}
      */
     updateProjectWeChatConfig(data){
         return request("/api/project/wechat/" + data.appId, "PATCH", data);
+    },
+
+    /**
+     * 获得底部切换卡配置
+     * @param data
+     * @returns {AxiosPromise}
+     */
+    getTabBarConfig(data){
+        return request("/api/project/tabbar/" + data.appId, "GET", {});
+    },
+
+    updateTabBarConfig(appId,tabBar){
+      return request("/api/project/tabbar/"+ appId, "PATCH", tabBar);
+    },
+
+    /**
+     * 获得项目的所有组件
+     * @param data
+     * @returns {AxiosPromise}
+     */
+    getProjectComponents(data){
+        return request("/api/project/components/" + data.appId, "GET", {});
     },
 
     /**

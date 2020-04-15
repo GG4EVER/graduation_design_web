@@ -6,10 +6,28 @@
             </template>
             <el-row>
                 <el-col :span="8" class="design-component-box">
-                    <div class="design-component-item egg-not-copy"  data-component-name="uni-swiper" @click="selectComponent">轮播图</div>
+                    <div class="design-component-item egg-not-copy" data-component-name="uni-swiper"
+                         @click="selectComponent">轮播图
+                    </div>
                 </el-col>
                 <el-col :span="8" class="design-component-box">
-                    <div class="design-component-item egg-not-copy"  data-component-name="uni-grid" @click="selectComponent">宫格</div>
+                    <div class="design-component-item egg-not-copy" data-component-name="uni-grid"
+                         @click="selectComponent">宫格
+                    </div>
+                </el-col>
+                <el-col :span="8" class="design-component-box">
+                    <el-popover
+                            trigger="hover"
+                            width="80px">
+                        <div class="design-component-info-box">
+                            <div class="design-component-info-title">注意</div>
+                            <div><i class="el-icon-info el-icon--left"></i>该组件会自动占满屏幕，请单独在空白页面使用</div>
+                        </div>
+                        <div class="design-component-item egg-not-copy" data-component-name="uni-web-view"
+                             slot="reference"
+                             @click="selectComponent">网页
+                        </div>
+                    </el-popover>
                 </el-col>
             </el-row>
         </el-collapse-item>
@@ -19,7 +37,9 @@
             </template>
             <el-row>
                 <el-col :span="8" class="design-component-box">
-                    <div class="design-component-item egg-not-copy"  data-component-name="uni-text" @click="selectComponent">文本</div>
+                    <div class="design-component-item egg-not-copy" data-component-name="uni-text"
+                         @click="selectComponent">文本
+                    </div>
                 </el-col>
             </el-row>
         </el-collapse-item>
@@ -29,7 +49,9 @@
             </template>
             <el-row>
                 <el-col :span="8" class="design-component-box">
-                    <div class="design-component-item egg-not-copy" data-component-name="uni-button" @click="selectComponent">按钮</div>
+                    <div class="design-component-item egg-not-copy" data-component-name="uni-button"
+                         @click="selectComponent">按钮
+                    </div>
                 </el-col>
             </el-row>
         </el-collapse-item>
@@ -39,44 +61,80 @@
             </template>
             <el-row>
                 <el-col :span="8" class="design-component-box">
-                    <div class="design-component-item egg-not-copy" data-component-name="uni-image" @click="selectComponent">图片</div>
+                    <div class="design-component-item egg-not-copy" data-component-name="uni-image"
+                         @click="selectComponent">图片
+                    </div>
                 </el-col>
                 <el-col :span="8" class="design-component-box">
-                    <div class="design-component-item egg-not-copy" data-component-name="uni-video" @click="selectComponent">视频</div>
+                    <el-popover
+                            placement="top-start"
+                            trigger="hover">
+                        <div class="design-component-not-use-box">
+                            <div class="design-component-not-use-title">不支持在以下中使用</div>
+                            <div><i class="el-icon-error el-icon--left"></i>支付宝小程序</div>
+                            <div><i class="el-icon-error el-icon--left"></i>字节跳动小程序</div>
+                            <div><i class="el-icon-error el-icon--left"></i>QQ小程序</div>
+                        </div>
+                        <div class="design-component-item egg-not-copy" data-component-name="uni-audio" slot="reference"
+                             @click="selectComponent">音频
+                        </div>
+                    </el-popover>
+                </el-col>
+                <el-col :span="8" class="design-component-box">
+                    <div class="design-component-item egg-not-copy" data-component-name="uni-video"
+                         @click="selectComponent">视频
+                    </div>
                 </el-col>
             </el-row>
         </el-collapse-item>
         <el-collapse-item>
             <template slot="title">
-                地图组件
+                其他组件
             </template>
+            <el-row>
+                <el-col :span="8" class="design-component-box">
+                    <el-popover
+                            placement="top-start"
+                            trigger="hover">
+                        <div class="design-component-not-use-box">
+                            <div class="design-component-not-use-title">不支持在以下中使用</div>
+                            <div><i class="el-icon-error el-icon--left"></i>字节跳动小程序</div>
+                        </div>
+                        <div class="design-component-item egg-not-copy" data-component-name="uni-map" slot="reference"
+                             @click="selectComponent">地图
+                        </div>
+                    </el-popover>
+                </el-col>
+            </el-row>
         </el-collapse-item>
     </el-collapse>
 </template>
 
 <script>
     import store from "../../../store";
-    import {Collapse,CollapseItem} from "element-ui"
+    import {Collapse, CollapseItem, Popover} from "element-ui"
+
     export default {
         store,
         name: "DesignComponents",
-        components:{
-            [Collapse.name]:Collapse,
-            [CollapseItem.name]:CollapseItem
+        components: {
+            [Collapse.name]: Collapse,
+            [CollapseItem.name]: CollapseItem,
+            [Popover.name]: Popover
         },
-        methods:{
+        methods: {
             /**
              * 选择组件
              * @param e
              */
-            selectComponent(e){
+            selectComponent(e) {
                 //如果当前没有页面，则提醒需要先新建页面
-                if(store.state.pages.length == 0){
+                if (store.state.pages.length == 0) {
                     this.$message.info("请先创建一个页面");
                     return;
                 }
                 //如果当前没有选中任何页面，则提醒需要先选择页面
-                if(store.state.currPageIndex == -1){
+                if (store.state.currPageIndex == -1) {
                     this.$message.info("请选择一个页面再选组件");
                     return;
                 }
@@ -85,32 +143,54 @@
                 window.console.log(componentName)
                 let newComponent = JSON.parse(JSON.stringify(this.$ComponentConfig[componentName]))
                 window.console.log(newComponent);
-                store.commit("addComponent",newComponent);
+                store.commit("addComponent", newComponent);
             }
         }
     }
 </script>
 
 <style scope>
-    .design-component-box{
+    .design-component-box {
         padding: 5px;
     }
 
-    .design-component-item{
+    .design-component-item {
         transition: 0.3s;
         padding: 8px 0;
         border-radius: 5px;
         cursor: pointer;
         text-align: center;
         color: #5B5B5B;
-        background-color: rgba(172,219,245,0.3);
+        background-color: rgba(172, 219, 245, 0.3);
     }
 
-    .design-component-item:hover{
+    .design-component-item:hover {
         transition: 0.3s;
-        background-color: rgba(172,219,245,0.8);
+        background-color: rgba(172, 219, 245, 0.8);
         color: #2d93bb;
         font-weight: bold;
         box-shadow: 0 0 8px #cccccc;
+    }
+
+    .design-component-info-box {
+        color: #7B7B7B;
+        font-size: 13px;
+    }
+
+    .design-component-info-title {
+        color: #5B5B5B;
+        font-size: 14px;
+        padding-bottom: 5px;;
+    }
+
+    .design-component-not-use-title {
+        color: #5B5B5B;
+        font-size: 14px;
+        padding-bottom: 5px;;
+    }
+
+    .design-component-not-use-box {
+        color: #F56C6C;
+        font-size: 13px;
     }
 </style>

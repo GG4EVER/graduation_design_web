@@ -25,8 +25,11 @@ export default new Vuex.Store({
             backgroundColor: "#F8F8F8",
             list: []
         },
+        weChatConfig:{//微信小程序配置
+
+        },
         appId:"",//当前正在编辑的appId
-        appInfo: [],//当前正在编辑的项目列表
+        appInfo: {},//当前正在编辑的项目列表
         pageComponents: {},//所有页面的所有组件
         currPageComponents: [],//当前页面的组件
         currComponentIndex: -1,//当前选择的组件索引，-1为没有选择
@@ -146,21 +149,23 @@ export default new Vuex.Store({
         },
         setCurrPageIndex(state, currPageIndex) {//设置当前页面index
             if (currPageIndex != -1) {//如果是选择了页面
-                if (state.currPageIndex != -1) {//如果原本选择的页面的索引不是-1，则表示原本选择了页面，那么先保存旧页面的组件
-                    //选择了其他页面，则将旧的组件保存进所有组件里，再更改页面index
-                    let oldPage = state.pages[state.currPageIndex];
-                    if (oldPage) {//如果旧页面存在
-                        //保存旧的组件列表
-                        state.pageComponents[oldPage.name] = state.currPageComponents;
+                if(state.currPageIndex != currPageIndex){//如果选择的不是原本的页面
+                    if (state.currPageIndex != -1) {//如果原本选择的页面的索引不是-1，则表示原本选择了页面，那么先保存旧页面的组件
+                        //选择了其他页面，则将旧的组件保存进所有组件里，再更改页面index
+                        let oldPage = state.pages[state.currPageIndex];
+                        if (oldPage) {//如果旧页面存在
+                            //保存旧的组件列表
+                            state.pageComponents[oldPage.name] = state.currPageComponents;
+                        }
                     }
+                    //切换页面
+                    state.currPageIndex = currPageIndex;
+                    //切换组件列表
+                    if (!state.pageComponents[state.pages[currPageIndex].name]) {
+                        state.pageComponents[state.pages[currPageIndex].name] = [];
+                    }
+                    state.currPageComponents = state.pageComponents[state.pages[currPageIndex].name];
                 }
-                //切换页面
-                state.currPageIndex = currPageIndex;
-                //切换组件列表
-                if (!state.pageComponents[state.pages[currPageIndex].name]) {
-                    state.pageComponents[state.pages[currPageIndex].name] = [];
-                }
-                state.currPageComponents = state.pageComponents[state.pages[currPageIndex].name];
             } else {//否则是删除了一个页面，将选择去掉
                 state.currPageIndex = -1;
                 //清空当前组件列表
@@ -198,6 +203,9 @@ export default new Vuex.Store({
         setTabBar(state, tabBar) {//设置底部切换卡
             state.tabBar = tabBar;
         },
+        setWeChatConfig(state,weChatConfig){//设置微信配置
+            state.weChatConfig = weChatConfig;
+        }
     },
     actions: {},
     plugins: [VuexAlong({

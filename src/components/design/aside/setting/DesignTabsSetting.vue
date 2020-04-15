@@ -103,7 +103,7 @@
                             <div slot="label" class="design-setting-label egg-not-copy"><span
                                     class="design-setting-star">*&nbsp;</span>指向页面
                             </div>
-                            <el-select v-model="pagePath" placeholder="请选择" no-data-text="当前没有页面" @change="changePagePath">
+                            <el-select v-model="pagePath" placeholder="请选择" no-data-text="当前没有页面">
                                 <el-option
                                         v-for="item in currPages"
                                         :key="item.name"
@@ -219,9 +219,6 @@
             }
         },
         methods: {
-            changePagePath(){
-              window.console.log(this.pagePath)
-            },
             closeAppSetting() {//关闭设置窗口
                 this.$emit("listenCloseSettingDialog");
             },
@@ -288,7 +285,6 @@
                 let appId = this.$store.state.appId;
                 this.$API.updateTabBarConfig(appId,JSON.stringify(tabBar)).then(res => {
                     if(res.data.error == 0){
-                        window.console.log(res.data);
                         tabBar.list = JSON.parse(tabBar.list);
                         store.commit("setTabBar", tabBar);
                         this.isSaving = false;
@@ -336,9 +332,10 @@
                 if (text && pagePath) {
                     this.tabs.push({
                         text: this.text,
-                        pagePath: this.pagePath
+                        pagePath: this.pagePath,
+                        iconPath:this.iconPath,
+                        selectedIconPath:this.selectedIconPath
                     })
-                    this.$message.success("添加成功~");
                     this.showSavingButton();
                     this.text = "";
                     this.pagePath = "";

@@ -26,8 +26,9 @@
                                          :style="index == currComponentIndex ? 'display:block;' : ''"></div>
                                 </div>
                             </template>
+                            <div v-if="tabBar.list.length != 0" style="height:50px;"></div>
                         </div>
-                        <div class="design-phone-screen-tab-bar"
+                        <div v-if="tabBar.list.length != 0" class="design-phone-screen-tab-bar"
                              :style="'background-color:' + tabBar.backgroundColor + ';border-color:' + tabBar.borderStyle">
                             <template v-for="(item,index) in tabBar.list">
                                 <div class="design-phone-screen-tab-bar-item" :key="index"

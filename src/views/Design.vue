@@ -135,11 +135,13 @@
                 });
                 let userInfo = this.$store.state.userInfo;
                 this.userId = userInfo.userId;
-                let res = await this.$API.getProjectUserIdByAppId({
+                let res = await this.$API.getProjectBaseInfo({
                     appId: this.appId
                 });
                 if (res.data.error == 0) {
-                    if (userInfo.userId == res.data.userId) {
+                    let appInfo = res.data.app;
+                    if (userInfo.userId ==appInfo.userId) {
+                        store.commit("setAppInfo",appInfo);
                         loading.close();
                         return true;
                     }
@@ -185,16 +187,37 @@
                 if (currPageIndex == -1) {
                     currPageIndex = 0;
                 }
-                store.commit("setCurrPageIndex", currPageIndex);
+                store.commit("setCurrPageIndex",currPageIndex);
             },
             initGlobalStyleConfig() {//初始化导航栏配置
-
+                this.$API.getGlobalStyleConfig({
+                    appId:this.appId
+                }).then(res => {
+                    if(res.data.error == 0){
+                        store.commit("setGlobalStyle",res.data.globalStyleConfig);
+                    }
+                })
             },
             initTabBarConfig() {//初始化切换卡配置
-
+                this.$API.getTabBarConfig({
+                    appId:this.appId
+                }).then(res => {
+                    if(res.data.error == 0){
+                        let tabBar = res.data.tabBarConfig;
+                        tabBar.list = JSON.parse(tabBar.list);
+                        store.commit("setTabBar",tabBar);
+                    }
+                })
             },
             initWeChatConfig() {//初始化微信小程序配置
-
+                this.$API.getWeChatConfig({
+                    appId:this.appId
+                }).then(res => {
+                    if(res.data.error == 0){
+                        let weChatConfig = res.data.weChatConfig;
+                        store.commit("setWeChatConfig",weChatConfig);
+                    }
+                })
             },
             initWebsocket: function () {
                 if (typeof (WebSocket) === "undefined") {

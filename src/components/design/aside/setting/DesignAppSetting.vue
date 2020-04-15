@@ -6,16 +6,16 @@
                 <el-form-item>
                     <div slot="label" class="design-setting-label egg-not-copy"><span class="design-setting-star">*&nbsp;</span>应用名称
                     </div>
-                    <el-input v-model="appInfo.appName" @change="changeAppName"></el-input>
+                    <el-input v-model="appInfo.appName"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <div slot="label" class="design-setting-label egg-not-copy">微信小程序AppId（请在微信开发工具中申请获取）</div>
-                    <el-input v-model="appInfo.weChatAppId" @change="changeWeChatAppId"></el-input>
+                    <el-input v-model="weChatConfig.weChatAppId"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <div slot="label" class="design-setting-label egg-not-copy"><span class="design-setting-star">*&nbsp;</span>应用描述
                     </div>
-                    <el-input v-model="appInfo.description" @change="changeAppDescription"
+                    <el-input v-model="appInfo.description"
                               type="textarea" :autosize="{minRows: 4, maxRows: 6 }" maxlength="150" resize="none"
                               show-word-limit></el-input>
                 </el-form-item>
@@ -44,12 +44,9 @@
         data() {
             return {
                 oldAppInfo: {},//旧的信息
-                appInfo: {
-                    appId: "",//应用ID
-                    appName: "",//应用名称
-                    weChatAppId: "",//微信小程序appId
-                    description: "",//应用描述
-                },
+                oldWeChatConfig: {},//旧的信息
+                appInfo: {},
+                weChatConfig: {},
             }
         },
         created() {
@@ -57,44 +54,36 @@
         },
         methods: {
             initAppInfo() {
-                let appId = this.$route.query.appId;
-                if (appId) {
-                    let appInfo = this.$store.state.appInfo[appId];
-                    if (appInfo) {
-                        this.oldAppInfo = appInfo;
-                        this.appInfo = JSON.parse(JSON.stringify(appInfo));
-                    } else {
-                        this.$message.error("获取信息发生错误")
-                    }
+                let appInfo = this.$store.state.appInfo;
+                let weChatConfig = this.$store.state.weChatConfig;
+                if (appInfo && weChatConfig) {
+                    this.oldAppInfo = appInfo;
+                    this.appInfo = JSON.parse(JSON.stringify(appInfo));
+                    this.oldWeChatConfig = weChatConfig;
+                    this.weChatConfig = JSON.parse(JSON.stringify(weChatConfig));
                 } else {
-                    this.$message.error("获取信息发生错误，参数不正确")
+                    this.$message.error("获取信息发生错误")
                 }
             },
             closeAppSetting() {//关闭设置窗口
                 this.$emit("listenCloseSettingDialog")
             },
-            changeAppName() {//监听应用名称修改
-                this.showSavingButton();
-            },
-            changeWeChatAppId() {//监听小程序appId修改
-                this.showSavingButton();
-            },
-            changeAppDescription() {//监听应用描述修改
-                this.showSavingButton();
-            },
             submitSaving() {//提交保存
-                if (this.oldAppInfo.weChatAppId != this.appInfo.weChatAppId) {//如果改变了微信appId，则需要多调用一个请求
-                    this.$API.updateProjectWeChatConfig(this.appInfo).then(res => {
-                        if(res.data.error == 0){
-                            this.oldAppInfo.weChatAppId = this.appInfo.weChatAppId;
+                if (this.oldWeChatConfig.weChatAppId != this.weChatConfig.weChatAppId) {//如果改变了微信appId，则需要多调用一个请求
+                    this.$API.updateProjectWeChatConfig(this.weChatConfig).then(res => {
+                        if (res.data.error == 0) {
+                            this.$message.success("修改成功");
+                            this.oldWeChatConfig =JSON.parse(JSON.stringify(this.weChatConfig));
+                            this.$store.commit("setWeChatConfig",this.weChatConfig);
                         }
                     })
                 }
                 if (this.oldAppInfo.appName != this.appInfo.appName || this.oldAppInfo.description != this.appInfo.description) {
                     this.$API.updateProject(this.appInfo).then(res => {
                         if (res.data.error == 0) {
-                            this.showSavingButton(false);
                             this.$message.success("修改成功");
+                            this.oldAppInfo =JSON.parse(JSON.stringify(this.appInfo));
+                            this.$store.commit("setAppInfo",this.appInfo);
                         } else {
                             this.$message.error(res.data.error_message);
                         }

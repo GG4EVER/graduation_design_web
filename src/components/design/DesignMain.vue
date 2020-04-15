@@ -9,8 +9,8 @@
                     </el-col>
                     <el-col :span="22">
                         <div class="design-phone-screen-navigation-bar egg-not-copy"
-                             :style="'background-color: ' + navigationBarSetting.navigationBarBackgroundColor + ';color:' + navigationBarSetting.navigationBarTextStyle ">
-                            {{navigationBarSetting.navigationBarTitleText}}
+                             :style="'background-color: ' + globalStyle.navigationBarBackgroundColor + ';color:' + globalStyle.navigationBarTextStyle ">
+                            {{globalStyle.navigationBarTitleText}}
                         </div>
                         <div class="design-phone-screen"
                              :class="currPageComponents.length != 0 ? 'design-phone-screen-has' : ''" ref="phoneScreen">
@@ -24,6 +24,20 @@
                                     <div class="design-main-component-mark animated"
                                          :class="index == currComponentIndex ? 'flash' : ''"
                                          :style="index == currComponentIndex ? 'display:block;' : ''"></div>
+                                </div>
+                            </template>
+                        </div>
+                        <div class="design-phone-screen-tab-bar"
+                             :style="'background-color:' + tabBar.backgroundColor + ';border-color:' + tabBar.borderStyle">
+                            <template v-for="(item,index) in tabBar.list">
+                                <div class="design-phone-screen-tab-bar-item" :key="index"
+                                     @click.stop="clickTabBar(index)">
+                                    <img class="design-phone-screen-tab-bar-item-icon"
+                                         :src="baseURL + (activeTabBar == index ? item.selectedIconPath :  item.iconPath)"/>
+                                    <div class="design-phone-screen-tab-bar-item-title"
+                                         :style="'color:' + (activeTabBar == index ? tabBar.selectedColor : tabBar.color)">
+                                        {{item.text}}
+                                    </div>
                                 </div>
                             </template>
                         </div>
@@ -79,14 +93,17 @@
         store,
         name: "DesignMain",
         components: {
-            UniButton, UniImage, UniVideo,UniSwiper,UniGrid,UniText,
+            UniButton, UniImage, UniVideo, UniSwiper, UniGrid, UniText,
             [Tooltip.name]: Tooltip
         },
         data() {
             return {
+                baseURL: process.env.VUE_APP_API_URL,
                 currPageComponents: [],//当前页面的组件
-                navigationBarSetting: {},//导航栏设置
-                currComponentIndex: -1
+                globalStyle: {},//导航栏设置
+                tabBar: {},//底部切换卡配置
+                currComponentIndex: -1,
+                activeTabBar: 0,
             }
         },
         watch: {
@@ -105,8 +122,20 @@
             },
             "$store.state.globalStyle": function (newVal) {
                 if (newVal) {
-                    this.navigationBarSetting = newVal;
+                    this.globalStyle = newVal;
                 }
+            },
+            "$store.state.tabBar": function (newVal) {
+                if (newVal) {
+                    this.tabBar = newVal;
+                }
+            }
+        },
+        created() {
+            this.globalStyle = store.state.globalStyle;
+            this.tabBar = store.state.tabBar;
+            if (store.state.pages.length != 0) {//如果页面数组不为空
+                this.currPageComponents = store.state.pageComponents[store.state.pages[store.state.currPageIndex].name];
             }
         },
         methods: {
@@ -134,6 +163,14 @@
                     store.commit("setCurrComponentIndex", -1);
                 }
             },
+
+            /**
+             * 点击切换卡
+             * */
+            clickTabBar(index) {
+                this.activeTabBar = index;
+            },
+
             /**
              * 删除组件
              */
@@ -203,12 +240,6 @@
                     }
                 }, 20);
             },
-        },
-        created() {
-            this.navigationBarSetting = store.state.globalStyle;
-            if (store.state.pages.length != 0) {//如果页面数组不为空
-                this.currPageComponents = store.state.pageComponents[store.state.pages[store.state.currPageIndex].name];
-            }
         }
     }
 </script>
@@ -397,5 +428,33 @@
         transition: 0.4s;
         color: #f0f0f0;
         background-color: #5B5B5B;
+    }
+
+    .design-phone-screen-tab-bar {
+        width: 100%;
+        position: absolute;
+        bottom: 25px;
+        height: 50px;
+        border-top: 1px solid;
+        z-index: 666;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .design-phone-screen-tab-bar-item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        cursor: pointer;
+    }
+
+    .design-phone-screen-tab-bar-item-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .design-phone-screen-tab-bar-item-title {
+        font-size: 10px;
     }
 </style>

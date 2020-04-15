@@ -12,12 +12,12 @@
             </span>
             <design-animation></design-animation>
         </el-tab-pane>
-        <el-tab-pane>
-            <span slot="label">
-                <i class="el-icon-odometer el-icon--left"></i>数据源
-            </span>
-            <design-data-source></design-data-source>
-        </el-tab-pane>
+<!--        <el-tab-pane>-->
+<!--            <span slot="label">-->
+<!--                <i class="el-icon-odometer el-icon&#45;&#45;left"></i>数据源-->
+<!--            </span>-->
+<!--            <design-data-source></design-data-source>-->
+<!--        </el-tab-pane>-->
     </el-tabs>
 </template>
 

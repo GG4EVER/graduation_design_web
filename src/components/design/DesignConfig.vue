@@ -1,5 +1,5 @@
 <template>
-    <el-tabs type="border-card" class="design-aside design-aside-config" @tab-click="asideTabClick">
+    <el-tabs type="border-card" class="design-aside design-aside-config">
         <el-tab-pane>
             <span slot="label">
                 <i class="el-icon-setting el-icon--left"></i>属性
@@ -42,9 +42,6 @@
             }
         },
         methods: {
-            asideTabClick(e) {
-                window.console.log(e.index)
-            }
         }
     }
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <el-tabs tab-position="left" type="border-card" class="design-aside design-aside-tab-pane" @tab-click="asideTabClick">
+    <el-tabs tab-position="left" type="border-card" class="design-aside design-aside-tab-pane">
         <el-tab-pane>
             <span slot="label">
                 <i class="el-icon-brush el-icon--left"></i>页面
@@ -49,9 +49,6 @@
           }
         },
         methods:{
-            asideTabClick(e){
-                window.console.log(e.index)
-            }
         }
     }
 </script>

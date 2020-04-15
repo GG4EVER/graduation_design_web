@@ -32,7 +32,7 @@ Request.interceptors.response.use(
     response => {
         if(response.data.error == 1001){
             //token非法或者过期或者无效
-            localStorage.clear();
+            //localStorage.clear();
            window.location.href = "/login";
         }
         return response;
@@ -196,6 +196,15 @@ export default {
      */
     getProjectByAppId(data){
         return request("/api/project/" + data.appId, "GET", {});
+    },
+
+    /**
+     * 获得项目基础信息
+     * @param data
+     * @returns {AxiosPromise}
+     */
+    getProjectBaseInfo(data){
+        return request("/api/project/base/" + data.appId, "GET", {});
     },
 
     /**

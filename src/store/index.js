@@ -17,6 +17,7 @@ export default new Vuex.Store({
             navigationBarTextStyle: "black",
             navigationBarTitleText: "导航栏",
             navigationBarBackgroundColor: "#ffffff",
+            navigationStyle:"default"
         },
         tabBar: {//底部切换卡列表
             color: "#7A7E83",
@@ -33,6 +34,8 @@ export default new Vuex.Store({
         pageComponents: {},//所有页面的所有组件
         currPageComponents: [],//当前页面的组件
         currComponentIndex: -1,//当前选择的组件索引，-1为没有选择
+        screenHeight:0,//设计页面中屏幕高度
+        screenWidth:0//设计页面中屏幕宽度
     },
     mutations: {
         setToken(state, token) {//设置token
@@ -205,12 +208,18 @@ export default new Vuex.Store({
         },
         setWeChatConfig(state,weChatConfig){//设置微信配置
             state.weChatConfig = weChatConfig;
-        }
+        },
+        setScreenHeight(state,screenHeight){//设置设计页面屏幕高度
+            state.screenHeight = screenHeight;
+        },
+        setScreenWidth(state,screenWidth){//设置设计页面屏幕宽度
+            state.screenWidth = screenWidth;
+        },
     },
     actions: {},
     plugins: [VuexAlong({
             local: {
-                list: ["certification", "materials", "baseMaterials"],
+                list: ["certification", "materials", "baseMaterials","screenHeight","screenWidth"],
                 isFilter: true,//将list的数据过滤，不保存本地
             }
         }

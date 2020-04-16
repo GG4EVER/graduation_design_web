@@ -30,6 +30,14 @@ const Config = {
         animation: "",//动画
         children: [],
     },
+    "uni-web-view":{
+        name: "uni-web-view",
+        attribute: {//属性
+            src:"",//网页链接
+        },
+        style: "",//样式
+        animation: "",//动画
+    },
     "uni-button": {
         name: "uni-button",
         attribute: {//属性
@@ -64,6 +72,19 @@ const Config = {
         style: "width:100%;",//样式
         animation: "",//动画
     },
+    "uni-audio":{
+        name:"uni-audio",
+        attribute: {//属性
+            src: "https://img-cdn-qiniu.dcloud.net.cn/uniapp/audio/music.mp3",//音频资源地址
+            loop: false,//是否循环播放
+            controls:true,//是否显示播放控件
+            name:"未知音频",//音频名称，controls为true时才能设置
+            author:"未知作者",//音频作者，controls为true时才能设置
+            poster:"https://img-cdn-qiniu.dcloud.net.cn/uniapp/audio/music.jpg",//视频封面地址，controls为true时才能设置
+        },
+        style: "width:100%;",//样式
+        animation: "",//动画
+    },
     "uni-video":{
         name:"uni-video",
         attribute: {//属性
@@ -86,7 +107,9 @@ const AttributeComponentMap = {
     "uni-image": "UniImageAttribute",
     "uni-swiper": "UniSwiperAttribute",
     "uni-grid": "UniGridAttribute",
-    "uni-video": "UniVideoAttribute"
+    "uni-audio": "UniAudioAttribute",
+    "uni-video": "UniVideoAttribute",
+    "uni-web-view":"UniWebViewAttribute"
 };
 
 

@@ -327,4 +327,8 @@
         display: flex;
         justify-content: center;
     }
+
+    .aplayer-controller{
+        display: none !important;
+    }
 </style>

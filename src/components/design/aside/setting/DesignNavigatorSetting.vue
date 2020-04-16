@@ -14,6 +14,11 @@
             <el-col :span="24">
                 <el-form>
                     <el-form-item>
+                        <div slot="label" class="design-setting-label egg-not-copy">显示全局导航栏</div>
+                        <el-switch v-model="isDefault" @change="changeNavigationStyle"></el-switch>
+                        <div class="design-setting-box-ps"><i class="el-icon-info el-icon--left"></i>该属性仅在微信小程序、百度小程序、H5中生效</div>
+                    </el-form-item>
+                    <el-form-item>
                         <div slot="label" class="design-setting-label egg-not-copy">默认导航栏背景颜色</div>
                         <el-color-picker v-model="globalStyle.navigationBarBackgroundColor" @change="changeNavigatorBackgroundColor" :predefine="predefineColors"></el-color-picker>
                     </el-form-item>
@@ -39,7 +44,7 @@
 </template>
 
 <script>
-    import {Form,FormItem,Input,Button,Divider,ColorPicker,RadioGroup,RadioButton} from "element-ui"
+    import {Form,FormItem,Input,Button,Divider,Switch,ColorPicker,RadioGroup,RadioButton} from "element-ui"
     import store from "../../../../store"
     export default {
         name: "DesignNavigatorSetting",
@@ -50,6 +55,7 @@
             [Input.name]:Input,
             [Button.name]:Button,
             [Divider.name]:Divider,
+            [Switch.name]:Switch,
             [ColorPicker.name]:ColorPicker,
             [RadioGroup.name]:RadioGroup,
             [RadioButton.name]:RadioButton
@@ -60,7 +66,9 @@
                     navigationBarBackgroundColor:"#ffffff",//导航栏背景颜色
                     navigationBarTextStyle:"black",//导航栏标题颜色
                     navigationBarTitleText:"",//导航栏标题
+                    navigationStyle:"default",//导航栏默认样式
                 },
+                isDefault:true,
                 predefineColors:["#ffffff","#f0f0f0","#e0e0e0","#999999","#666666","#333333","#000000"],//预定义颜色
                 showSaveButton:false,//是否显示保存按钮
                 isSaving:false//是否正在保存
@@ -76,6 +84,10 @@
                 }else{
                     this.showSaveButton = false;
                 }
+            },
+            changeNavigationStyle(){
+                this.globalStyle.navigationStyle = this.isDefault ? "default" : "custom";
+                this.showSavingButton();
             },
             changeNavigatorBackgroundColor(){//监听导航栏背景颜色修改
                 this.showSavingButton();
@@ -103,6 +115,7 @@
         },
         created() {
             this.globalStyle = store.state.globalStyle;
+            this.isDefault = this.globalStyle.navigationStyle == "default" ? true : false;
         }
     }
 </script>
@@ -115,6 +128,11 @@
 
     .design-setting-label{
         font-size: 16px;
+    }
+
+    .design-setting-box-ps{
+        font-size: 14px;
+        color: #7B7B7B;
     }
 
     .design-setting-tip-box{

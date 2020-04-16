@@ -8,15 +8,15 @@
                         <div class="design-phone-receiver"></div>
                     </el-col>
                     <el-col :span="22">
-                        <div class="design-phone-screen-navigation-bar egg-not-copy"
+                        <div v-if="globalStyle.navigationStyle == 'default'" class="design-phone-screen-navigation-bar egg-not-copy"
                              :style="'background-color: ' + globalStyle.navigationBarBackgroundColor + ';color:' + globalStyle.navigationBarTextStyle ">
                             {{globalStyle.navigationBarTitleText}}
                         </div>
-                        <div class="design-phone-screen"
+                        <div class="design-phone-screen" :style="globalStyle.navigationStyle == 'default'?'' : 'top:40px;'"
                              :class="currPageComponents.length != 0 ? 'design-phone-screen-has' : ''" ref="phoneScreen">
                             <template v-if="currPageComponents.length != 0">
                                 <div class="design-main-component" v-for="(component,index) in currPageComponents"
-                                     :key="index" @click.stop="clickComponent(index)">
+                                     :key="index" @click.stop="clickComponent(index)" :style="index == 0? 'margin-top:0px' : ''">
                                     <component :is="component.name" :component-attribute="component.attribute"
                                                :component-style="component.style"
                                                :component-animation="component.animation"
@@ -26,7 +26,7 @@
                                          :style="index == currComponentIndex ? 'display:block;' : ''"></div>
                                 </div>
                             </template>
-                            <div v-if="tabBar.list.length != 0" style="height:50px;"></div>
+                            <div v-if="tabBar.list.length != 0" style="height:51px;"></div>
                         </div>
                         <div v-if="tabBar.list.length != 0" class="design-phone-screen-tab-bar"
                              :style="'background-color:' + tabBar.backgroundColor + ';border-color:' + tabBar.borderStyle">
@@ -82,9 +82,11 @@
 <script>
     import store from "../../store";
     import UniSwiper from "../../uni_components/components/UniSwiper";
+    import UniWebView from "../../uni_components/components/UniWebView";
     import UniButton from "../../uni_components/components/UniButton";
     import UniText from "../../uni_components/components/UniText";
     import UniImage from "../../uni_components/components/UniImage";
+    import UniAudio from "../../uni_components/components/UniAudio";
     import UniVideo from "../../uni_components/components/UniVideo";
     import UniGrid from "../../uni_components/components/UniGrid";
     import {Tooltip} from "element-ui"
@@ -94,7 +96,7 @@
         store,
         name: "DesignMain",
         components: {
-            UniButton, UniImage, UniVideo, UniSwiper, UniGrid, UniText,
+            UniButton, UniImage, UniAudio,UniVideo, UniSwiper, UniGrid, UniText,UniWebView,
             [Tooltip.name]: Tooltip
         },
         data() {
@@ -129,6 +131,9 @@
             "$store.state.tabBar": function (newVal) {
                 if (newVal) {
                     this.tabBar = newVal;
+                    let flag =newVal.list.length == 0;
+                    let phoneScreen = this.$refs.phoneScreen;
+                    store.commit("setScreenHeight",phoneScreen.clientHeight - (flag ? 0 : 51));
                 }
             }
         },
@@ -138,6 +143,18 @@
             if (store.state.pages.length != 0) {//如果页面数组不为空
                 this.currPageComponents = store.state.pageComponents[store.state.pages[store.state.currPageIndex].name];
             }
+            this.$nextTick(()=>{
+                let flag = this.tabBar.list.length == 0;
+                let phoneScreen = this.$refs.phoneScreen;
+                store.commit("setScreenHeight",phoneScreen.clientHeight - (flag ? 0 : 51));
+                store.commit("setScreenWidth",phoneScreen.clientWidth);
+            })
+        },mounted() {
+            window.onresize = () => {
+                let phoneScreen = this.$refs.phoneScreen;
+                store.commit("setScreenHeight",phoneScreen.clientHeight);
+                store.commit("setScreenWidth",phoneScreen.clientWidth);
+            };
         },
         methods: {
             /**

@@ -34,9 +34,11 @@
     import UniButtonAttribute from "./attribute/UniButtonAttribute";
     import UniTextAttribute from "./attribute/UniTextAttribute";
     import UniImageAttribute from "./attribute/UniImageAttribute";
+    import UniAudioAttribute from "./attribute/UniAudioAttribute";
     import UniVideoAttribute from "./attribute/UniVideoAttribute";
     import UniSwiperAttribute from "./attribute/UniSwiperAttribute";
     import UniGridAttribute from "./attribute/UniGridAttribute";
+    import UniWebViewAttribute from "./attribute/UniWebViewAttribute";
     import {Tabs, TabPane} from "element-ui"
 
     export default {
@@ -47,9 +49,11 @@
             UniButtonAttribute,
             UniTextAttribute,
             UniImageAttribute,
+            UniAudioAttribute,
             UniVideoAttribute,
             UniSwiperAttribute,
             UniGridAttribute,
+            UniWebViewAttribute,
             [Tabs.name]: Tabs,
             [TabPane.name]: TabPane
         },

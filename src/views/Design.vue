@@ -63,7 +63,7 @@
         },
         data() {
             return {
-                path: "ws://192.168.1.150:8080/design/",
+                path: "ws://localhost:8080/design/",
                 socket: "",
                 userId: "",
                 appId: "",

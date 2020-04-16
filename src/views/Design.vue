@@ -32,11 +32,10 @@
                 <div class="design-qrcode-button" @click="showPreviewQrCode = false">确认</div>
             </div>
         </el-dialog>
-        <!--        <el-dialog :visible="beginTest" title="输入指令">-->
-        <!--            <el-input v-model="instruction"></el-input>-->
-        <!--            <div style="height: 50px;"></div>-->
-        <!--            <el-button type="success" @click="submitInstruction">提交</el-button>-->
-        <!--        </el-dialog>-->
+        <div v-show="isInit" class="design-init-mark egg-not-copy">
+            <div class="design-init-mark-icon"><i class="el-icon-loading"></i></div>
+            <div class="design-init-mark-title animated pulse">{{message}}</div>
+        </div>
     </el-container>
 </template>
 
@@ -64,12 +63,14 @@
         },
         data() {
             return {
-                path: "ws://localhost:8080/design/",
+                path: "ws://192.168.1.150:8080/design/",
                 socket: "",
                 userId: "",
                 appId: "",
                 instruction: "",
                 beginTest: false,
+                isInit:true,
+                message:"正在初始化项目",
                 canPreview: true,//是否可以预览
                 isSaving: false,//是否正在保存
                 previewUrl: "",//浏览器地址
@@ -260,6 +261,15 @@
                 window.console.log(data)
                 let type = data.type;
                 switch (type) {
+                    case "init":{
+                        if(data.state == 0){
+                            //初次初始化
+                            this.message = data.message;
+                        }else{
+                            this.isInit = false;
+                        }
+                        break;
+                    }
                     case "save": {
                         if (data.error == 0) {
                             this.isSaving = false;
@@ -371,5 +381,31 @@
         cursor: pointer;
         background-color: #61c4fd;
         color: #f0f0f0;
+    }
+
+    .design-init-mark{
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 999;
+        background-color: rgba(0,0,0,0.85);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .design-init-mark-icon{
+        font-size: 60px;
+        color: #00AEFF;
+    }
+
+    .design-init-mark-title{
+        font-size: 20px;
+        margin: 20px 0px;
+        color: #8994C6;
+        animation-iteration-count: infinite;
     }
 </style>

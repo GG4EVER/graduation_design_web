@@ -65,7 +65,7 @@
                 <el-form-item>
                     <div slot="label" class="design-setting-label egg-not-copy">跳转页面</div>
                     <el-select v-model="currGridItem.url" placeholder="请选择跳转页面">
-                        <el-option label="" value="不跳转"></el-option>
+                        <el-option label="不跳转" value=""></el-option>
                         <template v-for="page in pages">
                             <el-option :label="page.name" :value="page.name" :key="page.name"></el-option>
                         </template>

@@ -139,8 +139,13 @@
                     return;
                 }
                 let componentName = e.target.dataset.componentName;
-                window.console.log(this.$ComponentConfig);
-                window.console.log(componentName)
+                if(componentName == "uni-web-view"){
+                    //如果是网页组件，先判断当前页面有没有别的组件，有组件则不能添加
+                    if(this.$store.state.currPageComponents.length != 0){
+                        this.$message.error("请在空白页面中使用网页组件");
+                        return;
+                    }
+                }
                 let newComponent = JSON.parse(JSON.stringify(this.$ComponentConfig[componentName]))
                 window.console.log(newComponent);
                 store.commit("addComponent", newComponent);

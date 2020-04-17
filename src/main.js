@@ -10,6 +10,15 @@ import 'element-ui/lib/theme-chalk/index.css'
 // eslint-disable-next-line no-unused-vars
 import animate from 'animate.css'
 
+import VueAMap from 'vue-amap';
+
+Vue.use(VueAMap);
+VueAMap.initAMapApiLoader({
+  key: 'fdab55aee67dcb247e4bc8053c1dbcff',
+  plugin: ['AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType'],
+  v: '1.4.4'
+});
+
 import API from './config/api'
 Vue.prototype.$API = API;
 

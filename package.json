@@ -17,6 +17,7 @@
     "qrcodejs2": "0.0.2",
     "sass-loader": "^8.0.0",
     "vue": "^2.6.10",
+    "vue-amap": "^0.5.10",
     "vue-aplayer": "^1.6.1",
     "vue-awesome-swiper": "^3.1.3",
     "vue-router": "^3.1.3",

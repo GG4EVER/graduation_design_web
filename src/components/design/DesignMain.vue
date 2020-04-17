@@ -89,6 +89,7 @@
     import UniAudio from "../../uni_components/components/UniAudio";
     import UniVideo from "../../uni_components/components/UniVideo";
     import UniGrid from "../../uni_components/components/UniGrid";
+    import UniMap from "../../uni_components/components/UniMap";
     import {Tooltip} from "element-ui"
     import 'element-ui/lib/theme-chalk/display.css';
 
@@ -96,7 +97,7 @@
         store,
         name: "DesignMain",
         components: {
-            UniButton, UniImage, UniAudio,UniVideo, UniSwiper, UniGrid, UniText,UniWebView,
+            UniButton, UniImage, UniAudio,UniVideo, UniSwiper, UniGrid, UniText,UniWebView,UniMap,
             [Tooltip.name]: Tooltip
         },
         data() {
@@ -114,7 +115,7 @@
                 if (newVal) {
                     //如果监听到新的列表长度不同，则滚动屏幕
                     let shouldScrollScreen = this.currPageComponents.length != newVal.length;
-                    this.currPageComponents = newVal;
+                    this.currPageComponents = JSON.parse(JSON.stringify(newVal));
                     if (shouldScrollScreen) {
                         this.currComponentIndex = -1;
                         this.$nextTick(() => {

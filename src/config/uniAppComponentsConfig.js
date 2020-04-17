@@ -98,6 +98,20 @@ const Config = {
         },
         style: "width:100%;",//样式
         animation: "",//动画
+    },
+    "uni-map":{
+        name:"uni-map",
+        attribute: {//属性
+            longitude:"",//中心经度
+            latitude:"",//中心纬度
+            scale:16,//缩放级别，取值范围为5-18
+            markers:[],//标记点
+            polyline:[],//路线
+            circles:[],//圆
+            controls:[]//控件
+        },
+        style: "width:100%;",//样式
+        animation: "",//动画
     }
 };
 
@@ -109,7 +123,8 @@ const AttributeComponentMap = {
     "uni-grid": "UniGridAttribute",
     "uni-audio": "UniAudioAttribute",
     "uni-video": "UniVideoAttribute",
-    "uni-web-view":"UniWebViewAttribute"
+    "uni-web-view":"UniWebViewAttribute",
+    "uni-map":"UniMapAttribute"
 };
 
 

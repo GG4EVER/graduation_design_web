@@ -32,7 +32,7 @@
                 if (!value) {
                     callback(new Error('文本内容不能为空'));
                 }else{
-                    this.$emit("saveAttribute");
+                    this.$emit("listenSaveAttribute");
                     callback();
                 }
             };

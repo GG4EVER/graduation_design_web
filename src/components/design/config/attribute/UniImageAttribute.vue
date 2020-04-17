@@ -68,7 +68,7 @@
         },
         methods: {
             saveAttribute(){
-                this.$emit("saveAttribute")
+                this.$emit("listenSaveAttribute");
             }
         }
     }

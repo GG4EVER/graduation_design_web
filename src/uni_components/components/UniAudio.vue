@@ -32,10 +32,10 @@
             ComponentAttribute(newVal){
                 if(newVal){
                     this.audioInfo = {
-                        title: newVal.ComponentAttribute.name,
-                        artist: newVal.ComponentAttribute.author,
-                        src: newVal.ComponentAttribute.src,
-                        pic:newVal.ComponentAttribute.poster
+                        title: newVal.name,
+                        artist: newVal.author,
+                        src: newVal.src,
+                        pic:newVal.poster
                     }
                 }
             }

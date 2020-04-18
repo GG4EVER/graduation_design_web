@@ -4,7 +4,9 @@
                 :center="ComponentAttribute.longitude && ComponentAttribute.latitude ? [ComponentAttribute.longitude,ComponentAttribute.latitude] : [116.397470,39.908823]"
                 :zoom="ComponentAttribute.scale"
                 class="egg-uni-map">
-            <el-amap-marker vid="center" :position="ComponentAttribute.longitude && ComponentAttribute.latitude ? [ComponentAttribute.longitude,ComponentAttribute.latitude] : [116.397470,39.908823]"></el-amap-marker>
+            <template v-for="marker in ComponentAttribute.markers">
+                <el-amap-marker :key="marker.id" :vid="marker.id" :position="[marker.longitude,marker.latitude]" :title="marker.title"></el-amap-marker>
+            </template>
         </el-amap>
     </div>
 </template>

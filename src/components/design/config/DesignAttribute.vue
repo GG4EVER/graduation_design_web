@@ -6,7 +6,7 @@
                 <el-tab-pane label="组件属性" name="0">
                     <el-col :span="22" :offset="2">
                         <component :is="attributeComponentName" :component-attribute="currComponent.attribute" :component-style="currComponent.style"  :component-children="currComponent.children"
-                                   @listenSaveChildren="saveChildren" @listenSaveAttribute="saveAttribute" @listenChangeComponentStyle="changeComponentStyle"></component>
+                                   @listenSaveChildren="saveChildren" @listenSaveAttribute="saveAttribute" @listenChangeComponentStyle="changeComponentStyle" @listenSaveMarkers="saveMarkers"></component>
                     </el-col>
                 </el-tab-pane>
                 <el-tab-pane  label="基础属性" name="1">
@@ -91,6 +91,11 @@
              * */
             saveChildren(children){
                 this.currComponent.children = children;
+                this.saveAttribute();
+            },
+
+            saveMarkers(markers){
+                this.currComponent.attribute.markers = markers;
                 this.saveAttribute();
             },
 

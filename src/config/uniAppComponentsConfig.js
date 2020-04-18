@@ -52,6 +52,17 @@ const Config = {
         style: "",//样式
         animation: "",//动画
     },
+    "uni-form": {
+        name: "uni-form",
+        attribute: {//属性
+            showSubmitButton:true,//是否显示提交按钮
+            showResetButton:false,//是否显示重置按钮
+            action:"",//表单提交链接
+        },
+        style: "padding-left:10px;padding-right:10px;padding-top:10px;padding-bottom:10px;",//样式
+        animation: "",//动画
+        children: [],
+    },
     "uni-text":{
         name: "uni-text",
         attribute: {//属性
@@ -117,6 +128,7 @@ const Config = {
 
 const AttributeComponentMap = {
     "uni-button": "UniButtonAttribute",
+    "uni-form":"UniFormAttribute",
     "uni-text": "UniTextAttribute",
     "uni-image": "UniImageAttribute",
     "uni-swiper": "UniSwiperAttribute",

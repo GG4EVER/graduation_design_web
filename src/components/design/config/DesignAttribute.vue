@@ -32,6 +32,7 @@
     import store from "../../../store"
     import BaseAttribute from "./attribute/BaseAttribute";
     import UniButtonAttribute from "./attribute/UniButtonAttribute";
+    import UniFormAttribute from "./attribute/UniFormAttribute";
     import UniTextAttribute from "./attribute/UniTextAttribute";
     import UniImageAttribute from "./attribute/UniImageAttribute";
     import UniAudioAttribute from "./attribute/UniAudioAttribute";
@@ -48,6 +49,7 @@
         components: {
             BaseAttribute,
             UniButtonAttribute,
+            UniFormAttribute,
             UniTextAttribute,
             UniImageAttribute,
             UniAudioAttribute,

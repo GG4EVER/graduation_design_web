@@ -84,6 +84,7 @@
     import UniSwiper from "../../uni_components/components/UniSwiper";
     import UniWebView from "../../uni_components/components/UniWebView";
     import UniButton from "../../uni_components/components/UniButton";
+    import UniForm from "../../uni_components/components/UniForm";
     import UniText from "../../uni_components/components/UniText";
     import UniImage from "../../uni_components/components/UniImage";
     import UniAudio from "../../uni_components/components/UniAudio";
@@ -97,7 +98,7 @@
         store,
         name: "DesignMain",
         components: {
-            UniButton, UniImage, UniAudio,UniVideo, UniSwiper, UniGrid, UniText,UniWebView,UniMap,
+            UniButton, UniImage, UniAudio,UniVideo, UniSwiper, UniGrid, UniText,UniWebView,UniMap,UniForm,
             [Tooltip.name]: Tooltip
         },
         data() {

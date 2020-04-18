@@ -53,6 +53,11 @@
                          @click="selectComponent">按钮
                     </div>
                 </el-col>
+                <el-col :span="8" class="design-component-box">
+                    <div class="design-component-item egg-not-copy" data-component-name="uni-form"
+                         @click="selectComponent">表单
+                    </div>
+                </el-col>
             </el-row>
         </el-collapse-item>
         <el-collapse-item>

@@ -335,4 +335,44 @@
         -webkit-filter: hue-rotate(135deg);
         filter: hue-rotate(135deg);
     }
+
+    .egg-uni-form .el-form-item {
+        margin-bottom: 0px !important;
+    }
+
+    .egg-uni-form .el-form-item__label {
+        font-size: 15px !important;
+        line-height: 15px !important;
+        padding: 10px 0;
+    }
+
+    .egg-uni-form .el-radio{
+        position: relative;
+        left: -28.4px;
+        margin-right: 18px;
+    }
+
+    .egg-uni-form .el-radio__inner{
+        height: 16px;
+        width: 16px;
+    }
+
+    .egg-uni-form .el-radio__label{
+        font-size: 15px;
+    }
+
+    .egg-uni-form .el-checkbox{
+        position: relative;
+        left: -28.4px;
+        margin-right: 18px;
+    }
+
+    .egg-uni-form .el-checkbox__inner{
+        height: 16px;
+        width: 16px;
+    }
+
+    .egg-uni-form .el-checkbox__label{
+        font-size: 15px;
+    }
 </style>

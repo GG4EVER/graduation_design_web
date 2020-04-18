@@ -375,4 +375,42 @@
     .egg-uni-form .el-checkbox__label{
         font-size: 15px;
     }
+
+    .egg-uni-form-real .el-form-item {
+        margin-bottom: 0px !important;
+    }
+
+    .egg-uni-form-real .el-form-item__label {
+        font-size: 15px !important;
+        line-height: 15px !important;
+        padding: 10px 0;
+    }
+
+    .egg-uni-form-real .el-radio{
+        position: relative;
+        margin-right: 18px;
+    }
+
+    .egg-uni-form-real .el-radio__inner{
+        height: 16px;
+        width: 16px;
+    }
+
+    .egg-uni-form-real .el-radio__label{
+        font-size: 15px;
+    }
+
+    .egg-uni-form-real .el-checkbox{
+        position: relative;
+        margin-right: 18px;
+    }
+
+    .egg-uni-form-real .el-checkbox__inner{
+        height: 16px;
+        width: 16px;
+    }
+
+    .egg-uni-form-real .el-checkbox__label{
+        font-size: 15px;
+    }
 </style>

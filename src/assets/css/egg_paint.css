@@ -84,3 +84,9 @@
     color: indianred;
     font-weight: bold;
 }
+
+.design-uni-from-button {
+    display: flex;
+    padding-top: 10px;
+    justify-content: flex-end;
+}

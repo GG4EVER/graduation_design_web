@@ -63,6 +63,46 @@ const Config = {
         animation: "",//动画
         children: [],
     },
+    "uni-input": {
+        name: "uni-input",
+        attribute: {//属性
+            name:"",//字段名
+            label:"",//标题
+            placeholder:"",//输入提示
+        },
+        style: "",//样式
+        animation: "",//动画
+    },
+    "uni-textarea": {
+        name: "uni-textarea",
+        attribute: {//属性
+            name:"",//字段名
+            label:"",//标题
+            placeholder:"",//输入提示
+        },
+        style: "",//样式
+        animation: "",//动画
+    },
+    "uni-radio": {
+        name: "uni-radio",
+        attribute: {//属性
+            name:"",//字段名
+            label:"",//标题
+            options:[],//选项
+        },
+        style: "",//样式
+        animation: "",//动画
+    },
+    "uni-checkbox": {
+        name: "uni-checkbox",
+        attribute: {//属性
+            name:"",//字段名
+            label:"",//标题
+            options:[],//选项
+        },
+        style: "",//样式
+        animation: "",//动画
+    },
     "uni-text":{
         name: "uni-text",
         attribute: {//属性
@@ -129,6 +169,10 @@ const Config = {
 const AttributeComponentMap = {
     "uni-button": "UniButtonAttribute",
     "uni-form":"UniFormAttribute",
+    "uni-input":"UniInputAttribute",
+    "uni-radio":"UniRadioAttribute",
+    "uni-checkbox":"UniCheckboxAttribute",
+    "uni-textarea":"UniTextareaAttribute",
     "uni-text": "UniTextAttribute",
     "uni-image": "UniImageAttribute",
     "uni-swiper": "UniSwiperAttribute",

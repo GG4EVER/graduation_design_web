@@ -116,6 +116,11 @@
                     this.$message.error("页面名称不能为空");
                 } else {
                     if (confirmSubmit) {
+                        let pattern = /[a-zA-Z]/;
+                        if(!pattern.test(this.editingPageName)){
+                            this.$message.error("页面名称必须使用英文");
+                            return;
+                        }
                         let tempPages = this.pages;
                         let canModify = true;
                         for (let i = 0; i < tempPages.length; i++) {

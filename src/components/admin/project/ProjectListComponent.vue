@@ -8,7 +8,12 @@
                 <el-table-column
                         prop="appId"
                         label="项目ID"
-                        min-width="180">
+                        min-width="200">
+                </el-table-column>
+                <el-table-column
+                        prop="userId"
+                        label="用户Id"
+                        min-width="200">
                 </el-table-column>
                 <el-table-column
                         prop="appName"
@@ -29,14 +34,9 @@
                         label="最后一次修改时间"
                         width="180">
                 </el-table-column>
-                <el-table-column label="操作" width="100">
+                <el-table-column label="操作" width="80">
                     <template slot-scope="scope">
                         <el-button type="primary" size="small" @click="lookProject(scope.row)">查看</el-button>
-                    </template>
-                </el-table-column>
-                <el-table-column width="100">
-                    <template slot-scope="scope">
-                        <el-button type="danger" size="small" @click="deleteProject(scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -66,10 +66,7 @@
         methods: {
             lookProject(app) {
                 this.$emit("listenLookProject", app)
-            },
-            deleteProject(app){
-                this.$emit("listenDeleteProject", app)
-            },
+            }
         }
     }
 </script>

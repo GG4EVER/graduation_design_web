@@ -36,6 +36,18 @@
                                   maxlength="150" show-word-limit resize="none" v-show="isModifying"
                                   v-model="currProjectInfo.description" placeholder="用150以内的字数描述下项目吧"></el-input>
                     </el-form-item>
+                    <el-form-item>
+                        <div class="user-project-info-label egg-not-copy" slot="label"><i
+                                class="el-icon-date el-icon--left user-project-info-icon"></i>最后一次修改时间
+                        </div>
+                        <div class="user-project-info-content">{{ProjectInfo.lastModifiedTime}}</div>
+                    </el-form-item>
+                    <el-form-item>
+                        <div class="user-project-info-label egg-not-copy" slot="label"><i
+                                class="el-icon-date el-icon--left user-project-info-icon"></i>最后一次打包时间
+                        </div>
+                        <div class="user-project-info-content">{{ProjectInfo.lastBuildDate}}</div>
+                    </el-form-item>
                 </el-form>
             </el-col>
         </el-col>

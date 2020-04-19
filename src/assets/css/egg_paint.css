@@ -90,3 +90,24 @@
     padding-top: 10px;
     justify-content: flex-end;
 }
+
+.egg-api-annotation{
+    color: #cca200;
+}
+
+.egg-api-url{
+    color: #007f28;
+}
+
+.egg-api-function-type{
+    color: #000081;
+}
+
+.egg-api-field{
+    color: #0009ab;
+}
+
+.egg-api-info{
+    font-size: 14px;
+    color: #9b9b9b;
+}

@@ -2,6 +2,10 @@
     <div>
         <el-form>
             <el-form-item label-width="140px">
+                <div slot="label" class="design-setting-label egg-not-copy">是否显示重置按钮</div>
+                <el-switch v-model="ComponentAttribute.showResetButton" @change="saveAttribute"></el-switch>
+            </el-form-item>
+            <el-form-item label-width="140px">
                 <div slot="label" class="design-setting-label egg-not-copy">是否显示确认按钮</div>
                 <el-switch v-model="ComponentAttribute.showSubmitButton" @change="saveAttribute"></el-switch>
             </el-form-item>
@@ -9,10 +13,9 @@
                 <div slot="label" class="design-setting-label egg-not-copy">表单提交链接</div>
                 <el-input v-model="ComponentAttribute.action" placeholder="请输入后台接收表单的链接"
                           @change="saveAttribute"></el-input>
-            </el-form-item>
-            <el-form-item label-width="140px">
-                <div slot="label" class="design-setting-label egg-not-copy">是否显示重置按钮</div>
-                <el-switch v-model="ComponentAttribute.showResetButton" @change="saveAttribute"></el-switch>
+                <div class="design-form-background-receive">
+                    <div class="design-form-background-receive-title egg-not-copy" @click.stop="showCodeDialog(true)"><i class="el-icon-info"></i>后台接收数据接口参考代码</div>
+                </div>
             </el-form-item>
             <el-form-item>
                 <div slot="label" label-width="0px"></div>
@@ -21,6 +24,9 @@
                 </div>
             </el-form-item>
         </el-form>
+        <el-dialog :visible.sync="showCode" title="SpringBoot参考代码" @before-close="showCodeDialog(false)">
+            <div v-html="code" class="design-form-background-receive-code"></div>
+        </el-dialog>
         <el-dialog :visible.sync="showEditForm" width="70%" top="0vh" :close-on-click-modal="false"
                    :close-on-press-escape="false" @before-close="showEditFormDialog(false)">
             <div class="design-form-dialog-title egg-not-copy" slot="title">编辑表单子组件</div>
@@ -124,6 +130,21 @@
             }
         }, data() {
             return {
+                showCode:false,//是否显示后台接收数据接口代码参考窗口
+                code:"<span class='egg-api-annotation'>@PostMapping</span>(<span class='egg-api-url'>\"/api/form\"</span>)\n" +
+                    "<span class='egg-api-function-type'>public</span> JSONObject testForm(<span class='egg-api-annotation'>@RequestBody</span> HashMap<String, Object> requestParameter){\n" +
+                    "\tJSONObject result = <span class='egg-api-field'>new</span> JSONObject();\n" +
+                    "\tSet<String> keySet = requestParameter.keySet();\n" +
+                    "\tIterator<String> iterator = keySet.iterator();\n" +
+                    "\t<span class='egg-api-field'>while</span>(iterator.hasNext()){\n" +
+                    "\t\tString key = iterator.next();\n" +
+                    "\t\tString value = requestParameter.get(key).toString();\n" +
+                    "\t\tSystem.out.println(key + \" : \"+value);<span class='egg-api-info'>//输出key和value</span>\n" +
+                    "\t\t<span class='egg-api-info'>//处理数据......</span>\n" +
+                    "\t}\n" +
+                    "\tresult.put(\"error\",0);\n" +
+                    "\treturn result;\n" +
+                    "}",
                 formComponentName: {
                     "uni-input": "输入框",
                     "uni-textarea": "多行输入框",
@@ -138,6 +159,9 @@
             }
         },
         methods: {
+            showCodeDialog(flag){
+                this.showCode = flag;
+            },
             saveAttribute() {
                 this.$emit("listenSaveAttribute");
             },
@@ -233,5 +257,19 @@
     .design-form-dialog-add-button {
         text-align: right;
         padding-bottom: 15px;
+    }
+
+    .design-form-background-receive{
+        font-size: 14px;
+        color: #8994C6;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+    .design-form-background-receive-code{
+        padding: 0 15px;
+        white-space: pre;
+        font-size: 16px;
+        background-color: #fefefe;
     }
 </style>

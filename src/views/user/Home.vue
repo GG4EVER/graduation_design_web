@@ -20,17 +20,6 @@
             </el-col>
             <el-col :xs="20" :sm="11" :md="7" :lg="5">
                 <div class="egg-home-item-box egg-not-copy">
-                    <div class="egg-home-item user-home-last-project" @click="designProject">
-                        <span class="egg-home-item-icon"><i class="el-icon-s-flag"></i></span>
-                        <span class="egg-home-item-number user-home-item-date">项目1</span>
-                        <span class="egg-home-item-number user-home-item-date">2020-02-20</span>
-                        <div class="egg-home-item-direction">继续上次的项目<i class="el-icon-arrow-right el-icon--right"></i>
-                        </div>
-                    </div>
-                </div>
-            </el-col>
-            <el-col :xs="20" :sm="11" :md="7" :lg="5">
-                <div class="egg-home-item-box egg-not-copy">
                     <div class="egg-home-item user-home-message" @click="openUserMessage">
                         <span class="egg-home-item-icon"><i class="el-icon-s-comment"></i></span>
                         <span class="egg-home-item-number">{{unReadNum}}</span>

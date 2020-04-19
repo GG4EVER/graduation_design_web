@@ -39,29 +39,41 @@
                 </el-table-column>
                 <el-table-column label="操作" width="100">
                     <template slot-scope="scope">
-                        <el-button type="primary" size="small" @click="resetPassword(scope.row)">重置密码</el-button>
+                        <el-button type="primary" size="small" @click="lookUserInfo(scope.row)">查看资料</el-button>
                     </template>
                 </el-table-column>
                 <el-table-column width="100">
                     <template slot-scope="scope">
-                        <el-button type="danger" size="small" @click="updateState(scope.row)">修改状态</el-button>
+                        <el-dropdown trigger="click" @command="updateState">
+                            <el-button type="danger"  size="small">
+                                修改状态<i class="el-icon-arrow-down el-icon--right"></i>
+                            </el-button>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item :command="{index:scope.$index,userState:1}" v-if="scope.row.userState != 1">恢复正常</el-dropdown-item>
+                                <el-dropdown-item :command="{index:scope.$index,userState:0}" v-if="scope.row.userState != 0">注销账号</el-dropdown-item>
+                                <el-dropdown-item :command="{index:scope.$index,userState:-1}" v-if="scope.row.userState != -1">违规封号</el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
                     </template>
                 </el-table-column>
             </el-table>
         </el-card>
+
     </el-col>
 </template>
 
 <script>
-    import {Card, Table, TableColumn,Button} from "element-ui"
-
+    import {Card, Table, TableColumn,Button,Dropdown,DropdownMenu,DropdownItem} from "element-ui"
     export default {
         name: "UserListComponent",
         components: {
             [Card.name]: Card,
             [Table.name]: Table,
             [TableColumn.name]: TableColumn,
-            [Button.name]:Button
+            [Button.name]:Button,
+            [Dropdown.name]:Dropdown,
+            [DropdownMenu.name]:DropdownMenu,
+            [DropdownItem.name]:DropdownItem
         },
         props: {
             ComponentTitle: {
@@ -72,11 +84,11 @@
             }
         },
         methods: {
-            resetPassword(user) {
-                this.$emit("listenResetPassword", user)
+            lookUserInfo(user) {
+                this.$emit("listenLookUserInfo", user)
             },
-            updateState(user){
-                this.$emit("listenUpdateState", user)
+            updateState(command){
+                this.$emit("listenUpdateState", command)
             },
         }
     }

@@ -190,6 +190,25 @@ export default {
     },
 
     /**
+     * 管理员获得指定用户信息
+     * @param userId
+     * @returns {AxiosPromise}
+     */
+    adminGetUserInfo(userId){
+        return request("/api/admin/user/" + userId, "GET", {});
+    },
+
+    /**
+     * 管理员修改用户信息
+     * @param userId
+     * @param data
+     * @returns {AxiosPromise}
+     */
+    adminUpdateUserInfo(userId,data){
+        return request("/api/admin/user/" + userId, "PATCH", data);
+    },
+
+    /**
      * 获得指定app的信息
      * @param data
      * @returns {AxiosPromise}
@@ -205,15 +224,6 @@ export default {
      */
     getProjectBaseInfo(data){
         return request("/api/project/base/" + data.appId, "GET", {});
-    },
-
-    /**
-     * 通过项目ID获得指定的用户Id
-     * @param data
-     * @returns {AxiosPromise}
-     */
-    getProjectUserIdByAppId(data){
-        return request("/api/project/userId/" + data.appId, "GET", {});
     },
 
     /**
@@ -301,6 +311,15 @@ export default {
      */
     buildProject(buildType,appId) {
         return request("/api/project/build/" + appId + "?buildType=" + buildType, "GET", {});
+    },
+
+    /**
+     * 管理员获取项目的下载地址
+     * @param appId
+     * @returns {AxiosPromise}
+     */
+    adminGetProjectUrl(appId){
+        return request("/api/admin/project/url/" + appId, "GET", {});
     },
 
     /**

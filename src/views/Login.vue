@@ -231,18 +231,17 @@
                                     store.commit("setToken", res.data.token);
                                     that.$router.push("/admin");
                                 } else {
-                                    that.$message.error("用户名或密码错误");
+                                    that.$message.error(res.data.error_message);
                                 }
                             });
                         } else {//否则是普通用户
                             this.$API.userLogin(name, password).then(function (res) {
-                                window.console.log(res.data);
                                 if (res.data.error == "0") {//登录成功
                                     //保存token
                                     store.commit("setToken", res.data.token);
                                     that.$router.push("/user");
                                 } else {
-                                    that.$message.error("用户名或密码错误");
+                                    that.$message.error(res.data.error_message);
                                 }
                             });
                         }

@@ -4,7 +4,7 @@
             <el-col class="egg-design-setting-item">应用配置<i class="el-icon-arrow-right egg-design-setting-item-icon"></i></el-col>
         </div>
         <div @click="openSettingDialog(1)">
-            <el-col class="egg-design-setting-item">顶部导航栏配置<i class="el-icon-arrow-right egg-design-setting-item-icon"></i></el-col>
+            <el-col class="egg-design-setting-item">全局导航栏配置<i class="el-icon-arrow-right egg-design-setting-item-icon"></i></el-col>
         </div>
         <div @click="openSettingDialog(2)">
             <el-col class="egg-design-setting-item">底部切换卡配置<i class="el-icon-arrow-right egg-design-setting-item-icon"></i></el-col>

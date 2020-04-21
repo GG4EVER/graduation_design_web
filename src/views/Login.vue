@@ -68,7 +68,8 @@
                                               autocomplete="off"></el-input>
                                 </el-form-item>
                                 <el-form-item label="滑动验证">
-                                    <el-slider v-model="robotNum" :show-tooltip="false" :disabled="robotDisabled" @change="validateRobot" ></el-slider>
+                                    <el-slider v-model="robotNum" :show-tooltip="false" :disabled="robotDisabled"
+                                               @change="validateRobot"></el-slider>
                                 </el-form-item>
                                 <el-col :span="24" class="egg-flex egg-margin-bottom egg-flex-end">
                                     <el-button type="default" @click="submitRegister('registerData')" round>注册
@@ -86,16 +87,17 @@
             <div class="egg-home-triangle egg-home-bottom-left"></div>
             <!--            左下角的三角形-->
 
-            <div class="egg-about-box" @click="toAboutEggPaint">
-                <i class="el-icon-arrow-left"></i>关于Egg Paint
-            </div>
+<!--            <div class="egg-about-box" @click="toAboutEggPaint">-->
+<!--                <i class="el-icon-arrow-left"></i>关于Egg Paint-->
+<!--            </div>-->
         </el-main>
     </el-container>
 </template>
 
 <script>
-    import {Button, Card, Form, FormItem, Input, Drawer,Slider} from "element-ui"
+    import {Button, Card, Form, FormItem, Input, Drawer, Slider} from "element-ui"
     import store from '../store'
+
     export default {
         name: "Login",
         store,
@@ -106,7 +108,7 @@
             [FormItem.name]: FormItem,
             [Input.name]: Input,
             [Drawer.name]: Drawer,
-            [Slider.name]:Slider
+            [Slider.name]: Slider
         },
         data() {
             let validateUserName = (rule, value, callback) => {//检查登录的用户名
@@ -118,11 +120,11 @@
             let validateRegisterUserName = (rule, value, callback) => {//检查注册的用户名
                 if (!value) {
                     return callback(new Error('用户名不能为空'));
-                } else if(value.indexOf("_") != -1 || value.indexOf("/") != -1 || value.indexOf("-") != -1 && value.indexOf(".") != -1) {
+                } else if (value.indexOf("_") != -1 || value.indexOf("/") != -1 || value.indexOf("-") != -1 && value.indexOf(".") != -1) {
                     return callback(new Error('用户名出现非法字符'));
-                }else{//请求服务器是否重复
+                } else {//请求服务器是否重复
                     this.$API.userCheckUserName(value).then(res => {
-                        if(res.data.error != "0"){//注册有错误
+                        if (res.data.error != "0") {//注册有错误
                             return callback(new Error(res.data.error_message));
                         }
                         callback();
@@ -159,8 +161,8 @@
             return {
                 drawerShow: false,//是否显示注册的抽屉
                 direction: "ltr",//抽屉的打开方式 ltr从左往右开 rtl从右往左开 ttb从上往下开 btt从下往上开
-                robotNum:0,//检测是否是机器人滑动验证的值
-                robotDisabled:false,//是否可以滑动机器人的验证，不能滑动代表验证成功
+                robotNum: 0,//检测是否是机器人滑动验证的值
+                robotDisabled: false,//是否可以滑动机器人的验证，不能滑动代表验证成功
                 loginData: {//登录的表单数据
                     userName: "",
                     userPassword: "",
@@ -192,19 +194,19 @@
             }
         },
         methods: {
-            backHome(){//回到主页
+            backHome() {//回到主页
                 this.$router.push("/");
             },
-            validateRobot(){//检测是否是机器人
-                if(this.robotNum != 100){
+            validateRobot() {//检测是否是机器人
+                if (this.robotNum != 100) {
                     this.$message.info("请滑至最右端");
                     this.robotNum = 0;
-                }else{
+                } else {
                     this.$message.success("验证完成");
                     this.robotDisabled = true;
                 }
             },
-            beforeCancelRegister(done){//取消注册前
+            beforeCancelRegister(done) {//取消注册前
                 //取消注册前先清空数据
                 this.robotNum = 0;
                 this.robotDisabled = false;
@@ -215,7 +217,7 @@
                 }
                 done();
             },
-            cancelRegister(){//取消注册
+            cancelRegister() {//取消注册
                 this.$refs['registerDrawer'].closeDrawer();
             },
             submitLogin(formName) {//提交表单，登录
@@ -245,7 +247,7 @@
                                 }
                             });
                         }
-                    }else{//检查不通过
+                    } else {//检查不通过
                         return false;
                     }
                 });
@@ -253,9 +255,23 @@
             submitRegister(formName) {//提交注册
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        this.$message.success('submit!!');
+                        if (this.robotDisabled && this.robotNum == 100) {
+                            //如果是不可滑动的，表示可以注册
+                            this.$API.userRegister(this.registerData.userName, this.registerData.userPassword).then(res => {
+                                if (res.data.error == 0) {
+                                    this.$message.success("注册成功");
+                                    this.cancelRegister();
+                                } else {
+                                    this.$message.error(res.data.error_message);
+                                }
+                            }).catch(() => {
+                                this.$message.error("发生意外错误");
+                            })
+                        } else {
+                            this.$message.error("请滑动滑块以完成人机验证");
+                            return false;
+                        }
                     } else {
-                        this.$message.error('error submit!!');
                         return false;
                     }
                 });
@@ -376,11 +392,11 @@
         font-weight: bold;
     }
 
-    .egg-register-box{
+    .egg-register-box {
         margin-top: 3rem;
     }
 
-    .egg-cancel-register-box{
+    .egg-cancel-register-box {
         height: 4rem;
         width: 100%;
         padding-top: 1rem;
@@ -393,7 +409,7 @@
         color: #5b5b5b;
     }
 
-    .egg-cancel-register-box:hover{
+    .egg-cancel-register-box:hover {
         transition: 0.3s;
         background: linear-gradient(90deg, rgba(0, 174, 255, 0.5) 0%, rgba(51, 105, 231, 0.5) 100%);
         box-shadow: 0 -2px 15px #999999;

@@ -174,6 +174,13 @@ export default {
     },
 
     /**
+     * 检查用户是否有权限创建项目、打包项目等
+     */
+    checkUser(){
+        return request("/api/project/check", "GET", {});
+    },
+
+    /**
      * 创建项目
      * @param data
      * @returns {AxiosPromise}

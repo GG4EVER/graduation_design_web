@@ -92,22 +92,11 @@
                 })
             },
             createProject() {
-                //获取是否已经实名认证
-                this.$API.getCertification().then(res => {
-                    if(res.data.error == 0){
-                        let certification = res.data.certification;
-                        if(certification){//如果有
-                            if(certification.state == 1){
-                                //审核通过
-                                this.showCreateProject = true;
-                            }else if(certification.state == 0){
-                                this.$message.error("实名认证还在审核中，通过后才能创建项目");
-                            }else {
-                                this.$message.error("实名认证审核未通过，暂时不能创建项目");
-                            }
-                        }else{
-                            this.$message.error("请先实名认证");
-                        }
+                this.$API.checkUser().then(res => {
+                    if(res.data.error == 0){//检查通过
+                        this.showCreateProject = true;
+                    }else{
+                        this.$message.error(res.data.error_message);
                     }
                 });
             },
@@ -198,12 +187,18 @@
              * 跳转设计项目页面
              **/
             designProject() {
-                let project = this.projectInfo;
-                let routeUrl = this.$router.resolve({
-                    path: "/design",
-                    query: {appId: project.appId}
-                });
-                window.open(routeUrl.href, "_blank");
+                this.$API.checkUser().then(res => {
+                    if(res.data.error == 0){//检查通过
+                        let project = this.projectInfo;
+                        let routeUrl = this.$router.resolve({
+                            path: "/design",
+                            query: {appId: project.appId}
+                        });
+                        window.open(routeUrl.href, "_blank");
+                    }else{
+                        this.$message.error(res.data.error_message);
+                    }
+                })
             },
             /**
              * 关闭查看项目

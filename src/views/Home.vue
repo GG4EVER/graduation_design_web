@@ -46,6 +46,12 @@
                 </div>
                 <!--            一句话的简介-->
 
+                <!--            一句话的简介-->
+                <div class="egg-home-box-small animated fadeIn">
+                    <span class="egg-home-title-small">设计一次，就可打包成H5、微信小程序、QQ小程序、支付宝小程序、百度小程序、字节跳动小程序</span>
+                </div>
+                <!--            一句话的简介-->
+
                 <div class="egg-home-box animated fadeIn">
                     <el-button class="egg-begin-btn" type="primary" @click="beginNow">开始使用</el-button>
                 </div>
@@ -53,43 +59,43 @@
             <!--            平台的基本信息-->
 
             <!--            选择新建一个项目或者继续旧的项目-->
-            <div v-if="!showPlatformInformation">
-                <el-row class="egg-home-begin-box animated fadeIn">
-                    <el-col :span="8">
-                        <el-col :span="24" class="egg-home-check-box-title">
-                            新建一个新项目
-                        </el-col>
-                        <div @click="createProject">
-                            <el-col :span="20" :offset="2" class="egg-home-check-box">
-                                <span class="egg-home-check-box-logo"><i class="el-icon-plus"></i></span>
-                            </el-col>
-                        </div>
-                    </el-col>
-                    <el-col :span="8">
-                        <el-col :span="24" class="egg-home-check-box-title">
-                            继续之前的项目
-                        </el-col>
-                        <div @click="designProject">
-                            <el-col :span="20" :offset="2" class="egg-home-check-box">
-                                <span class="egg-home-check-box-logo"><i class="el-icon-s-opportunity"></i></span>
-                                <div class="home-last-project-mask">
-                                    <div class="home-last-project-info">项目1</div>
-                                    <div class="home-last-project-info">2020-02-20</div>
-                                </div>
-                            </el-col>
-                        </div>
-                    </el-col>
-                </el-row>
-            </div>
+<!--            <div v-if="!showPlatformInformation">-->
+<!--                <el-row class="egg-home-begin-box animated fadeIn">-->
+<!--                    <el-col :span="8">-->
+<!--                        <el-col :span="24" class="egg-home-check-box-title">-->
+<!--                            新建一个新项目-->
+<!--                        </el-col>-->
+<!--                        <div @click="createProject">-->
+<!--                            <el-col :span="20" :offset="2" class="egg-home-check-box">-->
+<!--                                <span class="egg-home-check-box-logo"><i class="el-icon-plus"></i></span>-->
+<!--                            </el-col>-->
+<!--                        </div>-->
+<!--                    </el-col>-->
+<!--                    <el-col :span="8">-->
+<!--                        <el-col :span="24" class="egg-home-check-box-title">-->
+<!--                            继续之前的项目-->
+<!--                        </el-col>-->
+<!--                        <div @click="designProject">-->
+<!--                            <el-col :span="20" :offset="2" class="egg-home-check-box">-->
+<!--                                <span class="egg-home-check-box-logo"><i class="el-icon-s-opportunity"></i></span>-->
+<!--                                <div class="home-last-project-mask">-->
+<!--                                    <div class="home-last-project-info">项目1</div>-->
+<!--                                    <div class="home-last-project-info">2020-02-20</div>-->
+<!--                                </div>-->
+<!--                            </el-col>-->
+<!--                        </div>-->
+<!--                    </el-col>-->
+<!--                </el-row>-->
+<!--            </div>-->
             <!--            选择新建一个项目或者继续旧的项目-->
 
             <!--            右下角的三角形-->
             <div class="egg-home-triangle egg-home-bottom-right"></div>
             <!--            右下角的三角形-->
 
-            <div class="egg-about-box animated fadeIn" @click="toAboutEggPaint">
-                关于Egg Paint<i class="el-icon-arrow-right"></i>
-            </div>
+<!--            <div class="egg-about-box animated fadeIn" @click="toAboutEggPaint">-->
+<!--                关于Egg Paint<i class="el-icon-arrow-right"></i>-->
+<!--            </div>-->
             <user-create-project :is-show="showCreateProject" @listenCreate="submitCreateProject"
                                                       @listenClose="closeCreateProject"></user-create-project>
         </el-main>
@@ -123,11 +129,10 @@
                 if (isPC()) {
                     //判断是否登录，没登录跳转登录注册,登录了则显示创建新项目或者继续以前的项目
                     if (this.userInfo) {
-                        this.showPlatformInformation = false;
+                        this.$router.push("/user/userProject");
                     } else {
                         this.toLogin();
                     }
-                    this.showPlatformInformation = false;
                 } else {
                     this.$message.error("暂时不支持在移动端上创作，请前往PC端。");
                 }
@@ -298,6 +303,17 @@
     .egg-home-title {
         color: #9a9a9a;
         font-size: 30px;
+        font-weight: bold;
+    }
+
+    .egg-home-box-small {
+        text-align: center;
+        margin: 20px 0px;
+    }
+
+    .egg-home-title-small {
+        color: #aaaaaa;
+        font-size: 18px;
         font-weight: bold;
     }
 

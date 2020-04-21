@@ -18,7 +18,7 @@
                     <el-input v-model="UserInfo.userPhone" disabled></el-input>
                 </el-form-item>
                 <el-form-item v-else label="手机号" class="egg-not-copy">
-                    <el-input v-model="userInfoTemp.userPhone"></el-input>
+                    <el-input v-model="userInfoTemp.userPhone" type="number"></el-input>
                 </el-form-item>
 
                 <el-col class="egg-user-info-button-box">
@@ -100,22 +100,37 @@
                 this.canModify = false;
             },
             submitModifyUserInfo() {//确认修改用户资料
-                //没改变值
-                // eslint-disable-next-line no-empty
-                if(this.userInfoTemp.userNickName == this.UserInfo.userNickName && this.userInfoTemp.userPhone == this.UserInfo.userPhone){
-                }else{//改变了值
-                    this.$API.updateUserInfo(this.userInfoTemp).then(res=>{
-                        window.console.log(res)
+                let data = {};
+                let isModified = false;
+                if(this.userInfoTemp.userNickName != this.UserInfo.userNickName){
+                    //改变了用户名
+                    data.userNickName = this.userInfoTemp.userNickName;
+                    isModified = true;
+                }
+                if(this.userInfoTemp.userPhone != this.UserInfo.userPhone){
+                    //改变了手机号码
+                    data.userPhone = this.userInfoTemp.userPhone;
+                    if(data.userPhone.length != 11){
+                        this.$message.error("手机号码长度不正确");
+                        return;
+                    }
+                    isModified = true;
+                }
+                if(isModified){//改变了值
+                    this.$API.updateUserInfo(data).then(res=>{
                         if(res.data.error != "0"){//修改失败,直接输出错误信息
                             this.$message.error(res.data.error_message);
                         }else{
                             this.$message.success("修改成功~");
+                            this.canModify = false;
                             //获得到新的用户信息，并保存到store
                             store.commit("setUserInfo",res.data.userInfo);
                         }
                     });
+                }else{
+                    //没修改值
+                    this.canModify = false;
                 }
-                this.canModify = false;
             },
             submitModifyPassword(isModify){//修改密码
                 if(isModify){//确认修改

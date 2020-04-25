@@ -142,9 +142,7 @@
                             }
                         });
                     }).catch(() => {
-                        //删除失败,重新获取消息列表
-                        this.$message.error("发生意外错误，删除失败");
-                        this.initMessages();
+                        //取消删除失败
                     })
                 } else {
                     this.$message.info("请先勾选要删除的消息")

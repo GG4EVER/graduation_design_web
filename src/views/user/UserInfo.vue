@@ -40,7 +40,7 @@
             </el-form>
         </el-col>
 
-        <el-dialog title="修改密码" :visible.sync="isModifyingPassword" :modal-append-to-body="false">
+        <el-dialog title="修改密码" :visible.sync="isModifyingPassword" :modal-append-to-body="false" :close-on-click-modal="false" :close-on-press-escape="false">
             <el-form>
                 <el-form-item label="请输入原密码">
                     <el-input v-model="oldPassword" autocomplete="off" type="password" show-password></el-input>

@@ -86,8 +86,8 @@
                     this.$message.error('图片请选择 jpg 或 png 格式');
                     return false;
                 }
-                if (size > 300) {
-                    this.$message.error('图片大小请不要超过 300k ');
+                if (size > 150) {
+                    this.$message.error('图片大小请不要超过 150k ');
                     return false;
                 }
                 let loading = this.$loading.service();

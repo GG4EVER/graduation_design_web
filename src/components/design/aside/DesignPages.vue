@@ -179,7 +179,6 @@
                     store.commit("setCurrPageIndex", -1);
                     this.$message.success("删除成功");
                 }).catch(() => {
-                    this.$message.error("取消删除");
                 })
             },
         },

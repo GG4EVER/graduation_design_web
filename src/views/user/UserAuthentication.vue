@@ -186,9 +186,18 @@
                         this.$message.error("姓名不能为空");
                         return;
                     }
+                    if(name.length > 10){
+                        this.$message.error("姓名长度不符合");
+                        return;
+                    }
                     let idCard = this.certificationTemp.idCard;
                     if (idCard == "" || idCard == null) {
                         this.$message.error("身份证不能为空");
+                        return;
+                    }
+                    let regIdCard = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+                    if (!regIdCard.test(idCard)) {
+                        this.$message.error("身份证填写有误");
                         return;
                     }
                     let portraitUrl = this.certificationTemp.portraitUrl;

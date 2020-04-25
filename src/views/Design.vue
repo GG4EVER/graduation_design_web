@@ -162,6 +162,9 @@
                             if (pages && pages.length != 0) {
                                 //如果有页面，则获取组件
                                 this.initPageComponents();
+                            }else{
+                                //否则已经有数据了，则直接初始化页面组件
+                                this.$store.commit("initCurrPageComponents");
                             }
                         }
                     })
@@ -236,7 +239,6 @@
                 }
             },
             open: function () {
-                window.console.log("socket连接成功");
                 let message = {
                     type: "init",
                     userId: this.userId,
@@ -258,7 +260,6 @@
                 window.console.log("socket已经关闭")
             },
             processingMessages(data) {
-                window.console.log(data)
                 let type = data.type;
                 switch (type) {
                     case "init":{
@@ -315,7 +316,6 @@
                     userId: this.userId,
                     appId: this.appId
                 };
-                window.console.log(message)
                 this.canPreview = false;
                 this.send(JSON.stringify(message))
             }
@@ -332,7 +332,6 @@
                     components: store.state.pageComponents,
                 };
                 this.isSaving = true;
-                window.console.log(message)
                 this.send(JSON.stringify(message))
             }
         },

@@ -18,7 +18,7 @@
 <!--                </div>-->
 <!--            </el-col>-->
             <el-col :xs="20" :md="10" :lg="5">
-                <div class="egg-home-item-box">
+                <div class="egg-home-item-box" @click.stop="toUserList">
                     <div class="egg-home-item">
                         <span class="egg-home-item-icon"><i class="el-icon-s-custom"></i></span>
                         <span class="egg-home-item-number">{{userCount}}</span>
@@ -27,7 +27,7 @@
                 </div>
             </el-col>
             <el-col :xs="20" :md="10" :lg="5">
-                <div class="egg-home-item-box">
+                <div class="egg-home-item-box" @click.stop="toRealNameAuthentication">
                     <div class="egg-home-item">
                         <span class="egg-home-item-icon"><i class="el-icon-s-order"></i></span>
                         <span class="egg-home-item-number">{{authenticationCount}}</span>
@@ -36,7 +36,7 @@
                 </div>
             </el-col>
             <el-col :xs="20" :md="10" :lg="5">
-                <div class="egg-home-item-box">
+                <div class="egg-home-item-box" @click.stop="toRequirementList">
                     <div class="egg-home-item">
                         <span class="egg-home-item-icon"><i class="el-icon-s-opportunity"></i></span>
                         <span class="egg-home-item-number">0</span>
@@ -73,6 +73,16 @@
                 this.$API.adminGetUserCertificationCount().then(res => {
                     this.authenticationCount = res.data.count;
                 })
+            },
+            toUserList(){
+                this.$router.push("/admin/userList");
+            },
+            toRealNameAuthentication(){
+                this.$router.push("/admin/realNameAuthentication");
+            },
+            //需求列表
+            toRequirementList(){
+                this.$router.push("/admin/requirementList");
             },
         }
     }

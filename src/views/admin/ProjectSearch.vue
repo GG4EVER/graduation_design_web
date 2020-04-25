@@ -24,7 +24,7 @@
             </el-col>
         </el-col>
         <el-col :span="24" v-if="showSearchResult">
-            <project-list-component :project-list="projectList" component-title="查询结果"></project-list-component>
+            <project-list-component :project-list="projectList" component-title="查询结果" @listenLookProject="lookProject"></project-list-component>
             <el-col :span="24">
                 <div class="admin-el-pagination">
                     <el-pagination
@@ -99,6 +99,21 @@
             toPage(pageNo){
                 this.pageNo = pageNo;
                 this.initProjectList();
+            },
+            lookProject(app){
+                window.console.log(app)
+                let loading = this.$loading.service();
+                this.$API.adminGetProjectUrl(app.appId).then(res => {
+                    loading.close();
+                    if(res.data.error == 0){
+                        window.location.href = res.data.url;
+                    }else{
+                        this.$message.error(res.data.error_message);
+                    }
+                }).catch(()=>{
+                    loading.close();
+                    this.$message.error("发生意外错误");
+                })
             }
         }
     }

@@ -9,7 +9,7 @@ export default new Vuex.Store({
         token: "",//登录凭证
         userInfo: null,
         certification: null,
-        currPageIndex: 0,//当前选择的页面索引
+        currPageIndex: -1,//当前选择的页面索引
         baseMaterials: null,//基础素材库（内置素材库）
         materials: null,//用户素材库
         pages: [],//页面列表
@@ -77,7 +77,11 @@ export default new Vuex.Store({
             }
         },
         initCurrPageComponents(state) {
-            state.currPageComponents = state.pageComponents[state.pages[state.currPageIndex].name];
+            if(state.currPageIndex == -1){
+                state.currPageComponents = [];
+            }else{
+                state.currPageComponents = state.pageComponents[state.pages[state.currPageIndex].name];
+            }
         },
         setCurrPageComponents(state, components) {
             state.currPageComponents = components;

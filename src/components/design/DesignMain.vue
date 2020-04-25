@@ -8,15 +8,18 @@
                         <div class="design-phone-receiver"></div>
                     </el-col>
                     <el-col :span="22">
-                        <div v-if="globalStyle.navigationStyle == 'default'" class="design-phone-screen-navigation-bar egg-not-copy"
+                        <div v-if="globalStyle.navigationStyle == 'default'"
+                             class="design-phone-screen-navigation-bar egg-not-copy"
                              :style="'background-color: ' + globalStyle.navigationBarBackgroundColor + ';color:' + globalStyle.navigationBarTextStyle ">
                             {{globalStyle.navigationBarTitleText}}
                         </div>
-                        <div class="design-phone-screen" :style="globalStyle.navigationStyle == 'default'?'' : 'top:40px;'"
+                        <div class="design-phone-screen"
+                             :style="globalStyle.navigationStyle == 'default'?'' : 'top:40px;'"
                              :class="currPageComponents.length != 0 ? 'design-phone-screen-has' : ''" ref="phoneScreen">
                             <template v-if="currPageComponents.length != 0">
                                 <div class="design-main-component" v-for="(component,index) in currPageComponents"
-                                     :key="index" @click.stop="clickComponent(index)" :style="index == 0? 'margin-top:0px' : ''">
+                                     :key="index" @click.stop="clickComponent(index)"
+                                     :style="index == 0? 'margin-top:0px' : ''">
                                     <component :is="component.name" :component-attribute="component.attribute"
                                                :component-style="component.style"
                                                :component-animation="component.animation"
@@ -26,9 +29,9 @@
                                          :style="index == currComponentIndex ? 'display:block;' : ''"></div>
                                 </div>
                             </template>
-                            <div v-if="tabBar.list.length != 0" style="height:51px;"></div>
+                            <div v-if="tabBar.list && tabBar.list.length != 0" style="height:51px;"></div>
                         </div>
-                        <div v-if="tabBar.list.length != 0" class="design-phone-screen-tab-bar"
+                        <div v-if="tabBar.list && tabBar.list.length != 0" class="design-phone-screen-tab-bar"
                              :style="'background-color:' + tabBar.backgroundColor + ';border-color:' + tabBar.borderStyle">
                             <template v-for="(item,index) in tabBar.list">
                                 <div class="design-phone-screen-tab-bar-item" :key="index"
@@ -98,7 +101,7 @@
         store,
         name: "DesignMain",
         components: {
-            UniButton, UniImage, UniAudio,UniVideo, UniSwiper, UniGrid, UniText,UniWebView,UniMap,UniForm,
+            UniButton, UniImage, UniAudio, UniVideo, UniSwiper, UniGrid, UniText, UniWebView, UniMap, UniForm,
             [Tooltip.name]: Tooltip
         },
         data() {
@@ -133,9 +136,9 @@
             "$store.state.tabBar": function (newVal) {
                 if (newVal) {
                     this.tabBar = newVal;
-                    let flag =newVal.list.length == 0;
+                    let flag = newVal.list && newVal.list.length == 0;
                     let phoneScreen = this.$refs.phoneScreen;
-                    store.commit("setScreenHeight",phoneScreen.clientHeight - (flag ? 0 : 51));
+                    store.commit("setScreenHeight", phoneScreen.clientHeight - (flag ? 0 : 51));
                 }
             }
         },
@@ -145,17 +148,17 @@
             if (store.state.pages.length != 0) {//如果页面数组不为空
                 this.currPageComponents = store.state.pageComponents[store.state.pages[store.state.currPageIndex].name];
             }
-            this.$nextTick(()=>{
-                let flag = this.tabBar.list.length == 0;
+            this.$nextTick(() => {
+                let flag = this.tabBar.list && this.tabBar.list.length == 0;
                 let phoneScreen = this.$refs.phoneScreen;
-                store.commit("setScreenHeight",phoneScreen.clientHeight - (flag ? 0 : 51));
-                store.commit("setScreenWidth",phoneScreen.clientWidth);
+                store.commit("setScreenHeight", phoneScreen.clientHeight - (flag ? 0 : 51));
+                store.commit("setScreenWidth", phoneScreen.clientWidth);
             })
-        },mounted() {
+        }, mounted() {
             window.onresize = () => {
                 let phoneScreen = this.$refs.phoneScreen;
-                store.commit("setScreenHeight",phoneScreen.clientHeight);
-                store.commit("setScreenWidth",phoneScreen.clientWidth);
+                store.commit("setScreenHeight", phoneScreen.clientHeight);
+                store.commit("setScreenWidth", phoneScreen.clientWidth);
             };
         },
         methods: {

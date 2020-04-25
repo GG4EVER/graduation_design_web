@@ -49,7 +49,6 @@
                 this.initProject();
             },
             lookProject(app){
-                window.console.log(app)
                 let loading = this.$loading.service();
                 this.$API.adminGetProjectUrl(app.appId).then(res => {
                     loading.close();

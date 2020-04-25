@@ -15,11 +15,11 @@
                                         @listenChangeComponentStyle="changeComponentStyle"></base-attribute>
                     </el-col>
                 </el-tab-pane>
-                <el-tab-pane label="高级属性" name="2">
-                    <el-col :span="22" :offset="2">
-                        高级属性
-                    </el-col>
-                </el-tab-pane>
+<!--                <el-tab-pane label="高级属性" name="2">-->
+<!--                    <el-col :span="22" :offset="2">-->
+<!--                        高级属性-->
+<!--                    </el-col>-->
+<!--                </el-tab-pane>-->
             </el-tabs>
         </el-col>
         <el-col v-else :span="20" :offset="2" class="design-no-checked-box egg-not-copy">

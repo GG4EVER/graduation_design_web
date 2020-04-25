@@ -26,7 +26,7 @@
             </el-col>
         </el-col>
         <el-col :span="24" v-if="showSearchResult">
-            <user-list-component :user-list="userList" component-title="查询结果"></user-list-component>
+            <user-list-component :user-list="userList" component-title="查询结果" @listenLookUserInfo="lookUserInfo" @listenUpdateState="updateUserState"></user-list-component>
             <el-col :span="24">
                 <div class="admin-el-pagination">
                     <el-pagination
@@ -36,18 +36,20 @@
                     </el-pagination>
                 </div>
             </el-col>
+            <user-info-component :is-show="showUserInfo" :user-info="userInfo" :user-certification="userCertification" :user-apps="userApps" @listenClose="showUserInfoDialog(false)"></user-info-component>
         </el-col>
     </div>
 </template>
 
 <script>
     import {Dropdown, DropdownMenu, DropdownItem, Button, Input,Pagination} from "element-ui"
+    import UserInfoComponent from "../../components/admin/user/UserInfoComponent";
     import UserListComponent from "../../components/admin/user/UserListComponent";
 
     export default {
         name: "UserSearch",
         components: {
-            UserListComponent,
+            UserListComponent,UserInfoComponent,
             [Dropdown.name]: Dropdown,
             [DropdownMenu.name]: DropdownMenu,
             [DropdownItem.name]: DropdownItem,
@@ -64,6 +66,10 @@
                 userList:[],
                 pageNo:1,
                 total:0,
+                showUserInfo: false,
+                userInfo: {},
+                userCertification: {},
+                userApps: [],
             }
         },
         methods:{
@@ -101,6 +107,52 @@
             toPage(pageNo){
                 this.pageNo = pageNo;
                 this.initUserList();
+            },
+            showUserInfoDialog(flag) {
+                this.showUserInfo = flag;
+                if(!flag){
+                    this.userInfo = {};
+                    this.userCertification ={};
+                    this.userApps = [];
+                }
+            },
+            lookUserInfo(user) {
+                this.showUserInfoDialog(true);
+                let loading = this.$loading.service();
+                //查看用户信息
+                this.$API.adminGetUserInfo(user.userId).then(res => {
+                    let data = res.data;
+                    loading.close();
+                    if (data.error == 0) {
+                        this.userInfo = data.user;
+                        this.userCertification = data.certification;
+                        this.userApps = data.apps;
+                    } else {
+                        this.$message.error(data.error_message);
+                    }
+                }).catch(() => {
+                    loading.close();
+                })
+            },
+            updateUserState(command){//修改用户状态
+                window.console.log("到这")
+                let loading = this.$loading.service();
+                let userInfo = this.userList[command.index];
+                window.console.log(this.userList);
+                window.console.log(userInfo)
+                window.console.log(command)
+                this.$API.adminUpdateUserInfo(userInfo.userId,command).then(res => {
+                    loading.close();
+                    if (res.data.error == 0) {
+                        userInfo.userState = command.userState;
+                        this.$set(this.userList,command.index,userInfo);
+                        this.$message.success("修改成功");
+                    } else {
+                        this.$message.error(res.data.error_message);
+                    }
+                }).catch(()=>{
+                    loading.close();
+                })
             }
         }
     }
